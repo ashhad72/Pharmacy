@@ -1,53 +1,27 @@
-package com.sda.pharmacy.entity;
+package com.sda.pharmacy.dto;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+public class RegisterDTO {
 
-@Entity
-@Table(name = "Users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
-
-    @Column(name = "full_name", nullable = false)
     private String fullName;
-
-    @Column(unique = true)
     private String email;
-
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private String role;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
     // Default Constructor
-    public User() {
+    public RegisterDTO() {
     }
 
     // Parameterized Constructor
-    public User(String fullName, String email, String password, String role) {
+    public RegisterDTO(String fullName, String email,
+                       String password, String role) {
+
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.createdAt = LocalDateTime.now();
     }
 
     // Getters and Setters
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public String getFullName() {
         return fullName;
@@ -79,13 +53,5 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 }
