@@ -1,13 +1,12 @@
 package com.sda.pharmacy.controller;
 
 import com.sda.pharmacy.dto.LoginDTO;
-import com.sda.pharmacy.dto.RegisterDTO;
 import com.sda.pharmacy.service.AuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthController {
@@ -15,31 +14,18 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    // Register User
-    @PostMapping("/register")
-    public String registerUser(
-            @ModelAttribute RegisterDTO registerDTO) {
-
-        authService.registerUser(registerDTO);
-
-        return "redirect:/login";
-    }
-
-    // Login User
+    // Login Admin/Pharmacy Worker
     @PostMapping("/login")
     public String loginUser(
             @ModelAttribute LoginDTO loginDTO) {
 
-        String result = authService.loginUser(loginDTO);
+        boolean isValid =
+                authService.loginUser(loginDTO);
 
-        // Admin Login
-        if (result.contains("ADMIN")) {
-            return "redirect:/admin/dashboard";
-        }
+        // Successful Login
+        if (isValid) {
 
-        // User Login
-        else if (result.contains("USER")) {
-            return "redirect:/user/dashboard";
+            return "redirect:/dashboard";
         }
 
         // Invalid Login

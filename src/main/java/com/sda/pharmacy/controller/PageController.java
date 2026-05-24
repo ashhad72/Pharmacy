@@ -19,21 +19,11 @@ public class PageController {
         return "login";
     }
 
-    // Register Page
-    @GetMapping("/register")
-    public String registerPage() {
-        return "register";
+    // Main dashboard
+    @GetMapping("/dashboard")
+    public String dashboard() {
+
+        return "dashboard";
     }
 
-    // Admin Dashboard
-    @GetMapping("/admin/dashboard")
-    public String adminDashboard() {
-        return "admin-dashboard";
-    }
-
-    // User Dashboard
-    @GetMapping("/user/dashboard")
-    public String userDashboard() {
-        return "user-dashboard";
-    }
 }
