@@ -23,7 +23,7 @@ public class MedicineController {
                 medicineService.getAllMedicines()
         );
 
-        return "medicines";
+        return "medicine-inventory";
     }
 
     // Add Medicine
@@ -55,7 +55,7 @@ public class MedicineController {
                 medicineService.searchMedicine(keyword)
         );
 
-        return "medicines";
+        return "medicine-inventory";
     }
 
     // Low Stock Medicines
@@ -67,7 +67,7 @@ public class MedicineController {
                 medicineService.getLowStockMedicines()
         );
 
-        return "medicines";
+        return "medicine-inventory";
     }
 
     // Expired Medicines
@@ -79,6 +79,6 @@ public class MedicineController {
                 medicineService.getExpiredMedicines()
         );
 
-        return "medicines";
+        return "medicine-inventory";
     }
 }
