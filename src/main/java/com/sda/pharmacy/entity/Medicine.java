@@ -2,6 +2,7 @@ package com.sda.pharmacy.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -27,7 +28,7 @@ public class Medicine {
     @Column(name = "batch_number")
     private String batchNumber;
 
-    private double price;
+    private BigDecimal price;
 
     @Column(name = "quantity_in_stock")
     private int quantityInStock;
@@ -87,11 +88,11 @@ public class Medicine {
         this.batchNumber = batchNumber;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

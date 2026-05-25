@@ -6,40 +6,18 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Sales")
+@Table(name = "Sales_Report_View")
 
-public class Sale {
+public class SalesReport {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    @Column(name = "sale_id")
     private int saleId;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private String customerName;
 
-    @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
-    @Column(name = "sale_date")
     private LocalDateTime saleDate;
-
-    // Default Constructor
-
-    public Sale() {
-    }
-
-    // Parameterized Constructor
-
-    public Sale(Customer customer,
-                BigDecimal totalAmount) {
-
-        this.customer = customer;
-        this.totalAmount = totalAmount;
-        this.saleDate = LocalDateTime.now();
-    }
 
     // Getters and Setters
 
@@ -51,12 +29,12 @@ public class Sale {
         this.saleId = saleId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public BigDecimal getTotalAmount() {

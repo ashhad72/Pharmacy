@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Sales Reports</title>
+</head>
+
+<body>
+
+<h1>Sales Reports</h1>
+
+<hr>
+
+<h2>Total Revenue</h2>
+
+<p>
+
+    Rs.
+
+    <span th:text="${totalRevenue}"></span>
+
+</p>
+
+<hr>
+
+<h2>Invoice History</h2>
+
+<table border="1">
+
+    <tr>
+
+        <th>Sale ID</th>
+        <th>Customer Name</th>
+        <th>Total Amount</th>
+        <th>Sale Date</th>
+
+    </tr>
+
+    <tr th:each="report : ${reports}">
+
+        <td th:text="${report.saleId}"></td>
+
+        <td th:text="${report.customerName}"></td>
+
+        <td th:text="${report.totalAmount}"></td>
+
+        <td th:text="${report.saleDate}"></td>
+
+    </tr>
+
+</table>
+
+<br><br>
+
+<a href="/dashboard">
+    Back to Dashboard
+</a>
+
+</body>
+</html>
