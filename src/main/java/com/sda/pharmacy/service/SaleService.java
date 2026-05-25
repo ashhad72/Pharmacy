@@ -142,4 +142,10 @@ public class SaleService {
         return salesReportRepository.findAll();
 
     }
+
+    public BigDecimal getTotalRevenue() {
+
+        return salesReportRepository.getTotalRevenue();
+
+    }
 }

@@ -66,6 +66,13 @@ public class SaleController {
                 saleService.getSalesReports()
         );
 
+        // ADD THIS
+
+        model.addAttribute(
+                "totalRevenue",
+                saleService.getTotalRevenue()
+        );
+
         return "sales-report";
     }
 }

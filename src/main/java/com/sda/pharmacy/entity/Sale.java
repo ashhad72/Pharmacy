@@ -7,19 +7,18 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Sales")
+
 public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(name = "sale_id")
     private int saleId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
@@ -27,17 +26,17 @@ public class Sale {
     @Column(name = "sale_date")
     private LocalDateTime saleDate;
 
-    // Constructors
+    // Default Constructor
 
     public Sale() {
     }
 
+    // Parameterized Constructor
+
     public Sale(Customer customer,
-                User user,
                 BigDecimal totalAmount) {
 
         this.customer = customer;
-        this.user = user;
         this.totalAmount = totalAmount;
         this.saleDate = LocalDateTime.now();
     }
@@ -58,14 +57,6 @@ public class Sale {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public BigDecimal getTotalAmount() {
