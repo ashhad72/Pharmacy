@@ -1,7 +1,9 @@
 package com.sda.pharmacy.controller;
 
 import com.sda.pharmacy.builder.Invoice;
+import com.sda.pharmacy.command.CommandInvoker;
 import com.sda.pharmacy.service.SaleService;
+import com.sda.pharmacy.command.GenerateBillCommand;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class SaleController {
+
+    @Autowired
+    private CommandInvoker commandInvoker;
 
     @Autowired
     private SaleService saleService;
@@ -39,8 +44,13 @@ public class SaleController {
             Model model
     ) {
 
-        Invoice invoice =
-                saleService.createSale(
+        // Create Command
+
+        GenerateBillCommand command =
+
+                new GenerateBillCommand(
+
+                        saleService,
 
                         customerName,
                         phoneNumber,
@@ -48,6 +58,16 @@ public class SaleController {
                         medicineId,
                         quantity
                 );
+
+        // Execute Command
+
+        commandInvoker.executeCommand(command);
+
+        // Get Generated Invoice
+
+        Invoice invoice = command.getInvoice();
+
+        // Send Invoice to Frontend
 
         model.addAttribute(
                 "invoice",

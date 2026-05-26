@@ -2,6 +2,9 @@ package com.sda.pharmacy.controller;
 
 import com.sda.pharmacy.entity.Medicine;
 import com.sda.pharmacy.service.MedicineService;
+import com.sda.pharmacy.command.CommandInvoker;
+import com.sda.pharmacy.command.AddMedicineCommand;
+import com.sda.pharmacy.command.DeleteMedicineCommand;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MedicineController {
+
+    @Autowired
+    private CommandInvoker commandInvoker;
 
     @Autowired
     private MedicineService medicineService;
@@ -30,7 +36,14 @@ public class MedicineController {
     @PostMapping("/medicines/add")
     public String addMedicine(@ModelAttribute Medicine medicine) {
 
-        medicineService.addMedicine(medicine);
+        AddMedicineCommand command =
+
+                new AddMedicineCommand(
+                        medicineService,
+                        medicine
+                );
+
+        commandInvoker.executeCommand(command);
 
         return "redirect:/medicines";
     }
@@ -39,7 +52,14 @@ public class MedicineController {
     @GetMapping("/medicines/delete/{id}")
     public String deleteMedicine(@PathVariable int id) {
 
-        medicineService.deleteMedicine(id);
+        DeleteMedicineCommand command =
+
+                new DeleteMedicineCommand(
+                        medicineService,
+                        id
+                );
+
+        commandInvoker.executeCommand(command);
 
         return "redirect:/medicines";
     }

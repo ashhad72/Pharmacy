@@ -3,14 +3,14 @@ package com.sda.pharmacy.observer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExpiryObserver
+public class LowStockObserver
         implements Observer {
 
     @Override
     public void update() {
 
         System.out.println(
-                "Expiry alerts refreshed"
+                "Low stock alerts refreshed"
         );
     }
 }
