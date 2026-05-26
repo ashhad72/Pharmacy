@@ -2,70 +2,137 @@ package com.sda.pharmacy.service;
 
 import com.sda.pharmacy.builder.Invoice;
 import com.sda.pharmacy.builder.InvoiceBuilder;
-import com.sda.pharmacy.entity.*;
 
-import com.sda.pharmacy.repository.*;
+import com.sda.pharmacy.entity.Customer;
+import com.sda.pharmacy.entity.Medicine;
+import com.sda.pharmacy.entity.Sale;
+import com.sda.pharmacy.entity.SaleItem;
+import com.sda.pharmacy.entity.SalesReport;
+
+import com.sda.pharmacy.observer.InventoryManager;
+
+import com.sda.pharmacy.repository.CustomerRepository;
+import com.sda.pharmacy.repository.MedicineRepository;
+import com.sda.pharmacy.repository.SaleItemRepository;
+import com.sda.pharmacy.repository.SaleReportRepository;
+import com.sda.pharmacy.repository.SaleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SaleService {
 
-    @Autowired
-    private SaleRepository saleRepository;
+    private final SaleRepository saleRepository;
+
+    private final SaleItemRepository saleItemRepository;
+
+    private final MedicineRepository medicineRepository;
+
+    private final CustomerRepository customerRepository;
+
+    private final SaleReportRepository salesReportRepository;
+
+    private final InventoryManager inventoryManager;
+
+    // -----------------------------------
+    // Constructor Injection
+    // -----------------------------------
 
     @Autowired
-    private SaleItemRepository saleItemRepository;
+    public SaleService(
 
-    @Autowired
-    private MedicineRepository medicineRepository;
+            SaleRepository saleRepository,
 
-    @Autowired
-    private CustomerRepository customerRepository;
+            SaleItemRepository saleItemRepository,
 
-    @Autowired
-    private SaleReportRepository salesReportRepository;
+            MedicineRepository medicineRepository,
 
+            CustomerRepository customerRepository,
+
+            SaleReportRepository salesReportRepository,
+
+            InventoryManager inventoryManager
+    ) {
+
+        this.saleRepository = saleRepository;
+
+        this.saleItemRepository = saleItemRepository;
+
+        this.medicineRepository = medicineRepository;
+
+        this.customerRepository = customerRepository;
+
+        this.salesReportRepository = salesReportRepository;
+
+        this.inventoryManager = inventoryManager;
+    }
+
+    // -----------------------------------
     // Create Sale + Generate Invoice
+    // Builder Pattern
+    // Trigger updates stock automatically
+    // Observer notified after stock change
+    // -----------------------------------
 
     public Invoice createSale(
 
             String customerName,
+
             String phoneNumber,
 
             int medicineId,
-            int quantity
 
+            int quantity
     ) {
 
+        // -----------------------------------
         // Save Customer
+        // -----------------------------------
 
         Customer customer = new Customer(
+
                 customerName,
+
                 phoneNumber
         );
 
         customerRepository.save(customer);
 
+        // -----------------------------------
         // Fetch Medicine
+        // -----------------------------------
 
         Medicine medicine =
-                medicineRepository.findById(medicineId)
-                        .orElseThrow();
 
+                medicineRepository.findById(medicineId)
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "Medicine not found"
+                                )
+                        );
+
+        // -----------------------------------
         // Calculate Total
+        // -----------------------------------
 
         BigDecimal subtotal =
-                medicine.getPrice()
-                        .multiply(BigDecimal.valueOf(quantity));
 
+                medicine.getPrice()
+                        .multiply(
+                                BigDecimal.valueOf(quantity)
+                        );
+
+        // -----------------------------------
         // Create Sale
+        // -----------------------------------
 
         Sale sale = new Sale();
 
@@ -77,7 +144,9 @@ public class SaleService {
 
         saleRepository.save(sale);
 
+        // -----------------------------------
         // Create Sale Item
+        // -----------------------------------
 
         SaleItem saleItem = new SaleItem();
 
@@ -87,16 +156,29 @@ public class SaleService {
 
         saleItem.setQuantity(quantity);
 
-        saleItem.setUnitPrice(medicine.getPrice());
+        saleItem.setUnitPrice(
+                medicine.getPrice()
+        );
 
         saleItem.setSubtotal(subtotal);
 
-        // SAVE SALE ITEM
+        // -----------------------------------
+        // Save Sale Item
         // Trigger automatically reduces stock
+        // -----------------------------------
 
         saleItemRepository.save(saleItem);
 
+        // -----------------------------------
+        // Notify Observers
+        // -----------------------------------
+
+        inventoryManager.notifyObservers();
+
+        // -----------------------------------
         // Build Invoice
+        // Builder Pattern
+        // -----------------------------------
 
         List<String> medicineNames =
                 new ArrayList<>();
@@ -113,9 +195,12 @@ public class SaleService {
         List<BigDecimal> prices =
                 new ArrayList<>();
 
-        prices.add(medicine.getPrice());
+        prices.add(
+                medicine.getPrice()
+        );
 
         Invoice invoice =
+
                 new InvoiceBuilder()
 
                         .setCustomerName(customerName)
@@ -137,15 +222,22 @@ public class SaleService {
         return invoice;
     }
 
+    // -----------------------------------
+    // Sales Reports
+    // -----------------------------------
+
     public List<SalesReport> getSalesReports() {
 
         return salesReportRepository.findAll();
-
     }
+
+    // -----------------------------------
+    // Total Revenue Function
+    // -----------------------------------
 
     public BigDecimal getTotalRevenue() {
 
-        return salesReportRepository.getTotalRevenue();
-
+        return salesReportRepository
+                .getTotalRevenue();
     }
 }
