@@ -3,6 +3,8 @@ package com.sda.pharmacy.service;
 import com.sda.pharmacy.entity.Medicine;
 import com.sda.pharmacy.factory.MedicineFactory;
 
+import com.sda.pharmacy.factory.SupplierFactory;
+import com.sda.pharmacy.nullobject.AbstractSupplier;
 import com.sda.pharmacy.observer.ExpiryObserver;
 import com.sda.pharmacy.observer.InventoryManager;
 import com.sda.pharmacy.observer.LowStockObserver;
@@ -76,6 +78,12 @@ public class MedicineService {
                         medicine.getDescription()
                 );
 
+        AbstractSupplier supplier =
+
+                SupplierFactory.getSupplier(
+                        newMedicine.getSupplier()
+                );
+
         medicineRepository.addMedicineProcedure(
 
                 newMedicine.getMedicineName(),
@@ -83,8 +91,7 @@ public class MedicineService {
                 newMedicine.getCategory()
                         .getCategoryId(),
 
-                newMedicine.getSupplier()
-                        .getSupplierId(),
+                supplier.getSupplierId(),
 
                 newMedicine.getPrice(),
 
