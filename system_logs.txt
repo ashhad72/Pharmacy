@@ -1,0 +1,26 @@
+[2026-05-27T21:28:15.337971100] Starting new sale process.
+[2026-05-27T21:28:15.480589300] Starting new sale process.
+[2026-05-27T21:28:15.530456100] Medicine fetched: Cefspan Suspension
+[2026-05-27T21:28:15.656202100] Sale saved successfully.
+[2026-05-27T21:28:15.658116600] Inventory observers notified.
+[2026-05-27T21:28:15.660108900] Invoice generated successfully.
+[2026-05-27T21:28:15.661105800] Sale process completed successfully.
+[2026-05-27T21:38:07.570576700] Login attempt for email: admin@123
+[2026-05-27T21:38:09.137385600] Login Failed: User Not Found
+[2026-05-27T21:38:25.908547100] Login attempt for email: admin@gmail.com
+[2026-05-27T21:38:25.941493] Login failed: incorrect password.
+[2026-05-27T21:38:36.973434700] Login attempt for email: admin@gmail.com
+[2026-05-27T21:38:36.983409400] Login successful for: admin@gmail.com
+[2026-05-27T21:54:53.600709100] [DASHBOARD] Fetching medicine count.
+[2026-05-27T21:54:54.054495600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-27T21:54:54.063474100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-27T21:54:54.070454600] [DASHBOARD] Fetching total Inventory Value
+[2026-05-27T21:55:20.921687600] [INVENTORY] Fetching low stock medicines.
+[2026-05-27T21:55:38.214222600] [MEDICINE] Deleting medicine with ID: 106
+[2026-05-27T21:55:38.298952300] [INVENTORY] Medicine deleted successfully.
+[2026-05-27T21:56:28.130251] [MEDICINE] Starting medicine addition process.
+[2026-05-27T21:56:28.131692300] [MEDICINE] Medicine object created using Factory Pattern.
+[2026-05-27T21:56:28.135683400] [MEDICINE] Supplier resolved successfully.
+[2026-05-27T21:56:28.408413800] [MEDICINE] Add medicine procedure executed successfully.
+[2026-05-27T21:56:28.408950100] [INVENTORY] Inventory observers notified.
+[2026-05-27T21:56:28.410028400] [INVENTORY] Medicine added successfully: test

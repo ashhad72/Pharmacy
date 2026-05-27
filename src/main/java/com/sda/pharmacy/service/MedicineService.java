@@ -2,6 +2,7 @@ package com.sda.pharmacy.service;
 
 import com.sda.pharmacy.entity.Medicine;
 import com.sda.pharmacy.factory.MedicineFactory;
+import com.sda.pharmacy.singleton.SystemLogger;
 
 import com.sda.pharmacy.factory.SupplierFactory;
 import com.sda.pharmacy.nullobject.AbstractSupplier;
@@ -55,6 +56,12 @@ public class MedicineService {
 
     public String addMedicine(Medicine medicine) {
 
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Starting medicine addition process."
+                );
+
         Medicine newMedicine =
 
                 MedicineFactory.createMedicine(
@@ -77,11 +84,21 @@ public class MedicineService {
 
                         medicine.getDescription()
                 );
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Medicine object created using Factory Pattern."
+                );
 
         AbstractSupplier supplier =
 
                 SupplierFactory.getSupplier(
                         newMedicine.getSupplier()
+                );
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Supplier resolved successfully."
                 );
 
         medicineRepository.addMedicineProcedure(
@@ -102,9 +119,28 @@ public class MedicineService {
                 )
         );
 
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Add medicine procedure executed successfully."
+                );
+
         // Notify Observers
 
         inventoryManager.notifyObservers();
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Inventory observers notified."
+                );
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Medicine added successfully: "
+                                + newMedicine.getMedicineName()
+                );
 
         return "Medicine Added Successfully";
     }
@@ -115,8 +151,19 @@ public class MedicineService {
     // -----------------------------------
 
     public String deleteMedicine(int id) {
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Deleting medicine with ID: " + id
+                );
 
         medicineRepository.deleteById(id);
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Medicine deleted successfully."
+                );
 
         return "Medicine deleted successfully";
     }
@@ -126,7 +173,6 @@ public class MedicineService {
     // -----------------------------------
 
     public List<Medicine> getAllMedicines() {
-
         return medicineRepository.findAll();
     }
 
@@ -135,6 +181,13 @@ public class MedicineService {
     // -----------------------------------
 
     public List<Medicine> searchMedicine(String keyword) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Medicine search performed for keyword: "
+                                + keyword
+                );
 
         return medicineRepository
                 .searchMedicineProcedure(keyword);
@@ -146,6 +199,12 @@ public class MedicineService {
 
     public List<Medicine> getLowStockMedicines() {
 
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching low stock medicines."
+                );
+
         return medicineRepository
                 .getLowStockMedicines();
     }
@@ -155,6 +214,12 @@ public class MedicineService {
     // -----------------------------------
 
     public List<Medicine> getExpiredMedicines() {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching expired medicines."
+                );
 
         return medicineRepository
                 .getExpiredMedicines();
@@ -166,11 +231,23 @@ public class MedicineService {
 
     public int getMedicineCount() {
 
+        SystemLogger.getInstance()
+                .log(
+                        "DASHBOARD",
+                        "Fetching medicine count."
+                );
+
         return medicineRepository
                 .getMedicineCount();
     }
 
     public int getLowStockCount() {
+
+        SystemLogger.getInstance()
+                .log(
+                        "DASHBOARD",
+                        "Fetching low stocks medicine count"
+                );
 
         return medicineRepository
                 .getLowStockCount();
@@ -178,11 +255,23 @@ public class MedicineService {
 
     public int getExpiredMedicineCount() {
 
+        SystemLogger.getInstance()
+                .log(
+                        "DASHBOARD",
+                        "Fetching Expired medicine count"
+                );
+
         return medicineRepository
                 .getExpiredMedicineCount();
     }
 
     public double getTotalStockValue() {
+
+        SystemLogger.getInstance()
+                .log(
+                        "DASHBOARD",
+                        "Fetching total Inventory Value"
+                );
 
         return medicineRepository
                 .getTotalStockValue();

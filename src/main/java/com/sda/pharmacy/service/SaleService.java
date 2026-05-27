@@ -2,6 +2,7 @@ package com.sda.pharmacy.service;
 
 import com.sda.pharmacy.builder.Invoice;
 import com.sda.pharmacy.builder.InvoiceBuilder;
+import com.sda.pharmacy.singleton.SystemLogger;
 
 import com.sda.pharmacy.entity.Customer;
 import com.sda.pharmacy.entity.Medicine;
@@ -92,7 +93,8 @@ public class SaleService {
 
             int quantity
     ) {
-
+        SystemLogger.getInstance()
+                .log("SALES","Starting new sale process.");
         // -----------------------------------
         // Save Customer
         // -----------------------------------
@@ -106,6 +108,8 @@ public class SaleService {
 
         customerRepository.save(customer);
 
+        SystemLogger.getInstance()
+                .log("SALES","Starting new sale process.");
         // -----------------------------------
         // Fetch Medicine
         // -----------------------------------
@@ -118,7 +122,9 @@ public class SaleService {
                                         "Medicine not found"
                                 )
                         );
-
+        SystemLogger.getInstance()
+                .log("SALES","Medicine fetched: "
+                        + medicine.getMedicineName());
         // -----------------------------------
         // Calculate Total
         // -----------------------------------
@@ -168,12 +174,16 @@ public class SaleService {
         // -----------------------------------
 
         saleItemRepository.save(saleItem);
+        SystemLogger.getInstance()
+                .log("SALES","Sale saved successfully.");
 
         // -----------------------------------
         // Notify Observers
         // -----------------------------------
 
         inventoryManager.notifyObservers();
+        SystemLogger.getInstance()
+                .log("SALES","Inventory observers notified.");
 
         // -----------------------------------
         // Build Invoice
@@ -218,6 +228,11 @@ public class SaleService {
                         .setInvoiceDate(LocalDateTime.now())
 
                         .build();
+        SystemLogger.getInstance()
+                .log("SALES","Invoice generated successfully.");
+
+        SystemLogger.getInstance()
+                .log("SALES","Sale process completed successfully.");
 
         return invoice;
     }
