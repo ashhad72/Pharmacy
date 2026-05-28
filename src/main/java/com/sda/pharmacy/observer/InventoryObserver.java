@@ -1,6 +1,7 @@
 package com.sda.pharmacy.observer;
 
-public interface Observer {
+public interface InventoryObserver {
 
     void update();
+
 }

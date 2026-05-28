@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AuthController {
@@ -17,7 +18,8 @@ public class AuthController {
     // Login Admin/Pharmacy Worker
     @PostMapping("/login")
     public String loginUser(
-            @ModelAttribute LoginDTO loginDTO) {
+            @ModelAttribute LoginDTO loginDTO,
+            RedirectAttributes redirectAttributes) {
 
         boolean isValid =
                 authService.loginUser(loginDTO);
@@ -29,6 +31,11 @@ public class AuthController {
         }
 
         // Invalid Login
+        redirectAttributes.addFlashAttribute(
+                "error",
+                "Username or password is incorrect"
+        );
+
         return "redirect:/login";
     }
 }

@@ -135,6 +135,7 @@
 
 
 	#VIEWS HERE
+    drop table Sales_Report_View;
 	CREATE VIEW Sales_Report_View AS
 	SELECT
 		s.sale_id,
@@ -364,3 +365,8 @@ UPDATE Users
 SET full_name = 'Main Pharmacy Admin'
 WHERE user_id = 1;
 
+ALTER TABLE Sales
+DROP FOREIGN KEY sales_ibfk_2;
+
+ALTER TABLE Sales
+DROP COLUMN user_id;

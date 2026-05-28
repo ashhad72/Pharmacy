@@ -5,6 +5,7 @@ import com.sda.pharmacy.entity.Category;
 import com.sda.pharmacy.entity.Medicine;
 import com.sda.pharmacy.entity.Supplier;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class MedicineFactory {
@@ -14,7 +15,7 @@ public class MedicineFactory {
             Category category,
             Supplier supplier,
             String batchNumber,
-            double price,
+            BigDecimal price,
             int quantityInStock,
             LocalDate manufactureDate,
             LocalDate expiryDate,

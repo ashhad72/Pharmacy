@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Invoice</title>
+</head>
+
+<body>
+
+<h1>Invoice</h1>
+
+<hr>
+
+<h2>Customer Details</h2>
+
+<p>
+    <strong>Name:</strong>
+
+    <span th:text="${invoice.customerName}"></span>
+</p>
+
+<p>
+    <strong>Phone:</strong>
+
+    <span th:text="${invoice.customerPhone}"></span>
+</p>
+
+<hr>
+
+<h2>Purchased Medicines</h2>
+
+<table border="1">
+
+    <tr>
+
+        <th>Medicine</th>
+        <th>Quantity</th>
+        <th>Price</th>
+
+    </tr>
+
+    <tr th:each="medicine, iterStat : ${invoice.medicineNames}">
+
+        <td th:text="${medicine}"></td>
+
+        <td th:text="${invoice.quantities[iterStat.index]}"></td>
+
+        <td th:text="${invoice.prices[iterStat.index]}"></td>
+
+    </tr>
+
+</table>
+
+<hr>
+
+<h2>Total Amount</h2>
+
+<p>
+
+    Rs.
+
+    <span th:text="${invoice.totalAmount}"></span>
+
+</p>
+
+<hr>
+
+<p>
+
+    <strong>Date:</strong>
+
+    <span th:text="${invoice.invoiceDate}"></span>
+
+</p>
+
+<br><br>
+
+<a href="/billing">
+    Create Another Bill
+</a>
+
+</body>
+</html>

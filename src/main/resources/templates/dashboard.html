@@ -16,6 +16,38 @@
 <a href="/medicines">
     Open Medicine Inventory System
 </a>
+<br>
+<a href="/billing">
+    Billing
+</a>
+
+<a href="/sales/reports">
+    Sales Report
+</a>
+
+<h2>System Alerts</h2>
+
+<p>
+    Low Stock Medicines:
+    <span th:text="${lowStockCount}"></span>
+</p>
+
+<p>
+    Expired Medicines:
+    <span th:text="${expiredCount}"></span>
+</p>
+
+<br>
+
+<a href="/medicines/low-stock">
+    View Low Stock Medicines
+</a>
+
+<br><br>
+
+<a href="/medicines/expired">
+    View Expired Medicines
+</a>
 
 </body>
 </html>

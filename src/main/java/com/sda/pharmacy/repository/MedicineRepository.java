@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface MedicineRepository
             @Param("p_medicine_name") String medicineName,
             @Param("p_category_id") int categoryId,
             @Param("p_supplier_id") int supplierId,
-            @Param("p_price") double price,
+            @Param("p_price") BigDecimal price,
             @Param("p_quantity") int quantity,
             @Param("p_expiry_date") Date expiryDate
     );
