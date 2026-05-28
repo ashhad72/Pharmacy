@@ -1,53 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MediTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
-
 <body>
 
-<h1>Pharmacy Management Dashboard</h1>
+<div class="app-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; background: white; padding: 1.5rem 2rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        <div>
+            <h1>Management Dashboard</h1>
+            <p>Welcome back, system administration operator</p>
+        </div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 0.5rem;">
+            <span style="height: 12px; width: 12px; background: #10b981; border-radius: 50%; display: inline-block; animation: pulse 2s infinite;"></span>
+            MediTrack Live
+        </div>
+    </div>
 
-<hr>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+        <div class="card" style="margin-bottom: 0; background: var(--warning-light); border-color: #fef3c7; display: flex; align-items: center; gap: 1.25rem;">
+            <div style="background: #f59e0b; color: white; height: 48px; width: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <span style="font-size: 1.5rem; font-weight: 700; color: #92400e;" th:text="${lowStockCount}">0</span>
+                <p style="color: #b45309; font-size: 0.875rem; font-weight: 500;">Low Stock Alerts</p>
+            </div>
+        </div>
 
-<h2>Inventory Management</h2>
+        <div class="card" style="margin-bottom: 0; background: var(--danger-light); border-color: #fee2e2; display: flex; align-items: center; gap: 1.25rem;">
+            <div style="background: #ef4444; color: white; height: 48px; width: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                <i class="fa-solid fa-calendar-times"></i>
+            </div>
+            <div>
+                <span style="font-size: 1.5rem; font-weight: 700; color: #991b1b;" th:text="${expiredCount}">0</span>
+                <p style="color: #b91c1c; font-size: 0.875rem; font-weight: 500;">Expired Compounds</p>
+            </div>
+        </div>
+    </div>
 
-<a href="/medicines">
-    Open Medicine Inventory System
-</a>
-<br>
-<a href="/billing">
-    Billing
-</a>
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start;">
+        <div class="card">
+            <h2><i class="fa-solid fa-cubes" style="color: var(--primary);"></i> Core Operations Matrix</h2>
+            <hr>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <a href="/medicines" class="card" style="text-decoration: none; text-align: center; margin-bottom: 0; hover: transform: translateY(-2px); transition: var(--transition);">
+                    <i class="fa-solid fa-boxes-stacked" style="font-size: 2rem; color: var(--primary); margin-bottom: 0.75rem; display: block;"></i>
+                    <span style="font-weight: 600; color: var(--text-main);">Inventory Management</span>
+                </a>
+                <a href="/billing" class="card" style="text-decoration: none; text-align: center; margin-bottom: 0; transition: var(--transition);">
+                    <i class="fa-solid fa-file-invoice-dollar" style="font-size: 2rem; color: var(--primary); margin-bottom: 0.75rem; display: block;"></i>
+                    <span style="font-weight: 600; color: var(--text-main);">POS Billing Counter</span>
+                </a>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <a href="/sales/reports" class="btn btn-primary" style="width: 100%;">
+                    <i class="fa-solid fa-chart-line"></i> View Enterprise Revenue & Sales Report
+                </a>
+            </div>
+        </div>
 
-<a href="/sales/reports">
-    Sales Report
-</a>
+        <div class="card">
+            <h2><i class="fa-solid fa-filter" style="color: var(--primary);"></i> Filter & Inspect</h2>
+            <hr>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <a href="/medicines/low-stock" class="btn" style="background: #fffbeb; color: #b45309; justify-content: flex-start;">
+                    <i class="fa-solid fa-arrow-trend-down"></i> Review Low Stock List
+                </a>
+                <a href="/medicines/expired" class="btn" style="background: #fef2f2; color: #b91c1c; justify-content: flex-start;">
+                    <i class="fa-solid fa-hourglass-end"></i> Inspect Expired Batches
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h2>System Alerts</h2>
-
-<p>
-    Low Stock Medicines:
-    <span th:text="${lowStockCount}"></span>
-</p>
-
-<p>
-    Expired Medicines:
-    <span th:text="${expiredCount}"></span>
-</p>
-
-<br>
-
-<a href="/medicines/low-stock">
-    View Low Stock Medicines
-</a>
-
-<br><br>
-
-<a href="/medicines/expired">
-    View Expired Medicines
-</a>
-
+<style>
+    @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+</style>
 </body>
 </html>

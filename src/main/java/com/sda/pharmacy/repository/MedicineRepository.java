@@ -99,4 +99,27 @@ public interface MedicineRepository
             nativeQuery = true
     )
     double getTotalStockValue();
+    // -----------------------------
+// AUTOCOMPLETE / SUGGESTIONS
+// -----------------------------
+
+    @Query(
+            value = "SELECT medicine_name FROM medicines WHERE medicine_name LIKE CONCAT(:prefix, '%') LIMIT 10",
+            nativeQuery = true
+    )
+    List<String> getSuggestions(@Param("prefix") String prefix);
+    @Query(value = "SELECT * FROM medicines m JOIN categories c ON m.category_id = c.category_id WHERE LOWER(c.category_name) = LOWER(:type)", nativeQuery = true)
+    List<Medicine> findByCategory(@Param("type") String type);
+
+    // -----------------------------
+// FILTER BY CATEGORY NAME
+// -----------------------------
+    @Query(
+            value = "SELECT m.* FROM medicines m " +
+                    "JOIN categories c ON m.category_id = c.category_id " +
+                    "WHERE c.category_name = :type",
+            nativeQuery = true
+    )
+    List<Medicine> findMedicinesByCategoryName(@Param("type") String type);
+
 }
