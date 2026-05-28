@@ -24,3 +24,19 @@
 [2026-05-27T21:56:28.408413800] [MEDICINE] Add medicine procedure executed successfully.
 [2026-05-27T21:56:28.408950100] [INVENTORY] Inventory observers notified.
 [2026-05-27T21:56:28.410028400] [INVENTORY] Medicine added successfully: test
+[2026-05-28T00:31:53.446735900] [AUTH] Login attempt for email: admin@123
+[2026-05-28T00:31:54.219525700] [AUTH] Login Failed: User Not Found
+[2026-05-28T01:01:18.406224900] [AUTH] Login attempt for email: null
+[2026-05-28T01:01:19.176312500] [AUTH] Login Failed: User Not Found
+[2026-05-28T01:01:36.062066700] [AUTH] Login attempt for email: null
+[2026-05-28T01:01:36.070040800] [AUTH] Login Failed: User Not Found
+[2026-05-28T01:05:01.924801] [AUTH] Login attempt for Username: null
+[2026-05-28T01:05:02.708253500] [AUTH] Login Failed: User Not Found
+[2026-05-28T01:07:31.303542800] [AUTH] Login attempt for Username: null
+[2026-05-28T01:07:32.102743300] [AUTH] Login Failed: User Not Found
+[2026-05-28T01:12:00.120711900] [AUTH] Login attempt for Username: PharmaAdmin
+[2026-05-28T01:12:01.328477600] [AUTH] Login successful for: PharmaAdmin
+[2026-05-28T01:12:01.352414200] [DASHBOARD] Fetching medicine count.
+[2026-05-28T01:12:01.605736900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T01:12:01.611719300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T01:12:01.616706400] [DASHBOARD] Fetching total Inventory Value

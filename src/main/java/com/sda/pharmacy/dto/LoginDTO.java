@@ -2,7 +2,7 @@ package com.sda.pharmacy.dto;
 
 public class LoginDTO {
 
-    private String email;
+    private String fullName;
     private String password;
 
     // Default Constructor
@@ -10,19 +10,19 @@ public class LoginDTO {
     }
 
     // Parameterized Constructor
-    public LoginDTO(String email, String password) {
-        this.email = email;
+    public LoginDTO(String fullName, String password) {
+        this.fullName = fullName;
         this.password = password;
     }
 
     // Getters and Setters
 
-    public String getEmail() {
-        return email;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPassword() {

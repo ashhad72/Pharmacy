@@ -17,11 +17,11 @@ public class AuthService {
     // Login Authentication
     public boolean loginUser(LoginDTO loginDTO) {
         SystemLogger.getInstance()
-                .log("AUTH","Login attempt for email: "
-                        + loginDTO.getEmail());
+                .log("AUTH","Login attempt for Username: "
+                        + loginDTO.getFullName());
         User user =
-                userRepository.findByEmail(
-                        loginDTO.getEmail()
+                userRepository.findByFullName(
+                        loginDTO.getFullName()
                 );
 
         // Check User Exists
@@ -42,7 +42,7 @@ public class AuthService {
 
             SystemLogger.getInstance()
                     .log("AUTH","Login successful for: "
-                            + loginDTO.getEmail());
+                            + loginDTO.getFullName());
 
         } else {
 

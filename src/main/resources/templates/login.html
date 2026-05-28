@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Login</title>
 </head>
@@ -9,8 +9,8 @@
 
 <form action="/login" method="post">
 
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
+    <label>Username:</label><br>
+    <input type="name" name="fullName" required><br><br>
 
     <label>Password:</label><br>
     <input type="password" name="password" required><br><br>
@@ -18,6 +18,9 @@
     <button type="submit">Login</button>
 
 </form>
+<div th:if="${error}" class="alert alert-danger">
+    <p th:text="${error}"></p>
+</div>
 
 </body>
 </html>
