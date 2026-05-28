@@ -40,3 +40,28 @@
 [2026-05-28T01:12:01.605736900] [DASHBOARD] Fetching low stocks medicine count
 [2026-05-28T01:12:01.611719300] [DASHBOARD] Fetching Expired medicine count
 [2026-05-28T01:12:01.616706400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:59:49.157876700] [AUTH] Login attempt for Username: PharmaAdmin
+[2026-05-28T16:59:50.925254300] [AUTH] Login successful for: PharmaAdmin
+[2026-05-28T16:59:50.948132500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:59:51.238280] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:59:51.245262200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:59:51.251246500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T17:00:12.500209200] [DASHBOARD] Fetching medicine count.
+[2026-05-28T17:00:12.530121500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T17:00:12.539099300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T17:00:12.547076600] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T17:00:27.762339300] [SALES] Starting new sale process.
+[2026-05-28T17:00:27.869876500] [SALES] Starting new sale process.
+[2026-05-28T17:00:27.896804200] [SALES] Medicine fetched: Panadol
+[2026-05-28T17:00:27.958639200] [SALES] Sale saved successfully.
+[2026-05-28T17:00:27.959989300] [SALES] Inventory observers notified.
+[2026-05-28T17:00:27.962629] [SALES] Invoice generated successfully.
+[2026-05-28T17:00:27.963633600] [SALES] Sale process completed successfully.
+[2026-05-28T17:00:33.920153400] [DASHBOARD] Fetching medicine count.
+[2026-05-28T17:00:33.928128500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T17:00:33.937105600] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T17:00:33.942093100] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T17:00:54.886363500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T17:00:54.901322700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T17:00:54.915282800] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T17:00:54.922263800] [DASHBOARD] Fetching total Inventory Value
