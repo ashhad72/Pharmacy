@@ -40,28 +40,546 @@
 [2026-05-28T01:12:01.605736900] [DASHBOARD] Fetching low stocks medicine count
 [2026-05-28T01:12:01.611719300] [DASHBOARD] Fetching Expired medicine count
 [2026-05-28T01:12:01.616706400] [DASHBOARD] Fetching total Inventory Value
-[2026-05-28T16:59:49.157876700] [AUTH] Login attempt for Username: PharmaAdmin
-[2026-05-28T16:59:50.925254300] [AUTH] Login successful for: PharmaAdmin
-[2026-05-28T16:59:50.948132500] [DASHBOARD] Fetching medicine count.
-[2026-05-28T16:59:51.238280] [DASHBOARD] Fetching low stocks medicine count
-[2026-05-28T16:59:51.245262200] [DASHBOARD] Fetching Expired medicine count
-[2026-05-28T16:59:51.251246500] [DASHBOARD] Fetching total Inventory Value
-[2026-05-28T17:00:12.500209200] [DASHBOARD] Fetching medicine count.
-[2026-05-28T17:00:12.530121500] [DASHBOARD] Fetching low stocks medicine count
-[2026-05-28T17:00:12.539099300] [DASHBOARD] Fetching Expired medicine count
-[2026-05-28T17:00:12.547076600] [DASHBOARD] Fetching total Inventory Value
-[2026-05-28T17:00:27.762339300] [SALES] Starting new sale process.
-[2026-05-28T17:00:27.869876500] [SALES] Starting new sale process.
-[2026-05-28T17:00:27.896804200] [SALES] Medicine fetched: Panadol
-[2026-05-28T17:00:27.958639200] [SALES] Sale saved successfully.
-[2026-05-28T17:00:27.959989300] [SALES] Inventory observers notified.
-[2026-05-28T17:00:27.962629] [SALES] Invoice generated successfully.
-[2026-05-28T17:00:27.963633600] [SALES] Sale process completed successfully.
-[2026-05-28T17:00:33.920153400] [DASHBOARD] Fetching medicine count.
-[2026-05-28T17:00:33.928128500] [DASHBOARD] Fetching low stocks medicine count
-[2026-05-28T17:00:33.937105600] [DASHBOARD] Fetching Expired medicine count
-[2026-05-28T17:00:33.942093100] [DASHBOARD] Fetching total Inventory Value
-[2026-05-28T17:00:54.886363500] [DASHBOARD] Fetching medicine count.
-[2026-05-28T17:00:54.901322700] [DASHBOARD] Fetching low stocks medicine count
-[2026-05-28T17:00:54.915282800] [DASHBOARD] Fetching Expired medicine count
-[2026-05-28T17:00:54.922263800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:00:14.688313300] [AUTH] Login attempt for Username: newadmin@gmail.com
+[2026-05-28T15:00:15.224540900] [AUTH] Login Failed: User Not Found
+[2026-05-28T15:00:25.947362400] [AUTH] Login attempt for Username: ADMIN
+[2026-05-28T15:00:25.952359600] [AUTH] Login Failed: User Not Found
+[2026-05-28T15:00:51.451106900] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T15:00:51.459101700] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T15:00:51.468107600] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:00:51.566788100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:00:51.572786600] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:00:51.607764400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:01:33.649092] [MEDICINE] Deleting medicine with ID: 105
+[2026-05-28T15:01:33.716007] [INVENTORY] Medicine deleted successfully.
+[2026-05-28T15:01:38.272028800] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:01:41.049960900] [INVENTORY] Fetching expired medicines.
+[2026-05-28T15:02:03.499664200] [INVENTORY] Medicine search performed for keyword: Paracetamol
+[2026-05-28T15:03:00.482399700] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:03:00.491393900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:03:00.495392200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:03:00.498389400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:03:08.488542900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:03:08.492540100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:03:08.495545200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:03:08.498535900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:03:10.847560400] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:03:10.853555100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:03:10.856570200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:03:10.859572200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:03:11.624855] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:03:13.913692600] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:03:13.917690100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:03:13.920703] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:03:13.924690600] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:03:14.872530600] [INVENTORY] Fetching expired medicines.
+[2026-05-28T15:03:18.602758800] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:03:18.605758300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:03:18.609778700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:03:18.611769800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:09:37.497108900] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T15:09:38.196557600] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T15:09:38.207552] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:09:38.305518100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:09:38.309516] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:09:38.312513500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:09:45.399902900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:09:45.405900300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:09:45.408897600] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:09:45.411903] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:09:48.398681800] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:09:48.403679600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:09:48.406678100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:09:48.409690300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:09:50.920391] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:09:52.573623600] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:09:53.277991800] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:09:53.460940900] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:09:53.622885500] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:09:53.790803100] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:10:10.814832400] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:10:10.818829400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:10:10.821842300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:10:10.823841600] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:10:13.415261300] [INVENTORY] Fetching expired medicines.
+[2026-05-28T15:35:22.798754300] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:35:23.009647500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:35:23.014644500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:35:23.020641800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:35:37.779923] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:35:37.784920900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:35:37.789917200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:35:37.794916300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:40:56.891023400] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T15:40:57.601043700] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T15:40:57.615037800] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:40:57.774966] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:40:57.778963500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:40:57.781962700] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:42:49.906115400] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:42:50.102002100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:42:50.106001300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:42:50.114995400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:44:24.481587300] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T15:44:25.136811900] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T15:44:25.145806300] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:44:25.258741400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:44:25.264738100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:44:25.268736600] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:44:43.134320500] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:44:48.349492400] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:44:52.590877100] [INVENTORY] Fetching expired medicines.
+[2026-05-28T15:44:56.213452100] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T15:46:17.671741900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:46:17.878622900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:46:17.882620300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:46:17.885619] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:47:25.248573500] [INVENTORY] Fetching expired medicines.
+[2026-05-28T15:47:29.609910200] [INVENTORY] Medicine search performed for keyword: panadol
+[2026-05-28T15:47:32.043355100] [INVENTORY] Medicine search performed for keyword: Paracetamol
+[2026-05-28T15:47:39.949588700] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:47:39.957583200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:47:39.961581500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:47:39.965595200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T15:52:06.097394900] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T15:52:06.653885100] [AUTH] Login failed: incorrect password.
+[2026-05-28T15:52:12.082184900] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T15:52:12.088182200] [AUTH] Login failed: incorrect password.
+[2026-05-28T15:52:18.302521] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T15:52:18.308517700] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T15:52:18.316512800] [DASHBOARD] Fetching medicine count.
+[2026-05-28T15:52:18.418454100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T15:52:18.424450] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T15:52:18.428448900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:13:42.182252500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:13:42.387134400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:13:42.392132200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:13:42.396129800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:13:53.264315300] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:13:53.270312300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:13:53.273311200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:13:53.276308900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:13:56.622722500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:13:56.627720800] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:13:56.631716900] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:13:56.633715400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:18:01.335552200] [INVENTORY] Medicine search performed for keyword: panadol
+[2026-05-28T16:18:04.838339500] [INVENTORY] Medicine search performed for keyword: Paracetamol
+[2026-05-28T16:18:07.144260900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:18:07.153253800] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:18:07.156252700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:18:07.163255100] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:18:12.390874400] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:18:12.395871900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:18:12.399875800] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:18:12.403867400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:18:24.357000700] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T16:18:24.813320800] [AUTH] Login failed: incorrect password.
+[2026-05-28T16:18:31.975323900] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T16:18:31.982320] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T16:18:31.992313900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:18:31.994324300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:18:31.996312300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:18:31.998309800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:19:13.447763300] [INVENTORY] Fetching expired medicines.
+[2026-05-28T16:19:19.390753200] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T16:19:21.773900900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:19:21.779899] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:19:21.785894] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:19:21.790893100] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:19:24.613685] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:19:24.616682100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:19:24.619680800] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:19:24.622693100] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:19:41.341505600] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:19:41.344503500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:19:41.348516] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:19:41.350501200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:21:29.733900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:21:29.952757200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:21:29.956755] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:21:29.962751800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:22:27.772967] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:22:27.776964800] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:22:27.779963700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:22:27.782961100] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:30:52.693560900] [SALES] Starting new sale process.
+[2026-05-28T16:30:52.832481300] [SALES] Starting new sale process.
+[2026-05-28T16:38:18.202850900] [SALES] Starting new sale process.
+[2026-05-28T16:38:18.330018700] [SALES] Starting new sale process.
+[2026-05-28T16:38:21.235726300] [SALES] Starting new sale process.
+[2026-05-28T16:38:21.247718900] [SALES] Starting new sale process.
+[2026-05-28T16:42:14.568270200] [SALES] Starting new sale process.
+[2026-05-28T16:42:14.687201700] [SALES] Starting new sale process.
+[2026-05-28T16:43:17.656428500] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T16:43:18.127220500] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T16:43:18.138213100] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:43:18.239329100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:43:18.244326100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:43:18.248323300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:45:53.180940400] [INVENTORY] Medicine search performed for keyword: 
+[2026-05-28T16:45:58.229101600] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:45:58.234098400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:45:58.241095700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:45:58.252816800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:46:05.998397600] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:46:06.004408900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:46:06.006406700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:46:06.008405700] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:46:11.040107300] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:46:11.043104900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:46:11.046117600] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:46:11.052117900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:46:13.021865500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:46:13.025862700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:46:13.027861100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:46:13.029860] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:46:17.786076600] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:46:17.789068800] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:46:17.791067800] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:46:17.793066900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:46:20.998666900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:46:21.001676700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:46:21.003675600] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:46:21.005674100] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:47:54.853535300] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:47:55.055425200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:47:55.059423500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:47:55.064420900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:47:58.386820800] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:47:58.389819200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:47:58.392817600] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:47:58.394816200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:48:01.469367200] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:48:01.473364700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:48:01.475363500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:48:01.479362800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:48:06.014536700] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:48:06.017534500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:48:06.021532400] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:48:06.025544400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:48:11.381558700] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:48:11.385577400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:48:11.388554200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:48:11.390553600] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:51:09.517745800] [SALES] Starting new sale process.
+[2026-05-28T16:51:09.575482300] [SALES] Starting new sale process.
+[2026-05-28T16:51:09.590490700] [SALES] Medicine fetched: Clarinex Syrup
+[2026-05-28T16:51:09.657245200] [SALES] Sale saved successfully.
+[2026-05-28T16:51:09.658247300] [SALES] Inventory observers notified.
+[2026-05-28T16:51:09.659261900] [SALES] Invoice generated successfully.
+[2026-05-28T16:51:09.659261900] [SALES] Sale process completed successfully.
+[2026-05-28T16:54:29.675997200] [SALES] Starting new sale process.
+[2026-05-28T16:54:29.840902500] [SALES] Starting new sale process.
+[2026-05-28T16:54:29.914860700] [SALES] Medicine fetched: Clarinex Syrup
+[2026-05-28T16:54:29.955837100] [SALES] Sale saved successfully.
+[2026-05-28T16:54:29.955837100] [SALES] Inventory observers notified.
+[2026-05-28T16:54:29.957837100] [SALES] Invoice generated successfully.
+[2026-05-28T16:54:29.957837100] [SALES] Sale process completed successfully.
+[2026-05-28T16:55:14.064095100] [SALES] Starting new sale process.
+[2026-05-28T16:55:14.075256300] [SALES] Starting new sale process.
+[2026-05-28T16:55:14.085252600] [SALES] Medicine fetched: Calpol Syrup
+[2026-05-28T16:55:14.104734300] [SALES] Sale saved successfully.
+[2026-05-28T16:55:14.105724400] [SALES] Inventory observers notified.
+[2026-05-28T16:55:14.105724400] [SALES] Invoice generated successfully.
+[2026-05-28T16:55:14.106735300] [SALES] Sale process completed successfully.
+[2026-05-28T16:56:02.847910200] [SALES] Starting new sale process.
+[2026-05-28T16:56:02.861883100] [SALES] Starting new sale process.
+[2026-05-28T16:56:02.870892200] [SALES] Medicine fetched: Calpol Syrup
+[2026-05-28T16:56:02.891359700] [SALES] Sale saved successfully.
+[2026-05-28T16:56:02.892361900] [SALES] Inventory observers notified.
+[2026-05-28T16:56:02.892361900] [SALES] Invoice generated successfully.
+[2026-05-28T16:56:02.892361900] [SALES] Sale process completed successfully.
+[2026-05-28T16:59:05.103455200] [SALES] Starting new sale process.
+[2026-05-28T16:59:05.209394600] [SALES] Starting new sale process.
+[2026-05-28T16:59:05.277355500] [SALES] Medicine fetched: Calpol Syrup
+[2026-05-28T16:59:05.302341400] [SALES] Sale saved successfully.
+[2026-05-28T16:59:05.303341] [SALES] Inventory observers notified.
+[2026-05-28T16:59:05.304340100] [SALES] Invoice generated successfully.
+[2026-05-28T16:59:05.304340100] [SALES] Sale process completed successfully.
+[2026-05-28T16:59:19.012551400] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:59:19.020547600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:59:19.025559500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:59:19.028557800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T16:59:34.386113800] [INVENTORY] Medicine search performed for keyword: calpol syrup
+[2026-05-28T16:59:48.435094100] [DASHBOARD] Fetching medicine count.
+[2026-05-28T16:59:48.439092700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T16:59:48.446088300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T16:59:48.448087300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T17:00:18.828534800] [SALES] Starting new sale process.
+[2026-05-28T17:00:18.840405500] [SALES] Starting new sale process.
+[2026-05-28T17:00:18.854400600] [SALES] Medicine fetched: Panadol
+[2026-05-28T17:00:18.871127300] [SALES] Sale saved successfully.
+[2026-05-28T17:00:18.872140200] [SALES] Inventory observers notified.
+[2026-05-28T17:00:18.872140200] [SALES] Invoice generated successfully.
+[2026-05-28T17:00:18.872140200] [SALES] Sale process completed successfully.
+[2026-05-28T17:00:32.098967800] [DASHBOARD] Fetching medicine count.
+[2026-05-28T17:00:32.102966600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T17:00:32.105964100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T17:00:32.108978700] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T17:00:39.989497800] [INVENTORY] Medicine search performed for keyword: panadol
+[2026-05-28T17:08:50.437609900] [INVENTORY] Medicine search performed for keyword: panadol
+[2026-05-28T17:08:57.907959200] [DASHBOARD] Fetching medicine count.
+[2026-05-28T17:08:57.917942700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T17:08:57.921939500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T17:08:57.924937500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T17:09:14.533377200] [SALES] Starting new sale process.
+[2026-05-28T17:09:14.582349] [SALES] Medicine fetched: Panadol
+[2026-05-28T17:09:14.607336400] [SALES] Sale saved successfully and stock synced via database trigger.
+[2026-05-28T17:09:14.607336400] [SALES] Inventory observers notified.
+[2026-05-28T17:09:14.609333800] [SALES] Invoice generated successfully.
+[2026-05-28T17:09:14.609333800] [SALES] Sale process completed successfully.
+[2026-05-28T17:09:40.714259100] [DASHBOARD] Fetching medicine count.
+[2026-05-28T17:09:40.718257300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T17:09:40.721255400] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T17:09:40.723268500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T17:09:51.320496700] [SALES] Starting new sale process.
+[2026-05-28T17:09:51.332490700] [SALES] Medicine fetched: Panadol
+[2026-05-28T17:09:51.337487200] [SALES] Sale saved successfully and stock synced via database trigger.
+[2026-05-28T17:09:51.338486] [SALES] Inventory observers notified.
+[2026-05-28T17:09:51.338486] [SALES] Invoice generated successfully.
+[2026-05-28T17:09:51.338486] [SALES] Sale process completed successfully.
+[2026-05-28T17:10:09.657881] [DASHBOARD] Fetching medicine count.
+[2026-05-28T17:10:09.661878600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T17:10:09.665875900] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T17:10:09.667885900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T17:13:21.555033500] [SALES] Starting new sale process.
+[2026-05-28T17:13:21.566025700] [SALES] Medicine fetched: Panadol
+[2026-05-28T17:13:21.647979400] [SALES] Sale saved successfully.
+[2026-05-28T17:13:21.647979400] [SALES] Inventory observers notified.
+[2026-05-28T17:13:21.648978700] [SALES] Invoice generated successfully.
+[2026-05-28T17:13:21.649978100] [SALES] Sale process completed successfully.
+[2026-05-28T20:05:10.584704500] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:05:11.076482400] [AUTH] Login failed: incorrect password.
+[2026-05-28T20:05:28.558296900] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:05:28.564305200] [AUTH] Login failed: incorrect password.
+[2026-05-28T20:05:38.238290500] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:05:38.246286] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:05:46.348951100] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:05:46.355947200] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:05:57.074173] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:05:57.079168800] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:06:58.803621700] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:06:58.809617900] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:07:04.068380400] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:07:04.072392400] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:07:20.797931600] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:07:20.802930500] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:09:52.236032400] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:09:53.218787800] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:09:53.236777] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:09:53.355708700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:09:53.359706100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:09:53.363704800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:20:40.212461] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:20:40.890835300] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:20:40.913763600] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:20:41.020443600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:20:41.024415800] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:20:41.027400200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:20:52.490209200] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:20:52.495191700] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:20:52.502187800] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:20:52.505200500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:20:52.508184700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:20:52.510183400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:21:17.724946200] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:21:18.185341200] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:21:18.203332500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:21:18.313267500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:21:18.317265500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:21:18.320264300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:22:00.207382900] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:22:00.389278300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:22:00.394275500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:22:00.397273500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:23:01.827434500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:23:02.047309200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:23:02.055304300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:23:02.062302900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:24:33.461138700] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:24:33.933477700] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:24:33.968717800] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:24:33.972715700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:24:33.976715700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:24:33.978712400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:24:43.912798500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:24:43.916795900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:24:43.922793] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:24:43.927789] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:33:56.115123700] [SALES] Starting new sale process.
+[2026-05-28T20:33:56.128115900] [SALES] Medicine fetched: Panadol
+[2026-05-28T20:33:56.214799100] [SALES] Sale saved successfully.
+[2026-05-28T20:33:56.215797400] [SALES] Inventory observers notified.
+[2026-05-28T20:33:56.216796300] [SALES] Invoice generated successfully.
+[2026-05-28T20:33:56.216796300] [SALES] Sale process completed successfully.
+[2026-05-28T20:38:21.294593800] [SALES] Starting new sale process.
+[2026-05-28T20:38:21.383611200] [SALES] Medicine fetched: Panadol
+[2026-05-28T20:38:21.468117600] [SALES] Sale saved successfully.
+[2026-05-28T20:38:21.469117600] [SALES] Inventory observers notified.
+[2026-05-28T20:38:21.470116500] [SALES] Invoice generated successfully.
+[2026-05-28T20:38:21.470116500] [SALES] Sale process completed successfully.
+[2026-05-28T20:46:48.319251] [SALES] Starting new sale process.
+[2026-05-28T20:46:48.425190] [SALES] Medicine fetched: Panadol
+[2026-05-28T20:46:48.567108200] [SALES] Sale saved successfully.
+[2026-05-28T20:46:48.567108200] [SALES] Inventory observers notified.
+[2026-05-28T20:46:48.569106700] [SALES] Invoice generated successfully.
+[2026-05-28T20:46:48.569106700] [SALES] Sale process completed successfully.
+[2026-05-28T20:47:07.476695500] [SALES] Starting new sale process.
+[2026-05-28T20:47:07.481696300] [SALES] Medicine fetched: Panadol
+[2026-05-28T20:47:07.496684300] [SALES] Sale saved successfully.
+[2026-05-28T20:47:07.496684300] [SALES] Inventory observers notified.
+[2026-05-28T20:47:07.496684300] [SALES] Invoice generated successfully.
+[2026-05-28T20:47:07.496684300] [SALES] Sale process completed successfully.
+[2026-05-28T20:47:32.852836700] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:47:33.006748100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:47:33.010745300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:47:33.014743900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:48:46.651037700] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T20:48:47.126666700] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T20:48:47.148654200] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:48:47.150652300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:48:47.153650700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:48:47.156649200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:48:54.933352300] [INVENTORY] Fetching expired medicines.
+[2026-05-28T20:48:55.949851100] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T20:48:56.730072800] [INVENTORY] Fetching expired medicines.
+[2026-05-28T20:48:57.522662400] [INVENTORY] Fetching expired medicines.
+[2026-05-28T20:48:57.897702100] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T20:48:59.610108400] [DASHBOARD] Fetching medicine count.
+[2026-05-28T20:48:59.613106300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T20:48:59.615105400] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T20:48:59.617103600] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T20:59:31.163475400] [INVENTORY] Medicine search performed for keyword: panadol
+[2026-05-28T21:00:32.978362400] [INVENTORY] Medicine search performed for keyword: panadol
+[2026-05-28T21:00:34.815798400] [INVENTORY] Medicine search performed for keyword: Paracetamol
+[2026-05-28T21:21:26.673427] [INVENTORY] Filtering medicine stock catalog by category type: tablet
+[2026-05-28T21:21:36.494826600] [INVENTORY] Medicine search performed for keyword: Panadol
+[2026-05-28T21:21:47.978873500] [INVENTORY] Medicine search performed for keyword: Paractamol
+[2026-05-28T21:21:59.258938] [INVENTORY] Medicine search performed for keyword: Brufen Syrup
+[2026-05-28T21:22:12.771569600] [INVENTORY] Filtering medicine stock catalog by category type: syrup
+[2026-05-28T21:26:02.973941500] [INVENTORY] Filtering medicine stock catalog by category type: tablet
+[2026-05-28T21:26:06.827487300] [INVENTORY] Filtering medicine stock catalog by category type: capsule
+[2026-05-28T21:26:08.826829600] [INVENTORY] Filtering medicine stock catalog by category type: injection
+[2026-05-28T21:26:10.715409] [INVENTORY] Filtering medicine stock catalog by category type: cream
+[2026-05-28T21:26:12.658918] [INVENTORY] Filtering medicine stock catalog by category type: tablet
+[2026-05-28T21:32:03.741276200] [INVENTORY] Filtering medicine stock catalog by category type: tablet
+[2026-05-28T21:32:06.665713500] [INVENTORY] Filtering medicine stock catalog by category type: syrup
+[2026-05-28T21:33:03.341593500] [INVENTORY] Filtering medicine stock catalog by category type: syrup
+[2026-05-28T21:33:07.648066900] [INVENTORY] Filtering medicine stock catalog by category type: tablet
+[2026-05-28T21:33:08.647892] [INVENTORY] Filtering medicine stock catalog by category type: capsule
+[2026-05-28T21:33:10.207327] [INVENTORY] Filtering medicine stock catalog by category type: injection
+[2026-05-28T21:33:11.447090900] [INVENTORY] Filtering medicine stock catalog by category type: cream
+[2026-05-28T21:33:12.215716200] [INVENTORY] Filtering medicine stock catalog by category type: drops
+[2026-05-28T21:33:14.207463900] [INVENTORY] Filtering medicine stock catalog by category type: tablet
+[2026-05-28T21:35:26.032532600] [INVENTORY] Filtering medicine stock catalog by category type: tablet
+[2026-05-28T21:35:27.780285400] [INVENTORY] Filtering medicine stock catalog by category type: Inhaler
+[2026-05-28T21:35:28.791360700] [INVENTORY] Filtering medicine stock catalog by category type: Suspension
+[2026-05-28T21:35:29.447298] [INVENTORY] Filtering medicine stock catalog by category type: Cream
+[2026-05-28T21:35:30.150862800] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-28T21:35:30.535189] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-28T21:35:31.030618700] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-28T21:35:31.607784500] [INVENTORY] Filtering medicine stock catalog by category type: Powder
+[2026-05-28T21:35:32.263489700] [INVENTORY] Filtering medicine stock catalog by category type: Tablet
+[2026-05-28T21:45:04.009593300] [INVENTORY] Fetching suggestions for prefix: pa
+[2026-05-28T21:45:04.965991600] [INVENTORY] Fetching suggestions for prefix: pana
+[2026-05-28T21:45:06.314269400] [INVENTORY] Medicine search performed for keyword: Panadol
+[2026-05-28T21:45:09.766536400] [INVENTORY] Fetching suggestions for prefix: pa
+[2026-05-28T21:45:13.787004400] [INVENTORY] Fetching suggestions for prefix: br
+[2026-05-28T21:45:16.375173100] [INVENTORY] Medicine search performed for keyword: Brufen
+[2026-05-28T21:45:23.442374200] [INVENTORY] Fetching suggestions for prefix: viagra
+[2026-05-28T21:45:53.525765500] [INVENTORY] Filtering medicine stock catalog by category type: Tablet
+[2026-05-28T21:45:54.528932] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-28T21:45:55.254679200] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-28T21:45:56.370213300] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-28T21:45:57.112097600] [INVENTORY] Filtering medicine stock catalog by category type: Drops
+[2026-05-28T21:45:57.686809700] [INVENTORY] Filtering medicine stock catalog by category type: Cream
+[2026-05-28T21:45:58.214457600] [INVENTORY] Filtering medicine stock catalog by category type: Inhaler
+[2026-05-28T21:45:58.686184700] [INVENTORY] Filtering medicine stock catalog by category type: Ointment
+[2026-05-28T21:45:59.205330200] [INVENTORY] Filtering medicine stock catalog by category type: Powder
+[2026-05-28T21:45:59.911337100] [INVENTORY] Filtering medicine stock catalog by category type: Suspension
+[2026-05-28T21:46:04.578957400] [INVENTORY] Fetching suggestions for prefix: Pa
+[2026-05-28T21:46:06.056348] [INVENTORY] Medicine search performed for keyword: Paracetamol
+[2026-05-28T21:46:09.306385500] [INVENTORY] Fetching suggestions for prefix: Bru
+[2026-05-28T21:46:10.209067] [INVENTORY] Medicine search performed for keyword: Brufen Syrup
+[2026-05-28T21:46:13.686157500] [INVENTORY] Fetching suggestions for prefix: Viag
+[2026-05-28T21:46:14.621094500] [INVENTORY] Fetching suggestions for prefix: Viagra
+[2026-05-28T21:46:14.661072400] [INVENTORY] Medicine search performed for keyword: Viagra
+[2026-05-28T21:51:46.489959700] [INVENTORY] Medicine search performed for keyword: Viagra
+[2026-05-28T21:51:53.187543200] [INVENTORY] Fetching suggestions for prefix: Pa
+[2026-05-28T21:52:03.109884500] [INVENTORY] Fetching suggestions for prefix: Bru
+[2026-05-28T21:52:03.700478300] [INVENTORY] Fetching suggestions for prefix: Brufen
+[2026-05-28T21:52:26.014382200] [INVENTORY] Fetching suggestions for prefix: Ri
+[2026-05-28T21:52:26.491655900] [INVENTORY] Fetching suggestions for prefix: Rig
+[2026-05-28T21:52:33.969528200] [INVENTORY] Fetching suggestions for prefix: Ve
+[2026-05-28T21:52:39.722628500] [INVENTORY] Fetching suggestions for prefix: Po
+[2026-05-28T21:53:08.796357800] [INVENTORY] Fetching suggestions for prefix: Zi
+[2026-05-28T21:53:17.059364200] [INVENTORY] Fetching suggestions for prefix: PA
+[2026-05-28T21:53:20.495768800] [INVENTORY] Fetching suggestions for prefix: Qe
+[2026-05-28T21:53:33.650631900] [INVENTORY] Fetching suggestions for prefix: Be
+[2026-05-28T21:53:46.150039200] [INVENTORY] Filtering medicine stock catalog by category type: Powder
+[2026-05-28T21:53:47.058365300] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-28T21:54:03.341786800] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T21:54:03.793304700] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T21:54:03.813293700] [DASHBOARD] Fetching medicine count.
+[2026-05-28T21:54:03.819290400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T21:54:03.823752800] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T21:54:03.827127700] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:03:39.648182500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T22:03:39.902140600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T22:03:39.908139] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T22:03:39.911136400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:03:40.815582300] [DASHBOARD] Fetching medicine count.
+[2026-05-28T22:03:40.823583400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T22:03:40.828574500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T22:03:40.830573700] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:03:57.058542700] [DASHBOARD] Fetching medicine count.
+[2026-05-28T22:03:57.066537400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T22:03:57.071536300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T22:03:57.074534500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:05:23.956145500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T22:05:24.151681600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T22:05:24.169670600] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T22:05:24.176665900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:07:32.766673400] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T22:07:33.253392200] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T22:07:33.263386600] [DASHBOARD] Fetching medicine count.
+[2026-05-28T22:07:33.266386100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T22:07:33.270383500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T22:07:33.273383300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:26:28.416898600] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T22:26:29.052276] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T22:26:29.072815500] [DASHBOARD] Fetching medicine count.
+[2026-05-28T22:26:29.164700300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T22:26:29.168710400] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T22:26:29.172711700] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:26:46.714895700] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T22:26:46.723890500] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T22:26:46.730886200] [DASHBOARD] Fetching medicine count.
+[2026-05-28T22:26:46.735882600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T22:26:46.738881] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T22:26:46.740879800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:27:13.815739500] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-28T22:27:14.467786500] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-28T22:27:14.487760100] [DASHBOARD] Fetching medicine count.
+[2026-05-28T22:27:14.592701200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-28T22:27:14.596697200] [DASHBOARD] Fetching Expired medicine count
+[2026-05-28T22:27:14.599695900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-28T22:27:21.491147200] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T22:27:23.483682100] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-28T22:27:24.529824100] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-28T22:27:25.218698300] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-28T22:27:27.491731300] [INVENTORY] Fetching low stock medicines.
+[2026-05-28T22:27:28.578756900] [INVENTORY] Fetching expired medicines.
+[2026-05-28T22:27:31.073426700] [INVENTORY] Filtering medicine stock catalog by category type: Tablet
+[2026-05-28T22:27:32.802011900] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-28T22:27:33.319830600] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-28T22:27:33.795555400] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-28T22:27:35.106688700] [INVENTORY] Filtering medicine stock catalog by category type: Suspension
+[2026-05-28T22:27:35.650387200] [INVENTORY] Filtering medicine stock catalog by category type: Drops
+[2026-05-28T22:27:36.170841] [INVENTORY] Filtering medicine stock catalog by category type: Cream
+[2026-05-28T22:27:37.323758800] [INVENTORY] Filtering medicine stock catalog by category type: Inhaler
+[2026-05-28T22:27:42.210079100] [INVENTORY] Fetching expired medicines.
+[2026-05-28T22:27:53.683645600] [INVENTORY] Fetching expired medicines.
+[2026-05-28T22:27:58.169795300] [INVENTORY] Filtering medicine stock catalog by category type: Drops
+[2026-05-28T22:28:05.465937700] [INVENTORY] Fetching expired medicines.

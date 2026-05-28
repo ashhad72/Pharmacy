@@ -13,6 +13,8 @@ import com.sda.pharmacy.observer.LowStockObserver;
 import com.sda.pharmacy.repository.MedicineRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -286,4 +288,34 @@ public class MedicineService {
         return medicineRepository
                 .getMedicineStockView();
     }
+    // -----------------------------------
+// Autocomplete Suggestions
+// -----------------------------------
+
+    public List<String> getSuggestions(String prefix) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching suggestions for prefix: " + prefix
+                );
+
+        if (prefix == null || prefix.trim().isEmpty()) {
+            return List.of();
+        }
+
+        return medicineRepository.getSuggestions(prefix.trim());
+    }
+
+
+    public List<Medicine> getMedicinesByCategory(String type) {
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Filtering medicine stock catalog by category type: " + type
+                );
+
+        return medicineRepository.findMedicinesByCategoryName(type);
+    }
+
 }

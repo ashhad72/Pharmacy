@@ -7,9 +7,12 @@ import com.sda.pharmacy.command.AddMedicineCommand;
 import com.sda.pharmacy.command.DeleteMedicineCommand;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class MedicineController {
@@ -46,6 +49,21 @@ public class MedicineController {
         commandInvoker.executeCommand(command);
 
         return "redirect:/medicines";
+    }
+    // -----------------------------------
+// GET /api/medicines/suggestions?q=Pa
+// -----------------------------------
+
+    @GetMapping("/suggestions")
+    public ResponseEntity<List<String>> getSuggestions(
+            @RequestParam("q") String query) {
+
+        if (query == null || query.trim().length() < 2) {
+            return ResponseEntity.ok(List.of());
+        }
+
+        List<String> suggestions = medicineService.getSuggestions(query);
+        return ResponseEntity.ok(suggestions);
     }
 
     // Delete Medicine
@@ -101,4 +119,14 @@ public class MedicineController {
 
         return "medicine-inventory";
     }
+    // Controller
+    @GetMapping("/medicines/category/{type}")
+    public String getMedicinesByCategory(@PathVariable String type, Model model) {
+        // Fetches the filtered dataset and passes it directly to your existing inventory UI array
+        model.addAttribute("medicines", medicineService.getMedicinesByCategory(type));
+        return "medicine-inventory";
+    }
+
+    // Service + Repository
+
 }

@@ -1,65 +1,367 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Billing System</title>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Billing Counter - MediTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 
+    <style>
+            body { background-color: var(--bg-primary); }
+
+            /* Premium Sticky Top Global Matrix Navbar */
+            .top-navbar {
+                position: sticky;
+                top: 0;
+                background: linear-gradient(90deg, #064e3b 0%, #022c22 100%);
+                padding: 0.85rem 2rem;
+                z-index: 1000;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: var(--shadow-md);
+            }
+            .top-navbar .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+            .top-navbar .nav-link {
+                color: rgba(255,255,255,0.8);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.95rem;
+                transition: var(--transition);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+                border-radius: var(--radius-sm);
+            }
+            .top-navbar .nav-link:hover, .top-navbar .nav-link.active {
+                color: white;
+                background: rgba(255,255,255,0.1);
+            }
+
+            /* Billing Workspace Setup */
+            .billing-workspace {
+                display: grid;
+                grid-template-columns: 1.1fr 0.9fr;
+                gap: 2rem;
+                margin-top: 1.5rem;
+            }
+            @media (max-width: 992px) {
+                .billing-workspace { grid-template-columns: 1fr; }
+            }
+
+            .billing-card {
+                background: var(--bg-surface);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-sm);
+                padding: 1.75rem;
+            }
+
+            .section-divider {
+                border-top: 1px dashed var(--border-color);
+                margin: 1.5rem 0;
+                opacity: 0.5;
+            }
+            /* Autocomplete Dropdown Search Component Styles */
+        .search-wrapper { position: relative; }
+        .search-input-group {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm, 6px);
+            transition: var(--transition);
+        }
+        .search-input-group:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            background: white;
+        }
+        .search-input-group .search-icon {
+            padding: 0 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .search-input-group input {
+            border: none !important;
+            background: transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 0.6rem 0.75rem 0.6rem 0;
+            font-size: 0.92rem;
+        }
+
+        .suggestions-dropdown {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm, 6px);
+            box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0,0,0,0.1));
+            list-style: none;
+            margin: 0;
+            padding: 0.35rem 0;
+            z-index: 1050;
+            display: none;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+        .suggestions-dropdown li {
+            padding: 0.65rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.12s;
+        }
+        .suggestions-dropdown li.active,
+        .suggestions-dropdown li:hover {
+            background: var(--primary-light, #d1fae5) !important;
+            color: var(--primary-dark, #047857) !important;
+        }
+        .suggestions-dropdown li .suggestion-highlight {
+            font-weight: 700;
+        }
+        .suggestions-dropdown li .stock-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(0,0,0,0.05);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
 <body>
 
-<h1>Pharmacy Billing System</h1>
+<header class="top-navbar">
+    <div class="d-flex align-items-center">
+        <div style="height: 36px; width: 36px; background: rgba(255,255,255,0.15); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #34d399;">
+            💊
+        </div>
+        <span class="ms-2 fw-bold text-white fs-5" style="letter-spacing: -0.5px;">MediTrack</span>
+    </div>
+    <nav class="nav-links">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="/medicines" class="nav-link"><i class="fas fa-boxes-stacked"></i> Inventory</a>
+        <a href="/billing" class="nav-link active"><i class="fas fa-file-invoice-dollar"></i> POS Counter</a>
+        <a href="/sales/reports" class="nav-link"><i class="fas fa-chart-bar"></i> Sales Reports</a>
+        <a href="/logout" class="nav-link text-danger-light"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+</header>
 
-<hr>
+<main class="app-container">
 
-<form action="/billing/create"
-      method="post">
+    <div class="mb-4">
+        <h1 class="fw-bold text-dark mb-1" style="font-size: 1.75rem;">Point of Sale Terminal</h1>
+        <p class="text-muted mb-0">Dispense prescription compounds and generate digital checkout customer invoices instantly.</p>
+    </div>
 
-    <h2>Customer Details</h2>
+    <div class="billing-workspace">
 
-    <label>Customer Name:</label>
+        <div class="billing-card">
+            <form th:action="@{/billing/create}" method="post">
 
-    <input type="text"
-           name="customerName"
-           required>
+                <h4 class="fw-bold text-dark mb-3" style="font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-address-card text-success"></i> 1. Customer Identification
+                </h4>
 
-    <br><br>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Customer Full Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-user text-muted" style="font-size: 0.85rem;"></i></span>
+                            <input type="text" name="customerName" class="form-control border-start-0" placeholder="Customer Name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Phone Number</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-phone text-muted" style="font-size: 0.85rem;"></i></span>
+                            <input type="text" name="phoneNumber" class="form-control border-start-0" placeholder="e.g. 03001234567">
+                        </div>
+                    </div>
+                </div>
 
-    <label>Phone Number:</label>
+                <div class="section-divider"></div>
 
-    <input type="text"
-           name="phoneNumber">
+                <h4 class="fw-bold text-dark mb-3" style="font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-capsules text-success"></i> 2. Prescription Asset Dispatch
+                </h4>
 
-    <br><br>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold text-muted">Select Medicine</label>
+                        <div class="search-wrapper">
+                            <div class="search-input-group">
+                                <span class="search-icon"><i class="fas fa-search"></i></span>
+                                <input
+                                        type="text"
+                                        id="medicineSearchInput"
+                                        class="form-control"
+                                        placeholder="Type name, e.g. Panadol..."
+                                        autocomplete="off"
+                                        required
+                                />
+                            </div>
+                            <ul class="suggestions-dropdown" id="suggestionsDropdown"></ul>
+                        </div>
 
-    <h2>Medicine Details</h2>
+                        <input type="hidden" name="medicineId" id="hiddenMedicineId" required />
+                    </div>
 
-    <label>Medicine ID:</label>
+                    <div class="col-md-12">
+                        <label class="form-label small fw-semibold text-muted">Dispense Unit Quantity</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-boxes-stacked text-muted" style="font-size: 0.85rem;"></i></span>
+                            <input type="number" name="quantity" class="form-control border-start-0" value="1" min="1" required>
+                        </div>
+                    </div>
+                </div>
 
-    <input type="number"
-           name="medicineId"
-           required>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2.5 shadow-sm" style="background-color: var(--primary) !important; border: none;">
+                        <i class="fa-solid fa-cash-register me-2"></i> Commit Sale & Generate Invoice
+                    </button>
+                </div>
+            </form>
+        </div>
 
-    <br><br>
+        <div class="d-flex flex-column gap-3">
+            <div class="billing-card" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border-color: #bbf7d0;">
+                <h5 class="fw-bold text-success mb-2" style="font-size: 1rem;"><i class="fa-solid fa-circle-info me-2"></i>Operational Guide</h5>
+                <p class="small text-secondary mb-0" style="line-height: 1.5;">
+                    This portal connects directly to your active inventory architecture. When a customer checkout is finalized, stock counts will decrement automatically in the system log database.
+                </p>
+            </div>
 
-    <label>Quantity:</label>
+        </div>
 
-    <input type="number"
-           name="quantity"
-           required>
+    </div>
+</main>
 
-    <br><br>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // ═══════════════════════════════════
+    // POS AUTOCOMPLETE SEARCH ENGINE
+    // ═══════════════════════════════════
+    const searchInput      = document.getElementById('medicineSearchInput');
+    const suggestBox       = document.getElementById('suggestionsDropdown');
+    const hiddenMedicineId = document.getElementById('hiddenMedicineId');
+    let debounceTimer;
+    let activeSuggestion   = -1;
 
-    <button type="submit">
-        Generate Bill
-    </button>
+    searchInput.addEventListener('input', function () {
+        const q = this.value.trim();
+        clearTimeout(debounceTimer);
+        activeSuggestion = -1;
 
-</form>
+        if (q.length < 2) {
+            hideSuggestions();
+            return;
+        }
 
-<br><br>
+        debounceTimer = setTimeout(() => {
+            // Pointing directly to your active search endpoint
+            fetch(`/suggestions?q=${encodeURIComponent(q)}`)
+                .then(r => r.json())
+                .then(items => {
+                    // Note: If your endpoint returns an array of Strings, we handle it natively.
+                    // If your endpoint yields full Objects, map accordingly.
+                    renderSuggestions(items, q);
+                })
+                .catch(() => hideSuggestions());
+        }, 250);
+    });
 
-<a href="/dashboard">
-    Back to Dashboard
-</a>
+    function renderSuggestions(items, query) {
+        suggestBox.innerHTML = '';
+        if (!items || items.length === 0) { hideSuggestions(); return; }
 
+        items.forEach(item => {
+            const li = document.createElement('li');
+
+            // Supporting both Object structures and pure String structures
+            const isObject = typeof item === 'object' && item !== null;
+            const name = isObject ? item.medicineName : item;
+            const id = isObject ? item.medicineId : item; // Fallback if string matches database query criteria
+
+            // Bold matching character patterns inside tracking names
+            const idx = name.toLowerCase().indexOf(query.toLowerCase());
+            if (idx !== -1) {
+                li.innerHTML = `<div><i class="fas fa-capsules me-2 text-success opacity-75"></i>`
+                    + name.substring(0, idx)
+                    + `<span class="suggestion-highlight">${name.substring(idx, idx + query.length)}</span>`
+                    + name.substring(idx + query.length) + `</div>`;
+            } else {
+                li.innerHTML = `<div><i class="fas fa-capsules me-2 text-success opacity-75"></i>${name}</div>`;
+            }
+
+            // Display metadata hints if item objects are present
+            if (isObject && item.quantityInStock !== undefined) {
+                li.innerHTML += `<span class="stock-badge">Qty: ${item.quantityInStock} | Rs.${item.price}</span>`;
+            }
+
+            // Click Handler Setup
+            li.addEventListener('mousedown', () => {
+                selectMedicine(id, name);
+            });
+
+            suggestBox.appendChild(li);
+        });
+        suggestBox.style.display = 'block';
+    }
+
+    function selectMedicine(id, name) {
+        searchInput.value = name;
+        hiddenMedicineId.value = id; // Syncs target selection to the backend form post route
+        hideSuggestions();
+    }
+
+    // Keyboard Arrow Keys Matrix Navigation mapping
+    searchInput.addEventListener('keydown', function (e) {
+        const items = suggestBox.querySelectorAll('li');
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeSuggestion = Math.min(activeSuggestion + 1, items.length - 1);
+            highlightSuggestion(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeSuggestion = Math.max(activeSuggestion - 1, -1);
+            highlightSuggestion(items);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeSuggestion >= 0 && items[activeSuggestion]) {
+                items[activeSuggestion].dispatchEvent(new Event('mousedown'));
+            }
+        } else if (e.key === 'Escape') {
+            hideSuggestions();
+        }
+    });
+
+    function highlightSuggestion(items) {
+        items.forEach((li, i) => li.classList.toggle('active', i === activeSuggestion));
+        if (activeSuggestion >= 0) items[activeSuggestion].scrollIntoView({ block: 'nearest' });
+    }
+
+    function hideSuggestions() {
+        suggestBox.style.display = 'none';
+        suggestBox.innerHTML = '';
+    }
+
+    document.addEventListener('click', e => {
+        if (!searchInput.contains(e.target) && !suggestBox.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+</script>
 </body>
 </html>
