@@ -98,25 +98,16 @@ public class MedicineController {
 
     // Low Stock Medicines
     @GetMapping("/medicines/low-stock")
-    public String lowStockMedicines(Model model) {
-
-        model.addAttribute(
-                "medicines",
-                medicineService.getLowStockMedicines()
-        );
-
+    public String getLowStockMedicines(Model model) {
+        model.addAttribute("medicines", medicineService.getLowStockMedicines());
+        model.addAttribute("currentView", "low-stock"); // ← make sure this is here
         return "medicine-inventory";
     }
 
-    // Expired Medicines
     @GetMapping("/medicines/expired")
-    public String expiredMedicines(Model model) {
-
-        model.addAttribute(
-                "medicines",
-                medicineService.getExpiredMedicines()
-        );
-
+    public String getExpiredMedicines(Model model) {
+        model.addAttribute("medicines", medicineService.getExpiredMedicines());
+        model.addAttribute("currentView", "expired"); // ← and this
         return "medicine-inventory";
     }
     // Controller
@@ -126,7 +117,43 @@ public class MedicineController {
         model.addAttribute("medicines", medicineService.getMedicinesByCategory(type));
         return "medicine-inventory";
     }
+// -----------------------------------
+// Low Stock by Category
+// -----------------------------------
 
+    @GetMapping("/medicines/low-stock/category/{type}")
+    public String getLowStockByCategory(
+            @PathVariable String type,
+            Model model) {
+
+        model.addAttribute(
+                "medicines",
+                medicineService.getLowStockByCategory(type)
+        );
+        model.addAttribute("currentView", "low-stock");
+        model.addAttribute("type", type);
+
+        return "medicine-inventory";
+    }
+
+// -----------------------------------
+// Expired by Category
+// -----------------------------------
+
+    @GetMapping("/medicines/expired/category/{type}")
+    public String getExpiredByCategory(
+            @PathVariable String type,
+            Model model) {
+
+        model.addAttribute(
+                "medicines",
+                medicineService.getExpiredByCategory(type)
+        );
+        model.addAttribute("currentView", "expired");
+        model.addAttribute("type", type);
+
+        return "medicine-inventory";
+    }
     // Service + Repository
 
 }

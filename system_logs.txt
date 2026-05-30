@@ -583,3 +583,223 @@
 [2026-05-28T22:27:53.683645600] [INVENTORY] Fetching expired medicines.
 [2026-05-28T22:27:58.169795300] [INVENTORY] Filtering medicine stock catalog by category type: Drops
 [2026-05-28T22:28:05.465937700] [INVENTORY] Fetching expired medicines.
+[2026-05-30T15:47:24.571308800] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T15:47:25.239631400] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T15:47:25.263619400] [DASHBOARD] Fetching medicine count.
+[2026-05-30T15:47:25.372555800] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T15:47:25.389545] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T15:47:25.393543300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T15:47:25.469499400] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T15:47:25.477495400] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T15:47:25.586432] [DASHBOARD] Fetching medicine count.
+[2026-05-30T15:47:25.591430400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T15:47:25.596426400] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T15:47:25.599425500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T15:47:28.502420600] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T15:47:30.347843300] [INVENTORY] Filtering medicine stock catalog by category type: Tablet
+[2026-05-30T15:47:31.465697700] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-30T15:47:32.534249500] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-30T15:47:33.076279500] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-30T15:47:34.246986200] [DASHBOARD] Fetching medicine count.
+[2026-05-30T15:47:34.249985100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T15:47:34.252984500] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T15:47:34.256979900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T15:48:05.915283800] [INVENTORY] Filtering medicine stock catalog by category type: Ointment
+[2026-05-30T15:48:08.478204600] [INVENTORY] Filtering medicine stock catalog by category type: Powder
+[2026-05-30T15:48:09.645850500] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-30T15:48:16.666070200] [INVENTORY] Fetching suggestions for prefix: Xy
+[2026-05-30T15:48:18.248899100] [INVENTORY] Medicine search performed for keyword: Xylocaine Injection
+[2026-05-30T15:57:09.440597100] [MEDICINE] Starting medicine addition process.
+[2026-05-30T15:57:09.442556700] [MEDICINE] Medicine object created using Factory Pattern.
+[2026-05-30T15:57:09.444554700] [MEDICINE] Supplier resolved successfully.
+[2026-05-30T15:57:09.599498200] [MEDICINE] Add medicine procedure executed successfully.
+[2026-05-30T15:57:09.599498200] [INVENTORY] Inventory observers notified.
+[2026-05-30T15:57:09.600497600] [INVENTORY] Medicine added successfully: Sita-Met 50/500
+[2026-05-30T15:57:15.048775100] [INVENTORY] Fetching suggestions for prefix: Sita
+[2026-05-30T15:57:16.133383600] [INVENTORY] Medicine search performed for keyword: Sita-Met 50/500
+[2026-05-30T15:57:27.224360700] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T15:57:29.531244400] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T15:57:31.067326300] [INVENTORY] Fetching expired medicines.
+[2026-05-30T15:57:32.091589300] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T15:57:37.731275400] [INVENTORY] Fetching expired medicines.
+[2026-05-30T15:57:39.203350500] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T15:57:43.585534700] [MEDICINE] Deleting medicine with ID: 106
+[2026-05-30T15:57:43.728893100] [INVENTORY] Medicine deleted successfully.
+[2026-05-30T15:57:46.684628700] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T15:57:47.731315] [INVENTORY] Fetching expired medicines.
+[2026-05-30T15:57:48.466770600] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T15:58:17.819097300] [MEDICINE] Starting medicine addition process.
+[2026-05-30T15:58:17.820096800] [MEDICINE] Medicine object created using Factory Pattern.
+[2026-05-30T15:58:17.820096800] [MEDICINE] Supplier resolved successfully.
+[2026-05-30T15:58:17.840084600] [MEDICINE] Add medicine procedure executed successfully.
+[2026-05-30T15:58:17.841084100] [INVENTORY] Inventory observers notified.
+[2026-05-30T15:58:17.841084100] [INVENTORY] Medicine added successfully: Sita-Met 50/500
+[2026-05-30T15:58:25.852399400] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T16:12:45.398550700] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T16:12:48.661529] [MEDICINE] Deleting medicine with ID: 107
+[2026-05-30T16:12:48.696557400] [INVENTORY] Medicine deleted successfully.
+[2026-05-30T16:13:23.500134300] [MEDICINE] Starting medicine addition process.
+[2026-05-30T16:13:23.501118] [MEDICINE] Medicine object created using Factory Pattern.
+[2026-05-30T16:13:23.501118] [MEDICINE] Supplier resolved successfully.
+[2026-05-30T16:14:13.851954500] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T16:14:14.563745100] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T16:14:14.589730400] [DASHBOARD] Fetching medicine count.
+[2026-05-30T16:14:14.705663700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T16:14:14.713658400] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T16:14:14.717656800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T16:14:59.536963500] [MEDICINE] Starting medicine addition process.
+[2026-05-30T16:14:59.537963500] [MEDICINE] Medicine object created using Factory Pattern.
+[2026-05-30T16:14:59.539481500] [MEDICINE] Supplier resolved successfully.
+[2026-05-30T16:14:59.673404400] [MEDICINE] Add medicine procedure executed successfully.
+[2026-05-30T16:14:59.674402300] [INVENTORY] Inventory observers notified.
+[2026-05-30T16:14:59.674402300] [INVENTORY] Medicine added successfully: Sita-Met 50/500
+[2026-05-30T16:15:03.767367100] [INVENTORY] Fetching suggestions for prefix: Sita
+[2026-05-30T16:15:04.689846300] [INVENTORY] Medicine search performed for keyword: Sita-Met 50/500
+[2026-05-30T16:19:38.939647400] [MEDICINE] Deleting medicine with ID: 108
+[2026-05-30T16:19:39.024585200] [INVENTORY] Medicine deleted successfully.
+[2026-05-30T16:21:08.206778700] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T16:21:08.213775] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T16:21:08.219770700] [DASHBOARD] Fetching medicine count.
+[2026-05-30T16:21:08.224868200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T16:21:08.226851600] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T16:21:08.228849800] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T16:30:58.399019300] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T16:30:59.939269700] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:31:00.524975400] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-30T16:31:05.261980] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-30T16:31:11.412239800] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:31:14.612150500] [INVENTORY] Filtering medicine stock catalog by category type: Tablet
+[2026-05-30T16:31:15.859116800] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:41:11.014464300] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T16:41:11.689440800] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T16:41:11.713427300] [DASHBOARD] Fetching medicine count.
+[2026-05-30T16:41:11.841354200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T16:41:11.847350700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T16:41:11.851347700] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T16:44:20.373916500] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T16:44:21.079135800] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T16:44:21.102122100] [DASHBOARD] Fetching medicine count.
+[2026-05-30T16:44:21.208667600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T16:44:21.211665900] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T16:44:21.215663900] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T16:46:38.851149500] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T16:46:39.501774900] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T16:46:39.530759700] [DASHBOARD] Fetching medicine count.
+[2026-05-30T16:46:39.639695] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T16:46:39.643806100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T16:46:39.646789] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T16:53:36.124677600] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T16:53:36.826361400] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T16:53:36.861341800] [DASHBOARD] Fetching medicine count.
+[2026-05-30T16:53:37.010567100] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T16:53:37.018065900] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T16:53:37.023816100] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T16:53:41.415418300] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-30T16:53:44.210411700] [INVENTORY] Filtering medicine stock catalog by category type: Tablet
+[2026-05-30T16:53:46.056313] [INVENTORY] Filtering medicine stock catalog by category type: Powder
+[2026-05-30T16:53:47.938238300] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-30T16:53:49.169078500] [INVENTORY] Filtering medicine stock catalog by category type: Inhaler
+[2026-05-30T16:53:59.442746900] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:54:00.318775900] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T16:54:02.901956700] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T16:54:04.446339100] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:54:08.021223] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:54:09.214313600] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T16:54:10.372257800] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:54:24.088271300] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-30T16:54:30.959944900] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-30T16:55:47.456148300] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:55:49.389140300] [INVENTORY] Fetching expired medicines.
+[2026-05-30T16:57:16.238532600] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T16:57:16.971360300] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T16:57:16.995346900] [DASHBOARD] Fetching medicine count.
+[2026-05-30T16:57:17.122273700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T16:57:17.128270] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T16:57:17.132270300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T16:57:20.021081200] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-30T16:57:21.101386400] [INVENTORY] Fetching expired medicines for category: Syrup
+[2026-05-30T16:57:23.901421600] [INVENTORY] Fetching expired medicines for category: Syrup
+[2026-05-30T17:00:53.726749600] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T17:00:54.453881500] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T17:00:54.479867300] [DASHBOARD] Fetching medicine count.
+[2026-05-30T17:00:54.582806700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T17:00:54.585806700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T17:00:54.588804500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T17:00:58.398620200] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T17:01:01.431088500] [INVENTORY] Fetching expired medicines.
+[2026-05-30T17:01:05.530567400] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-30T17:01:06.030280700] [INVENTORY] Fetching low stock medicines for category: Capsule
+[2026-05-30T17:01:10.085129] [INVENTORY] Fetching expired medicines for category: Capsule
+[2026-05-30T17:01:12.495547500] [INVENTORY] Filtering medicine stock catalog by category type: Drops
+[2026-05-30T17:01:13.011654700] [INVENTORY] Fetching expired medicines for category: Drops
+[2026-05-30T17:01:16.293101300] [INVENTORY] Fetching expired medicines for category: Drops
+[2026-05-30T17:01:19.573094500] [INVENTORY] Fetching expired medicines for category: Drops
+[2026-05-30T17:01:25.556725100] [INVENTORY] Fetching expired medicines.
+[2026-05-30T17:03:04.830379600] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T17:03:05.495732600] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T17:03:05.518703800] [DASHBOARD] Fetching medicine count.
+[2026-05-30T17:03:05.634637800] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T17:03:05.638636] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T17:03:05.642633200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T17:03:08.585082600] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-30T17:03:09.532786300] [INVENTORY] Fetching low stock medicines for category: Capsule
+[2026-05-30T17:03:10.707854900] [INVENTORY] Fetching expired medicines for category: Capsule
+[2026-05-30T17:03:21.655025600] [INVENTORY] Fetching expired medicines for category: Cream
+[2026-05-30T17:03:23.718831700] [INVENTORY] Fetching expired medicines for category: Tablet
+[2026-05-30T17:03:26.790834200] [INVENTORY] Fetching suggestions for prefix: pa
+[2026-05-30T17:03:28.345063500] [INVENTORY] Medicine search performed for keyword: Paracetamol
+[2026-05-30T17:03:30.403039300] [INVENTORY] Fetching expired medicines.
+[2026-05-30T17:03:32.652490900] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T17:03:34.565714800] [INVENTORY] Fetching low stock medicines for category: Tablet
+[2026-05-30T17:03:38.696312400] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-30T17:03:57.297172] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-30T17:04:00.528468400] [INVENTORY] Filtering medicine stock catalog by category type: Syrup
+[2026-05-30T17:04:01.739918200] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-30T17:04:03.395660200] [INVENTORY] Filtering medicine stock catalog by category type: Cream
+[2026-05-30T17:04:04.559714300] [INVENTORY] Filtering medicine stock catalog by category type: Ointment
+[2026-05-30T17:04:05.960831900] [INVENTORY] Filtering medicine stock catalog by category type: Capsule
+[2026-05-30T17:04:07.087511100] [INVENTORY] Filtering medicine stock catalog by category type: Tablet
+[2026-05-30T17:04:07.893119300] [INVENTORY] Fetching low stock medicines for category: Tablet
+[2026-05-30T17:04:10.982862800] [INVENTORY] Fetching expired medicines for category: Tablet
+[2026-05-30T17:04:13.111936300] [INVENTORY] Fetching expired medicines for category: Syrup
+[2026-05-30T17:04:14.248408500] [INVENTORY] Fetching expired medicines for category: Capsule
+[2026-05-30T17:04:15.410212400] [INVENTORY] Fetching expired medicines for category: Drops
+[2026-05-30T17:04:17.036272700] [INVENTORY] Fetching expired medicines.
+[2026-05-30T17:04:20.984464200] [INVENTORY] Fetching expired medicines for category: Tablet
+[2026-05-30T17:04:25.792275700] [INVENTORY] Fetching suggestions for prefix: pa
+[2026-05-30T17:04:27.252338] [INVENTORY] Medicine search performed for keyword: Paracetamol
+[2026-05-30T17:06:25.420276100] [DASHBOARD] Fetching medicine count.
+[2026-05-30T17:06:25.425263500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T17:06:25.427261300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T17:06:25.430260200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T17:06:32.526013900] [DASHBOARD] Fetching medicine count.
+[2026-05-30T17:06:32.538006400] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T17:06:32.541005100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T17:06:32.544003500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T17:19:09.347643800] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T17:19:10.550937600] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T17:19:10.557933600] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T17:19:10.573924600] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T17:19:10.613901100] [DASHBOARD] Fetching medicine count.
+[2026-05-30T17:19:10.780806] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T17:19:10.786801100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T17:19:10.790798700] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T17:19:29.523066] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T17:19:58.417496900] [INVENTORY] Fetching expired medicines.
+[2026-05-30T17:20:02.433033] [INVENTORY] Fetching low stock medicines.
+[2026-05-30T17:20:40.095737700] [AUTH] Login attempt for Username: Main Pharmacy Admin
+[2026-05-30T17:20:40.102733300] [AUTH] Login successful for: Main Pharmacy Admin
+[2026-05-30T17:20:40.109727900] [DASHBOARD] Fetching medicine count.
+[2026-05-30T17:20:40.112726300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T17:20:40.116741] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T17:20:40.119737200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T17:20:44.640323800] [DASHBOARD] Fetching medicine count.
+[2026-05-30T17:20:44.643321700] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T17:20:44.648334100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T17:20:44.653321500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T17:20:48.054605300] [DASHBOARD] Fetching medicine count.
+[2026-05-30T17:20:48.057603300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-30T17:20:48.061601400] [DASHBOARD] Fetching Expired medicine count
+[2026-05-30T17:20:48.066597400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-30T17:21:12.828275800] [MEDICINE] Deleting medicine with ID: 104
+[2026-05-30T17:21:12.934458200] [INVENTORY] Medicine deleted successfully.

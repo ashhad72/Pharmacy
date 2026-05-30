@@ -118,7 +118,8 @@ public class MedicineService {
 
                 Date.valueOf(
                         newMedicine.getExpiryDate()
-                )
+                ),
+                newMedicine.getBatchNumber()
         );
 
         SystemLogger.getInstance()
@@ -181,7 +182,37 @@ public class MedicineService {
     // -----------------------------------
     // Search Medicine Procedure
     // -----------------------------------
+// -----------------------------------
+// Low Stock by Category
+// -----------------------------------
 
+    public List<Medicine> getLowStockByCategory(String type) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching low stock medicines for category: " + type
+                );
+
+        return medicineRepository
+                .getLowStockByCategory(type);
+    }
+
+// -----------------------------------
+// Expired by Category
+// -----------------------------------
+
+    public List<Medicine> getExpiredByCategory(String type) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching expired medicines for category: " + type
+                );
+
+        return medicineRepository
+                .getExpiredByCategory(type);
+    }
     public List<Medicine> searchMedicine(String keyword) {
 
         SystemLogger.getInstance()
