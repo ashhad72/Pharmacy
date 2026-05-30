@@ -1,23 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MediTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
-<body>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg-primary);">
 
-<h2>Login Form</h2>
+<div class="login-container" style="max-width: 420px; width: 100%; padding: 1.5rem;">
 
-<form action="/login" method="post">
+    <div class="login-header" style="text-align: center; margin-bottom: 2rem;">
+        <div style="height: 56px; width: 56px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem;">
+            <i class="fas fa-fingerprint"></i>
+        </div>
+        <h2 style="font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em;">Welcome Back</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Enter your credentials to access the pharmacy portal.</p>
+    </div>
 
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br><br>
+    <div th:if="${error}" class="animate__animated animate__shakeX"
+         style="margin-bottom: 1.25rem; padding: 0.85rem 1.25rem; background: var(--danger-light); color: var(--danger); border-radius: var(--radius-sm); border: 1px solid #fee2e2; font-size: 0.9rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 500;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}">Error message goes here</span>
+    </div>
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+    <div th:if="${logout}"
+         style="margin-bottom: 1.25rem; padding: 0.85rem 1.25rem; background: #eff6ff; color: #1d4ed8; border-radius: var(--radius-sm); border: 1px solid #dbeafe; font-size: 0.9rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 500;">
+        <i class="fas fa-info-circle"></i>
+        <span>You have been successfully logged out.</span>
+    </div>
 
-    <button type="submit">Login</button>
+    <div class="card" style="box-shadow: var(--shadow-lg); border-radius: var(--radius-md); padding: 2.25rem;">
+        <form th:action="@{/login}" method="post" style="display: flex; flex-direction: column; gap: 1.25rem;">
 
-</form>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-user" style="color: var(--text-muted); font-size: 0.85rem;"></i> Username
+                </label>
+                <input type="text"
+                       name="fullName"
+                       class="form-control"
+                       placeholder="Enter your system username"
+                       required>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-lock" style="color: var(--text-muted); font-size: 0.85rem;"></i> Password
+                </label>
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="••••••••"
+                       required>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 0.85rem; font-weight: 600; font-size: 1rem; border-radius: var(--radius-sm); margin-top: 0.5rem; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">
+                Login <i class="fas fa-arrow-right" style="margin-left: 0.5rem; font-size: 0.9rem;"></i>
+            </button>
+        </form>
+    </div>
+
+    <p style="text-align: center; margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted);">
+        &copy; 2026 <strong>MediTrack</strong> | Enterprise Secure Access Terminal
+    </p>
+</div>
 
 </body>
 </html>

@@ -2,9 +2,19 @@ package com.sda.pharmacy.service;
 
 import com.sda.pharmacy.entity.Medicine;
 import com.sda.pharmacy.factory.MedicineFactory;
+import com.sda.pharmacy.singleton.SystemLogger;
+
+import com.sda.pharmacy.factory.SupplierFactory;
+import com.sda.pharmacy.nullobject.AbstractSupplier;
+import com.sda.pharmacy.observer.ExpiryObserver;
+import com.sda.pharmacy.observer.InventoryManager;
+import com.sda.pharmacy.observer.LowStockObserver;
+
 import com.sda.pharmacy.repository.MedicineRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -13,73 +23,223 @@ import java.util.List;
 @Service
 public class MedicineService {
 
-    @Autowired
-    private MedicineRepository medicineRepository;
+    private final MedicineRepository medicineRepository;
+
+    private final InventoryManager inventoryManager;
 
     // -----------------------------------
-    // Add Medicine using Factory + Procedure
+    // Constructor Injection
+    // -----------------------------------
+
+    @Autowired
+    public MedicineService(
+
+            MedicineRepository medicineRepository,
+            InventoryManager inventoryManager,
+            LowStockObserver lowStockObserver,
+            ExpiryObserver expiryObserver
+
+    ) {
+
+        this.medicineRepository = medicineRepository;
+
+        this.inventoryManager = inventoryManager;
+
+        inventoryManager.addObserver(lowStockObserver);
+
+        inventoryManager.addObserver(expiryObserver);
+    }
+
+    // -----------------------------------
+    // Add Medicine
+    // Factory Pattern + Procedure
+    // + Observer Notification
     // -----------------------------------
 
     public String addMedicine(Medicine medicine) {
 
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Starting medicine addition process."
+                );
+
         Medicine newMedicine =
+
                 MedicineFactory.createMedicine(
+
                         medicine.getMedicineName(),
+
                         medicine.getCategory(),
+
                         medicine.getSupplier(),
+
                         medicine.getBatchNumber(),
+
                         medicine.getPrice(),
+
                         medicine.getQuantityInStock(),
+
                         medicine.getManufactureDate(),
+
                         medicine.getExpiryDate(),
+
                         medicine.getDescription()
+                );
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Medicine object created using Factory Pattern."
+                );
+
+        AbstractSupplier supplier =
+
+                SupplierFactory.getSupplier(
+                        newMedicine.getSupplier()
+                );
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Supplier resolved successfully."
                 );
 
         medicineRepository.addMedicineProcedure(
+
                 newMedicine.getMedicineName(),
-                newMedicine.getCategory().getCategoryId(),
-                newMedicine.getSupplier().getSupplierId(),
+
+                newMedicine.getCategory()
+                        .getCategoryId(),
+
+                supplier.getSupplierId(),
+
                 newMedicine.getPrice(),
+
                 newMedicine.getQuantityInStock(),
-                Date.valueOf(newMedicine.getExpiryDate())
+
+                Date.valueOf(
+                        newMedicine.getExpiryDate()
+                ),
+                newMedicine.getBatchNumber()
         );
+
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Add medicine procedure executed successfully."
+                );
+
+        // Notify Observers
+
+        inventoryManager.notifyObservers();
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Inventory observers notified."
+                );
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Medicine added successfully: "
+                                + newMedicine.getMedicineName()
+                );
 
         return "Medicine Added Successfully";
     }
 
     // -----------------------------------
-    // Normal CRUD
+    // Delete Medicine
+    // + Observer Notification
     // -----------------------------------
 
-    public List<Medicine> getAllMedicines() {
-
-        return medicineRepository.findAll();
-    }
-
     public String deleteMedicine(int id) {
+        SystemLogger.getInstance()
+                .log(
+                        "MEDICINE",
+                        "Deleting medicine with ID: " + id
+                );
 
         medicineRepository.deleteById(id);
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Medicine deleted successfully."
+                );
 
         return "Medicine deleted successfully";
     }
 
     // -----------------------------------
-    // Search Procedure
+    // Get All Medicines
     // -----------------------------------
 
+    public List<Medicine> getAllMedicines() {
+        return medicineRepository.findAll();
+    }
+
+    // -----------------------------------
+    // Search Medicine Procedure
+    // -----------------------------------
+// -----------------------------------
+// Low Stock by Category
+// -----------------------------------
+
+    public List<Medicine> getLowStockByCategory(String type) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching low stock medicines for category: " + type
+                );
+
+        return medicineRepository
+                .getLowStockByCategory(type);
+    }
+
+// -----------------------------------
+// Expired by Category
+// -----------------------------------
+
+    public List<Medicine> getExpiredByCategory(String type) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching expired medicines for category: " + type
+                );
+
+        return medicineRepository
+                .getExpiredByCategory(type);
+    }
     public List<Medicine> searchMedicine(String keyword) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Medicine search performed for keyword: "
+                                + keyword
+                );
 
         return medicineRepository
                 .searchMedicineProcedure(keyword);
     }
 
     // -----------------------------------
-    // Low Stock Procedure
+    // Low Stock Medicines Procedure
     // -----------------------------------
 
     public List<Medicine> getLowStockMedicines() {
 
-        return medicineRepository.getLowStockMedicines();
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching low stock medicines."
+                );
+
+        return medicineRepository
+                .getLowStockMedicines();
     }
 
     // -----------------------------------
@@ -88,39 +248,105 @@ public class MedicineService {
 
     public List<Medicine> getExpiredMedicines() {
 
-        return medicineRepository.getExpiredMedicines();
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching expired medicines."
+                );
+
+        return medicineRepository
+                .getExpiredMedicines();
     }
 
     // -----------------------------------
-    // Dashboard Functions
+    // Dashboard SQL Functions
     // -----------------------------------
 
     public int getMedicineCount() {
 
-        return medicineRepository.getMedicineCount();
+        SystemLogger.getInstance()
+                .log(
+                        "DASHBOARD",
+                        "Fetching medicine count."
+                );
+
+        return medicineRepository
+                .getMedicineCount();
     }
 
     public int getLowStockCount() {
 
-        return medicineRepository.getLowStockCount();
+        SystemLogger.getInstance()
+                .log(
+                        "DASHBOARD",
+                        "Fetching low stocks medicine count"
+                );
+
+        return medicineRepository
+                .getLowStockCount();
     }
 
     public int getExpiredMedicineCount() {
 
-        return medicineRepository.getExpiredMedicineCount();
+        SystemLogger.getInstance()
+                .log(
+                        "DASHBOARD",
+                        "Fetching Expired medicine count"
+                );
+
+        return medicineRepository
+                .getExpiredMedicineCount();
     }
 
     public double getTotalStockValue() {
 
-        return medicineRepository.getTotalStockValue();
+        SystemLogger.getInstance()
+                .log(
+                        "DASHBOARD",
+                        "Fetching total Inventory Value"
+                );
+
+        return medicineRepository
+                .getTotalStockValue();
     }
 
     // -----------------------------------
-    // View Integration
+    // Database View Integration
     // -----------------------------------
 
     public List<Object[]> getMedicineStockView() {
 
-        return medicineRepository.getMedicineStockView();
+        return medicineRepository
+                .getMedicineStockView();
     }
+    // -----------------------------------
+// Autocomplete Suggestions
+// -----------------------------------
+
+    public List<String> getSuggestions(String prefix) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching suggestions for prefix: " + prefix
+                );
+
+        if (prefix == null || prefix.trim().isEmpty()) {
+            return List.of();
+        }
+
+        return medicineRepository.getSuggestions(prefix.trim());
+    }
+
+
+    public List<Medicine> getMedicinesByCategory(String type) {
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Filtering medicine stock catalog by category type: " + type
+                );
+
+        return medicineRepository.findMedicinesByCategoryName(type);
+    }
+
 }

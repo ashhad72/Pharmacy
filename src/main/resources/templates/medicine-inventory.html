@@ -1,179 +1,867 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Medicine Inventory</title>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Inventory - MediTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 
+    <style>
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --primary-light: #d1fae5;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-primary: #f0fdf4;
+            --bg-surface: #ffffff;
+            --border-color: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --transition: all 0.2s ease;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* ── NAVBAR ── */
+        .top-navbar {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(90deg, #064e3b 0%, #022c22 100%);
+            padding: 0.85rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+        }
+        .top-navbar .nav-links { display: flex; gap: 0.25rem; align-items: center; }
+        .top-navbar .nav-link {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: var(--radius-sm);
+        }
+        .top-navbar .nav-link:hover, .top-navbar .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.12);
+        }
+        .top-navbar .nav-link.text-danger-light { color: #fca5a5; }
+        .top-navbar .nav-link.text-danger-light:hover { background: rgba(239,68,68,0.15); color: #fca5a5; }
+
+        /* ── PAGE CONTAINER ── */
+        .app-container { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        /* ── FILTER PANEL ── */
+        .filter-panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        /* Single row, all controls vertically centered */
+        .filter-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.85rem;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .filter-group.search-group { flex: 1 1 260px; }
+        .filter-group.category-group { flex: 0 0 200px; }
+        .filter-group.alerts-group { flex: 0 0 auto; }
+
+        .filter-panel-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        /* ── AUTOCOMPLETE SEARCH ── */
+        .search-wrapper { position: relative; }
+        .search-input-group {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            height: 40px;
+        }
+        .search-input-group:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            background: white;
+        }
+        .search-input-group .search-icon {
+            padding: 0 0.75rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .search-input-group input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            padding: 0 0.75rem 0 0;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            height: 100%;
+        }
+        .search-input-group input::placeholder { color: #a0aec0; }
+
+        /* Suggestions Dropdown */
+        .suggestions-dropdown {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            list-style: none;
+            margin: 0;
+            padding: 0.35rem 0;
+            z-index: 500;
+            display: none;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+        .suggestions-dropdown li {
+            padding: 0.55rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: background 0.12s;
+        }
+        .suggestions-dropdown li:hover,
+        .suggestions-dropdown li.active {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        .suggestions-dropdown li .suggestion-icon {
+            color: var(--primary);
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+        .suggestions-dropdown li .suggestion-highlight { font-weight: 700; }
+
+        /* ── CATEGORY SELECT DROPDOWN ── */
+        .category-select-wrapper { position: relative; }
+        .category-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background: #f8fafc;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0 2.25rem 0 0.85rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            cursor: pointer;
+            height: 40px;
+            width: 100%;
+            transition: var(--transition);
+            outline: none;
+        }
+        .category-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5,150,105,0.1);
+            background: white;
+        }
+        .category-select-wrapper::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+        /* Green border when a category is actively selected */
+        .category-select.has-selection {
+            border-color: var(--primary);
+            background: #f0fdf4;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        /* ── ALERT CHIPS (Low / Expired) ── */
+        .alert-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0 0.9rem;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            transition: var(--transition);
+            text-decoration: none;
+            white-space: nowrap;
+            user-select: none;
+        }
+        .chip-warning {
+            background: #fffbeb;
+            color: #92400e;
+            border-color: #fde68a;
+        }
+        .chip-warning:hover, .chip-warning.active {
+            background: var(--warning);
+            color: white;
+            border-color: var(--warning);
+        }
+        .chip-danger {
+            background: #fff1f2;
+            color: #991b1b;
+            border-color: #fecaca;
+        }
+        .chip-danger:hover, .chip-danger.active {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        /* ── MEDICINE GRID ── */
+        .medicine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 1.25rem;
+        }
+
+        /* ── MED CARD ── */
+        .med-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 1.35rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .med-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--primary);
+        }
+        .med-card.low-stock-border::before { background: var(--warning); }
+        .med-card.expired-border::before { background: var(--danger); }
+        .med-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-category-pill {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            background: #f0fdf4;
+            color: var(--primary-dark);
+            border: 1px solid #bbf7d0;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .medicine-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0.5rem 0 0.75rem;
+            line-height: 1.3;
+        }
+
+        .card-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            background: #f8fafc;
+            padding: 0.85rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.85rem;
+        }
+        .card-meta-item .meta-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 0.1rem;
+        }
+        .card-meta-item .meta-value {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .meta-value.low { color: var(--warning); }
+        .meta-value.ok { color: var(--primary); }
+
+        .card-footer-row {
+            margin-top: auto;
+            padding-top: 0.75rem;
+            border-top: 1px dashed #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .batch-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+        .batch-tag span { color: var(--text-dark); font-weight: 700; }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.3rem 0.6rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .btn-delete:hover { color: var(--danger); background: #fff1f2; }
+
+        .status-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+        }
+        .status-instock  { background: #d1fae5; color: #065f46; }
+        .status-lowstock { background: #fef3c7; color: #92400e; }
+        .status-expired  { background: #fee2e2; color: #991b1b; }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        .empty-state .empty-icon { font-size: 3.5rem; opacity: 0.15; margin-bottom: 1rem; }
+
+        /* ── MODAL ── */
+        .modal-content {
+            border-radius: var(--radius-lg);
+            border: none;
+            box-shadow: var(--shadow-lg);
+            font-family: 'DM Sans', sans-serif;
+        }
+        .modal-header { padding: 1.5rem 1.5rem 0; border-bottom: none; }
+        .modal-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+        .modal-footer { padding: 0 1.5rem 1.5rem; border-top: none; }
+        .form-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+        .form-control {
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.5rem 0.75rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5,150,105,0.1);
+        }
+        .btn-primary { background: var(--primary); border-color: var(--primary); font-weight: 600; }
+        .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+
+        /* ── RESULTS BAR ── */
+        .results-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+        .results-count { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+        .results-count strong { color: var(--text-dark); }
+
+        /* Scrollbar */
+        .suggestions-dropdown::-webkit-scrollbar { width: 4px; }
+        .suggestions-dropdown::-webkit-scrollbar-track { background: transparent; }
+        .suggestions-dropdown::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+        .suggestions-dropdown li.active {
+            background-color: var(--primary-light) !important;
+            color: var(--primary-dark) !important;
+        }
+
+        @media (max-width: 768px) {
+            .app-container { padding: 1rem; }
+            .top-navbar { padding: 0.75rem 1rem; }
+            .top-navbar .nav-links { gap: 0; }
+            .top-navbar .nav-link span { display: none; }
+            .medicine-grid { grid-template-columns: 1fr; }
+            .filter-group.category-group { flex: 1 1 160px; }
+        }
+    </style>
+</head>
 <body>
 
-<h1>Medicine Inventory</h1>
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<header class="top-navbar">
+    <div class="d-flex align-items-center gap-2">
+        <div style="height:36px;width:36px;background:rgba(255,255,255,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;">💊</div>
+        <span class="fw-bold text-white fs-5" style="letter-spacing:-0.5px;">MediTrack</span>
+    </div>
+    <nav class="nav-links">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-th-large"></i> <span>Dashboard</span></a>
+        <a href="/medicines" class="nav-link active"><i class="fas fa-boxes-stacked"></i> <span>Inventory</span></a>
+        <a href="/billing" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> <span>POS Counter</span></a>
+        <a href="/sales/reports" class="nav-link"><i class="fas fa-chart-bar"></i> <span>Sales Reports</span></a>
+        <a href="/logout" class="nav-link text-danger-light"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+</header>
 
-<hr>
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main class="app-container">
 
-<!-- ADD MEDICINE FORM -->
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+        <div>
+            <h1 class="fw-bold mb-1" style="font-size:1.75rem;letter-spacing:-0.5px;">Medicine Inventory</h1>
+            <p class="text-muted mb-0" style="font-size:0.9rem;">Manage stock, search compounds, and monitor thresholds.</p>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <button class="btn btn-primary fw-bold px-3" data-bs-toggle="modal" data-bs-target="#addMedicineModal" style="border-radius:var(--radius-sm);">
+                <i class="fas fa-plus-circle me-1"></i> Add Medicine
+            </button>
+            <div style="background:#d1fae5;color:#065f46;font-weight:700;font-size:0.82rem;padding:0.4rem 0.9rem;border-radius:999px;border:1px solid #a7f3d0;">
+                <i class="fas fa-cubes me-1"></i> <span th:text="${medicines.size()}">0</span> Items
+            </div>
+        </div>
+    </div>
 
-<h2>Add Medicine</h2>
+    <!-- ═══ FILTER PANEL ═══ -->
+    <div class="filter-panel">
+        <div class="filter-row">
 
-<form action="/medicines/add" method="post">
+            <!-- 1. Search -->
+            <div class="filter-group search-group">
+                <span class="filter-panel-label"><i class="fas fa-search me-1"></i> Search Medicine</span>
+                <div class="search-wrapper">
+                    <div class="search-input-group">
+                        <span class="search-icon"><i class="fas fa-search"></i></span>
+                        <input
+                                type="text"
+                                id="medicineSearchInput"
+                                placeholder="Type name, e.g. Panadol..."
+                                autocomplete="off"
+                        />
+                    </div>
+                    <ul class="suggestions-dropdown" id="suggestionsDropdown"></ul>
+                </div>
+            </div>
 
-    <label>Medicine Name:</label>
-    <input type="text"
-           name="medicineName"
-           required>
+            <!-- 2. Category Dropdown -->
+            <div class="filter-group category-group">
+                <span class="filter-panel-label"><i class="fas fa-filter me-1"></i> Category</span>
+                <div class="category-select-wrapper">
+                    <select id="categorySelect" class="category-select" th:classappend="${type != null} ? 'has-selection' : ''">
+                        <option value="" th:selected="${type == null}">All Categories</option>
+                        <option value="Tablet"     th:selected="${type == 'Tablet'}">💊 Tablet</option>
+                        <option value="Syrup"      th:selected="${type == 'Syrup'}">🧴 Syrup</option>
+                        <option value="Capsule"    th:selected="${type == 'Capsule'}">💊 Capsule</option>
+                        <option value="Injection"  th:selected="${type == 'Injection'}">💉 Injection</option>
+                        <option value="Drops"      th:selected="${type == 'Drops'}">💧 Drops</option>
+                        <option value="Cream"      th:selected="${type == 'Cream'}">🧴 Cream</option>
+                        <option value="Inhaler"    th:selected="${type == 'Inhaler'}">🫁 Inhaler</option>
+                        <option value="Ointment"   th:selected="${type == 'Ointment'}">🧪 Ointment</option>
+                        <option value="Powder"     th:selected="${type == 'Powder'}">✨ Powder</option>
+                        <option value="Suspension" th:selected="${type == 'Suspension'}">🧪 Suspension</option>
+                    </select>
+                </div>
+            </div>
 
-    <br><br>
+            <!-- 3. Alert Chips -->
+            <div class="filter-group alerts-group">
+                <span class="filter-panel-label"><i class="fas fa-exclamation-triangle me-1"></i> Alerts</span>
+                <div class="d-flex gap-2">
+                    <a id="lowStockBtn" href="/medicines/low-stock"
+                       class="alert-chip chip-warning"
+                       th:classappend="${currentView == 'low-stock'} ? 'active' : ''">
+                        <i class="fas fa-arrow-trend-down"></i> Low Stock
+                    </a>
+                    <a id="expiredBtn" href="/medicines/expired"
+                       class="alert-chip chip-danger"
+                       th:classappend="${currentView == 'expired'} ? 'active' : ''">
+                        <i class="fas fa-hourglass-end"></i> Expired
+                    </a>
+                </div>
+            </div>
 
-    <label>Category ID:</label>
-    <input type="number"
-           name="category.categoryId"
-           required>
+            <!-- 4. Reset -->
+            <div class="filter-group" style="flex:0 0 auto;">
+                <span class="filter-panel-label" style="visibility:hidden;">Reset</span>
+                <a th:href="@{/medicines}" class="btn btn-light border" style="height:40px;display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;border-radius:var(--radius-sm);padding:0 0.85rem;">
+                    <i class="fas fa-sync-alt"></i> Reset
+                </a>
+            </div>
 
-    <br><br>
+        </div>
+    </div>
 
-    <label>Supplier ID:</label>
-    <input type="number"
-           name="supplier.supplierId"
-           required>
+    <!-- Results bar -->
+    <div class="results-bar">
+        <span class="results-count">
+            Showing <strong th:text="${medicines.size()}">0</strong> results
+            <span th:if="${type != null}" style="margin-left:0.4rem;">
+                in <span style="color:var(--primary);font-weight:700;" th:text="${type}">Category</span>
+            </span>
+            <span th:if="${currentView == 'low-stock'}" style="margin-left:0.4rem;color:var(--warning);font-weight:700;">— Low Stock</span>
+            <span th:if="${currentView == 'expired'}"   style="margin-left:0.4rem;color:var(--danger);font-weight:700;">— Expired</span>
+        </span>
+    </div>
 
-    <br><br>
+    <!-- ═══ MEDICINE GRID ═══ -->
+    <div class="medicine-grid" id="medicineGrid">
+        <div th:each="medicine : ${medicines}" th:if="${medicine != null}"
+             class="med-card"
+             th:classappend="${medicine.quantityInStock <= 0} ? 'expired-border' : (${medicine.quantityInStock <= 10} ? 'low-stock-border' : '')">
 
-    <label>Batch Number:</label>
-    <input type="text"
-           name="batchNumber">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="status-badge"
+                      th:classappend="${medicine.quantityInStock <= 0} ? 'status-expired' : (${medicine.quantityInStock <= 10} ? 'status-lowstock' : 'status-instock')"
+                      th:text="${medicine.quantityInStock <= 0} ? 'OUT OF STOCK' : (${medicine.quantityInStock <= 10} ? 'LOW STOCK' : 'IN STOCK')">
+                    STATUS
+                </span>
+                <span class="card-category-pill" th:text="${medicine.category.categoryName}">Category</span>
+            </div>
 
-    <br><br>
+            <h4 class="medicine-name" th:text="${medicine.medicineName}">Medicine Name</h4>
 
-    <label>Price:</label>
-    <input type="number"
-           step="0.01"
-           name="price"
-           required>
+            <div class="mb-2" style="font-size:0.8rem;color:var(--text-muted);">
+                <i class="fas fa-truck-fast me-1" style="font-size:0.72rem;"></i>
+                <span th:text="${medicine.supplier.supplierName}">Supplier</span>
+            </div>
 
-    <br><br>
+            <div class="card-meta-grid">
+                <div class="card-meta-item">
+                    <span class="meta-label">Unit Price</span>
+                    <span class="meta-value" th:text="'Rs. ' + ${medicine.price}">Rs. 0</span>
+                </div>
+                <div class="card-meta-item">
+                    <span class="meta-label">In Stock</span>
+                    <span class="meta-value"
+                          th:classappend="${medicine.quantityInStock <= 10} ? 'low' : 'ok'"
+                          th:text="${medicine.quantityInStock} + ' units'">0 units</span>
+                </div>
+                <div class="card-meta-item">
+                    <span class="meta-label">Expiry Date</span>
+                    <span class="meta-value" style="font-size:0.82rem;" th:text="${medicine.expiryDate}">—</span>
+                </div>
+                <div class="card-meta-item">
+                    <span class="meta-label">Medicine ID</span>
+                    <span class="meta-value" style="font-family:'Space Mono',monospace;font-size:0.8rem;" th:text="'#' + ${medicine.medicineId}">—</span>
+                </div>
+            </div>
 
-    <label>Quantity:</label>
-    <input type="number"
-           name="quantityInStock"
-           required>
+            <div th:if="${medicine.description != null and medicine.description != ''}"
+                 style="font-size:0.8rem;color:var(--text-muted);line-height:1.5;border-left:2px solid #e2e8f0;padding-left:0.6rem;margin-bottom:0.75rem;"
+                 th:text="${medicine.description}">
+            </div>
 
-    <br><br>
+            <div class="card-footer-row">
+                <span class="batch-tag">Batch: <span th:text="${medicine.batchNumber ?: 'N/A'}">B-000</span></span>
+                <a th:href="@{/medicines/delete/{id}(id=${medicine.medicineId})}"
+                   onclick="return confirm('Delete this medicine from records?');"
+                   class="btn-delete">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </a>
+            </div>
+        </div>
+    </div>
 
-    <label>Manufacture Date:</label>
-    <input type="date"
-           name="manufactureDate">
+    <!-- Empty State -->
+    <div th:if="${#lists.isEmpty(medicines)}" class="empty-state">
+        <div class="empty-icon">💊</div>
+        <h4 class="fw-bold text-muted mb-2">No medicines found</h4>
+        <p class="text-secondary mb-0" style="font-size:0.9rem;">Try a different keyword or filter, or add a new compound above.</p>
+    </div>
 
-    <br><br>
+</main>
 
-    <label>Expiry Date:</label>
-    <input type="date"
-           name="expiryDate"
-           required>
+<!-- ═══════════════ ADD MEDICINE MODAL ═══════════════ -->
+<div class="modal fade" id="addMedicineModal" tabindex="-1" aria-labelledby="addMedicineModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="addMedicineModalLabel">
+                    <i class="fa-solid fa-circle-plus text-success me-2"></i>Add Medicine
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/medicines/add" method="post">
+                <div class="modal-body">
+                    <div>
+                        <label class="form-label">Medicine Name</label>
+                        <input type="text" name="medicineName" class="form-control" placeholder="e.g. Amoxicillin 500mg" required>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label">Category ID</label>
+                            <input type="number" name="category.categoryId" class="form-control" placeholder="1" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Supplier ID</label>
+                            <input type="number" name="supplier.supplierId" class="form-control" placeholder="4" required>
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label">Unit Price (Rs.)</label>
+                            <input type="number" step="0.01" name="price" class="form-control" placeholder="250.00" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Stock Quantity</label>
+                            <input type="number" name="quantityInStock" class="form-control" placeholder="100" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Batch Number</label>
+                        <input type="text" name="batchNumber" class="form-control" placeholder="e.g. BATCH-2026-A">
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label">Manufacture Date</label>
+                            <input type="date" name="manufactureDate" class="form-control">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Expiry Date</label>
+                            <input type="date" name="expiryDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">Description / Indications</label>
+                        <textarea name="description" class="form-control" style="min-height:70px;resize:none;" placeholder="Composition, storage rules..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary px-4">Add Medicine</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-    <br><br>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // ═══════════════════════════════════════════════
+    // CATEGORY DROPDOWN — works on all views
+    // ═══════════════════════════════════════════════
+    const categorySelect = document.getElementById('categorySelect');
+    const lowStockBtn    = document.getElementById('lowStockBtn');
+    const expiredBtn     = document.getElementById('expiredBtn');
 
-    <label>Description:</label>
+    // Detect current view from URL so we can preserve it when category changes
+    function getCurrentView() {
+        const path = window.location.pathname;
+        if (path.includes('/low-stock'))  return 'low-stock';
+        if (path.includes('/expired'))    return 'expired';
+        return 'all';
+    }
 
-    <textarea name="description"></textarea>
+    categorySelect.addEventListener('change', function () {
+        const cat = this.value;
+        const view = getCurrentView();
 
-    <br><br>
+        if (!cat) {
+            // "All Categories" — go back to the current view without category filter
+            if (view === 'low-stock') window.location.href = '/medicines/low-stock';
+            else if (view === 'expired') window.location.href = '/medicines/expired';
+            else window.location.href = '/medicines';
+            return;
+        }
 
-    <button type="submit">
-        Add Medicine
-    </button>
+        // Navigate to category route, optionally preserving low-stock / expired context
+        if (view === 'low-stock') {
+            window.location.href = `/medicines/low-stock/category/${encodeURIComponent(cat)}`;
+        } else if (view === 'expired') {
+            window.location.href = `/medicines/expired/category/${encodeURIComponent(cat)}`;
+        } else {
+            window.location.href = `/medicines/category/${encodeURIComponent(cat)}`;
+        }
+    });
 
-</form>
+    // Keep category dropdown green when a value is selected
+    if (categorySelect.value) {
+        categorySelect.classList.add('has-selection');
+    }
+    categorySelect.addEventListener('change', function () {
+        this.classList.toggle('has-selection', !!this.value);
+    });
 
-<hr>
+    // Wire up alert buttons: preserve currently selected category when switching views
+    function getCurrentCategory() {
+        return categorySelect.value || null;
+    }
 
-<!-- SEARCH -->
+    lowStockBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const cat = getCurrentCategory();
+        window.location.href = cat
+            ? `/medicines/low-stock/category/${encodeURIComponent(cat)}`
+            : '/medicines/low-stock';
+    });
 
-<h2>Search Medicine</h2>
+    expiredBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const cat = getCurrentCategory();
+        window.location.href = cat
+            ? `/medicines/expired/category/${encodeURIComponent(cat)}`
+            : '/medicines/expired';
+    });
 
-<form action="/medicines/search" method="get">
 
-    <input type="text"
-           name="keyword"
-           placeholder="Search medicine">
+    // ═══════════════════════════════════════════════
+    // AUTOCOMPLETE SEARCH
+    // ═══════════════════════════════════════════════
+    const searchInput    = document.getElementById('medicineSearchInput');
+    const suggestBox     = document.getElementById('suggestionsDropdown');
+    let debounceTimer;
+    let activeSuggestion = -1;
 
-    <button type="submit">
-        Search
-    </button>
+    searchInput.addEventListener('input', function () {
+        const q = this.value.trim();
+        clearTimeout(debounceTimer);
+        activeSuggestion = -1;
 
-</form>
+        if (q.length < 2) { hideSuggestions(); return; }
 
-<br>
+        debounceTimer = setTimeout(() => {
+            fetch(`/suggestions?q=${encodeURIComponent(q)}`)
+                .then(r => r.json())
+                .then(names => renderSuggestions(names, q))
+                .catch(() => hideSuggestions());
+        }, 280);
+    });
 
-<a href="/medicines">
-    Show All Medicines
-</a>
+    function renderSuggestions(names, query) {
+        suggestBox.innerHTML = '';
+        if (!names || names.length === 0) { hideSuggestions(); return; }
 
-<br><br>
+        names.forEach(name => {
+            const li = document.createElement('li');
+            const idx = name.toLowerCase().indexOf(query.toLowerCase());
+            if (idx !== -1) {
+                li.innerHTML = `<i class="fas fa-pills suggestion-icon"></i>`
+                    + name.substring(0, idx)
+                    + `<span class="suggestion-highlight">${name.substring(idx, idx + query.length)}</span>`
+                    + name.substring(idx + query.length);
+            } else {
+                li.innerHTML = `<i class="fas fa-pills suggestion-icon"></i>${name}`;
+            }
+            li.addEventListener('mousedown', () => {
+                searchInput.value = name;
+                hideSuggestions();
+                triggerSearch(name);
+            });
+            suggestBox.appendChild(li);
+        });
+        suggestBox.style.display = 'block';
+    }
 
-<a href="/medicines/low-stock">
-    Low Stock Medicines
-</a>
+    searchInput.addEventListener('keydown', function (e) {
+        const items = suggestBox.querySelectorAll('li');
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeSuggestion = Math.min(activeSuggestion + 1, items.length - 1);
+            highlightSuggestion(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeSuggestion = Math.max(activeSuggestion - 1, -1);
+            highlightSuggestion(items);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeSuggestion >= 0 && items[activeSuggestion]) {
+                const name = items[activeSuggestion].textContent.trim();
+                searchInput.value = name;
+                hideSuggestions();
+                triggerSearch(name);
+            } else if (searchInput.value.trim().length >= 2) {
+                triggerSearch(searchInput.value.trim());
+            }
+        } else if (e.key === 'Escape') {
+            hideSuggestions();
+        }
+    });
 
-<br><br>
+    function highlightSuggestion(items) {
+        items.forEach((li, i) => li.classList.toggle('active', i === activeSuggestion));
+        if (activeSuggestion >= 0) items[activeSuggestion].scrollIntoView({ block: 'nearest' });
+    }
 
-<a href="/medicines/expired">
-    Expired Medicines
-</a>
+    function hideSuggestions() {
+        suggestBox.style.display = 'none';
+        suggestBox.innerHTML = '';
+    }
 
-<hr>
+    document.addEventListener('click', e => {
+        if (!searchInput.contains(e.target) && !suggestBox.contains(e.target)) hideSuggestions();
+    });
 
-<!-- MEDICINE TABLE -->
-
-<h2>Medicine List</h2>
-
-<table border="1">
-
-    <tr>
-
-        <th>ID</th>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Supplier</th>
-        <th>Price</th>
-        <th>Stock</th>
-        <th>Expiry</th>
-        <th>Action</th>
-
-    </tr>
-
-    <tr th:each="medicine : ${medicines}">
-
-        <td th:text="${medicine.medicineId}"></td>
-
-        <td th:text="${medicine.medicineName}"></td>
-
-        <td th:text="${medicine.category.categoryName}"></td>
-
-        <td th:text="${medicine.supplier.supplierName}"></td>
-
-        <td th:text="${medicine.price}"></td>
-
-        <td th:text="${medicine.quantityInStock}"></td>
-
-        <td th:text="${medicine.expiryDate}"></td>
-
-        <td>
-
-            <a th:href="@{/medicines/delete/{id}(id=${medicine.medicineId})}">
-                Delete
-            </a>
-
-        </td>
-
-    </tr>
-
-</table>
-
-<br><br>
-
-<a href="/dashboard">
-    Back to Dashboard
-</a>
-
+    function triggerSearch(keyword) {
+        window.location.href = `/medicines/search?keyword=${encodeURIComponent(keyword)}`;
+    }
+</script>
 </body>
 </html>

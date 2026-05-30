@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Audit Reports - MediTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        body { background-color: var(--bg-primary); }
+
+        /* Premium Sticky Top Global Matrix Navbar */
+        .top-navbar {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(90deg, #064e3b 0%, #022c22 100%);
+            padding: 0.85rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+        }
+        .top-navbar .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .top-navbar .nav-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+        }
+        .top-navbar .nav-link:hover, .top-navbar .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Analytics Dashboard Elements */
+        .kpi-metric-card {
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            color: white;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .kpi-metric-card .bg-icon {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5.5rem;
+            color: rgba(255, 255, 255, 0.08);
+        }
+
+        .report-card-table {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 1.75rem;
+        }
+
+        .data-table th {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .data-table td { padding: 1rem; color: var(--text-dark); }
+        .data-table tbody tr:hover { background-color: #f8fafc; }
+    </style>
+</head>
+<body>
+
+<header class="top-navbar">
+    <div class="d-flex align-items-center">
+        <div style="height: 36px; width: 36px; background: rgba(255,255,255,0.15); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #34d399;">
+            💊
+        </div>
+        <span class="ms-2 fw-bold text-white fs-5" style="letter-spacing: -0.5px;">MediTrack</span>
+    </div>
+    <nav class="nav-links">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="/medicines" class="nav-link"><i class="fas fa-boxes-stacked"></i> Inventory</a>
+        <a href="/billing" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> POS Counter</a>
+        <a href="/sales/reports" class="nav-link active"><i class="fas fa-chart-bar"></i> Sales Reports</a>
+        <a href="/logout" class="nav-link text-danger-light"><i class="fas fa-sign-out-alt"></i> Logout</a>    </nav>
+</header>
+
+<main class="app-container">
+
+    <div class="mb-4">
+        <h1 class="fw-bold text-dark mb-1" style="font-size: 1.75rem;">Financial Sales Reports</h1>
+        <p class="text-muted mb-0">Monitor total financial accumulation, track checkout transaction history, and analyze revenue streams.</p>
+    </div>
+
+    <div class="kpi-metric-card">
+        <div class="bg-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+        <span class="d-block small text-white-50 text-uppercase fw-bold mb-1" style="letter-spacing: 1px;">Gross System Accumulation</span>
+        <h2 class="fw-bold font-monospace mb-0" style="font-size: 2.5rem;">
+            Rs. <span th:text="${totalRevenue ?: '0.00'}">0.00</span>
+        </h2>
+        <div class="mt-2 small text-white-50">
+            <i class="fa-solid fa-clock me-1"></i> Real-time calculation aggregated across database records
+        </div>
+    </div>
+
+    <div class="report-card-table">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold text-dark mb-0" style="font-size: 1.15rem;">
+                <i class="fa-solid fa-receipt text-success me-2"></i>Invoice Audit Registry Log
+            </h4>
+            <div class="badge bg-light text-secondary border font-monospace px-2 py-1">
+                Total Transactions: <span th:text="${reports.size()}">0</span>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table data-table align-middle">
+                <thead>
+                <tr>
+                    <th style="width: 15%;">Sale ID Reference</th>
+                    <th>Customer Account Identity</th>
+                    <th class="text-end" style="width: 25%;">Transaction Value</th>
+                    <th class="text-center" style="width: 25%;">Commit Timestamp</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="report : ${reports}">
+                    <td class="font-monospace fw-bold text-primary" th:text="'#SL-' + ${report.saleId}">#SL-0</td>
+                    <td class="fw-semibold text-dark" th:text="${report.customerName}">Walking Customer</td>
+                    <td class="text-end font-monospace fw-bold text-success" th:text="'Rs. ' + ${report.totalAmount}">Rs. 0.00</td>
+                    <td class="text-center text-secondary small font-monospace" th:text="${report.saleDate}">2026-01-01</td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(reports)}">
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        <i class="fa-solid fa-chart-pie fa-3x mb-3 opacity-25"></i>
+                        <h5 class="fw-semibold text-muted">No historical transactions logged yet</h5>
+                        <p class="text-secondary small mb-0">Dispense active stock items at the POS Counter to populate reports.</p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
