@@ -7,40 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 
     <style>
         body { background-color: var(--bg-primary); }
 
-        /* Premium Sticky Top Global Matrix Navbar */
-        .top-navbar {
-            position: sticky;
-            top: 0;
-            background: linear-gradient(90deg, #064e3b 0%, #022c22 100%);
-            padding: 0.85rem 2rem;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-md);
-        }
-        .top-navbar .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-        .top-navbar .nav-link {
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: var(--radius-sm);
-        }
-        .top-navbar .nav-link:hover, .top-navbar .nav-link.active {
-            color: white;
-            background: rgba(255,255,255,0.1);
-        }
 
         /* Invoice Sheet Layout Configuration */
         .invoice-paper {
@@ -104,17 +75,21 @@
 </head>
 <body>
 
-<header class="top-navbar no-print">
+<header class="top-navbar">
     <div class="d-flex align-items-center">
-        <div style="height: 36px; width: 36px; background: rgba(255,255,255,0.15); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #34d399;">
-            💊
+        <div class="header-logo-container">
+            <img th:src="@{/images/logo.png}" alt="MediTrack Logo"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="header-logo-fallback" style="display:none;">
+                <i class="fas fa-capsules"></i>
+            </div>
         </div>
         <span class="ms-2 fw-bold text-white fs-5" style="letter-spacing: -0.5px;">MediTrack</span>
     </div>
     <nav class="nav-links">
         <a href="/dashboard" class="nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
         <a href="/medicines" class="nav-link"><i class="fas fa-boxes-stacked"></i> Inventory</a>
-        <a href="/billing" class="nav-link active"><i class="fas fa-file-invoice-dollar"></i> POS Counter</a>
+        <a href="/billing" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> POS Counter</a>
         <a href="/sales/reports" class="nav-link"><i class="fas fa-chart-bar"></i> Sales Reports</a>
         <a href="/logout" class="nav-link text-danger-light"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </nav>

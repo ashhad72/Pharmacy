@@ -1,7 +1,6 @@
 package com.sda.pharmacy.entity;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -10,25 +9,27 @@ public class SaleItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "sale_item_id")
     private int saleItemId;
 
     @ManyToOne
-    @JoinColumn(name = "sale_id")
+    @JoinColumn(name = "sale_id", nullable = false) //  Added database integrity constraint
     private Sale sale;
 
     @ManyToOne
-    @JoinColumn(name = "medicine_id")
+    @JoinColumn(name = "medicine_id", nullable = false) //  Added database integrity constraint
     private Medicine medicine;
 
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Column(name = "unit_price")
+    @Column(name = "unit_price", nullable = false)
     private BigDecimal unitPrice;
 
+    @Column(name = "subtotal", nullable = false)
     private BigDecimal subtotal;
 
     // Constructors
-
     public SaleItem() {
     }
 
@@ -37,7 +38,6 @@ public class SaleItem {
                     int quantity,
                     BigDecimal unitPrice,
                     BigDecimal subtotal) {
-
         this.sale = sale;
         this.medicine = medicine;
         this.quantity = quantity;
@@ -46,7 +46,6 @@ public class SaleItem {
     }
 
     // Getters and Setters
-
     public int getSaleItemId() {
         return saleItemId;
     }

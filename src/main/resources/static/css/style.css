@@ -130,3 +130,74 @@ tr:last-child td { border-bottom: none; }
 .badge { display: inline-flex; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 600; border-radius: 50px; }
 .badge-danger { background: var(--danger-light); color: var(--danger); }
 .badge-warning { background: var(--warning-light); color: var(--warning); }
+/* ==========================================================================
+   2. NAV BAR STYLING
+   ========================================================================== */
+
+.top-navbar {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(90deg, #064e3b 0%, #022c22 100%);
+    padding: 0.85rem 2rem;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+}
+
+/* ── NEW LOGO BRAND HOUSING CLASSES ── */
+.top-navbar .header-logo-container {
+    height: 36px;
+    width: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.top-navbar .header-logo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Preserves image ratio perfectly inside the container */
+    padding: 2px; /* Slight breathing room for logo boundaries */
+}
+
+.top-navbar .header-logo-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #34d399;
+}
+
+/* ── NAVIGATION LINKS ── */
+.top-navbar .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.top-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition, all 0.2s ease);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm, 6px);
+}
+
+.top-navbar .nav-link:hover,
+.top-navbar .nav-link.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
