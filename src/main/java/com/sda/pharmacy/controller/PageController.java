@@ -73,7 +73,12 @@ public class PageController {
         List<Medicine> lowStockList = medicineService.getLowStockMedicines();
         List<Medicine> expiredList  = medicineService.getExpiredMedicines();
 
-        model.addAttribute("medicines",         allMedicines);
+// Create a copy of the list and reverse/sort it by ID descending for the recent activity timeline
+        List<Medicine> recentMedicines = new ArrayList<>(allMedicines);
+        recentMedicines.sort((m1, m2) -> Integer.compare(m2.getMedicineId(), m1.getMedicineId()));
+
+// Pass the sorted list to the timeline, and the original allMedicines to the chart mapping engine
+        model.addAttribute("medicines",         recentMedicines); // ◄ Fixes timeline display order!
         model.addAttribute("lowStockMedicines", lowStockList);
         model.addAttribute("expiredMedicines",  expiredList);
 

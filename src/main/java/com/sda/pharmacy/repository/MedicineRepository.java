@@ -131,7 +131,7 @@ public interface MedicineRepository
             value = """
         SELECT m.* FROM medicines m
         JOIN categories c ON m.category_id = c.category_id
-        WHERE m.quantity_in_stock <= 10
+        WHERE m.quantity_in_stock <= 20
           AND LOWER(c.category_name) = LOWER(:type)
         """,
             nativeQuery = true
