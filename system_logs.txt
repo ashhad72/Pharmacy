@@ -2143,3 +2143,102 @@
 [2026-05-31T18:54:11.373153500] [DASHBOARD] Fetching recent sales.
 [2026-05-31T18:54:11.377151400] [DASHBOARD] Fetching monthly revenue chart data.
 [2026-05-31T18:54:12.905384200] [INVENTORY] Fetching expired medicines.
+[2026-05-31T18:56:48.158874300] [AUTH] Login attempt for Username: PharmaAdmin
+[2026-05-31T18:56:48.185699200] [AUTH] Login successful for: PharmaAdmin
+[2026-05-31T18:56:48.194459400] [DASHBOARD] Fetching medicine count.
+[2026-05-31T18:56:48.196475600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-31T18:56:48.198470300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-31T18:56:48.208468400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-31T18:56:48.230524300] [INVENTORY] Fetching low stock medicines.
+[2026-05-31T18:56:48.244844600] [INVENTORY] Fetching expired medicines.
+[2026-05-31T18:56:48.258837100] [DASHBOARD] Fetching today's revenue.
+[2026-05-31T18:56:48.260820500] [DASHBOARD] Fetching monthly revenue.
+[2026-05-31T18:56:48.263714500] [DASHBOARD] Fetching last month revenue.
+[2026-05-31T18:56:48.265713600] [DASHBOARD] Fetching today's transaction count.
+[2026-05-31T18:56:48.268712] [DASHBOARD] Fetching recent sales.
+[2026-05-31T18:56:48.270710200] [DASHBOARD] Fetching monthly revenue chart data.
+[2026-05-31T18:57:27.064615300] [DASHBOARD] Fetching medicine count.
+[2026-05-31T18:57:27.066614500] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-31T18:57:27.069613] [DASHBOARD] Fetching Expired medicine count
+[2026-05-31T18:57:27.071611500] [DASHBOARD] Fetching total Inventory Value
+[2026-05-31T18:57:27.101593500] [INVENTORY] Fetching low stock medicines.
+[2026-05-31T18:57:27.116585900] [INVENTORY] Fetching expired medicines.
+[2026-05-31T18:57:27.133575500] [DASHBOARD] Fetching today's revenue.
+[2026-05-31T18:57:27.135574200] [DASHBOARD] Fetching monthly revenue.
+[2026-05-31T18:57:27.137573100] [DASHBOARD] Fetching last month revenue.
+[2026-05-31T18:57:27.139571700] [DASHBOARD] Fetching today's transaction count.
+[2026-05-31T18:57:27.144570800] [DASHBOARD] Fetching recent sales.
+[2026-05-31T18:57:27.146568700] [DASHBOARD] Fetching monthly revenue chart data.
+[2026-05-31T18:58:26.519956500] [INVENTORY] Fetching suggestions for prefix: Sur
+[2026-05-31T18:58:26.918965900] [INVENTORY] Fetching suggestions for prefix: Surbe
+[2026-05-31T18:58:27.185210600] [INVENTORY] Fetching suggestions for prefix: Surbex
+[2026-05-31T18:58:36.586727800] [INVENTORY] Fetching suggestions for prefix: CAC 1000 Plus
+[2026-05-31T18:58:57.296846] [INVENTORY] Fetching suggestions for prefix: Fasal-G Powder 50g
+[2026-05-31T18:59:09.018324400] [INVENTORY] Fetching suggestions for prefix: ORS Orange Mass Pack
+[2026-05-31T18:59:16.233572700] [INVENTORY] Fetching suggestions for prefix: ORS Orange Mass Pac
+[2026-05-31T18:59:17.046847400] [INVENTORY] Fetching suggestions for prefix: ORS Orange Mass Pack
+[2026-05-31T18:59:22.246721500] [SALES] Starting new multi-item sale process.
+[2026-05-31T18:59:22.395937500] [SALES] Medicine fetched: Surbex Z
+[2026-05-31T18:59:22.465576800] [SALES] Medicine fetched: CAC 1000 Plus
+[2026-05-31T18:59:22.470575800] [SALES] Medicine fetched: Fasal-G Powder 50g
+[2026-05-31T18:59:22.476570600] [SALES] Medicine fetched: ORS Orange Mass Pack
+[2026-05-31T18:59:22.547793500] [SALES] Sale saved successfully with ID: 1
+[2026-05-31T18:59:22.548792600] [SALES] Inventory observers notified.
+[2026-05-31T18:59:22.550791600] [SALES] Invoice generated successfully.
+[2026-05-31T18:59:22.550791600] [SALES] Sale process completed successfully.
+[2026-05-31T18:59:27.953714400] [DASHBOARD] Fetching medicine count.
+[2026-05-31T18:59:27.957712200] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-31T18:59:27.961710] [DASHBOARD] Fetching Expired medicine count
+[2026-05-31T18:59:27.962709] [DASHBOARD] Fetching total Inventory Value
+[2026-05-31T18:59:28.014706700] [INVENTORY] Fetching low stock medicines.
+[2026-05-31T18:59:28.031695800] [INVENTORY] Fetching expired medicines.
+[2026-05-31T18:59:28.050686400] [DASHBOARD] Fetching today's revenue.
+[2026-05-31T18:59:28.053683900] [DASHBOARD] Fetching monthly revenue.
+[2026-05-31T18:59:28.055682600] [DASHBOARD] Fetching last month revenue.
+[2026-05-31T18:59:28.057682200] [DASHBOARD] Fetching today's transaction count.
+[2026-05-31T18:59:28.060679400] [DASHBOARD] Fetching recent sales.
+[2026-05-31T18:59:28.066675800] [DASHBOARD] Fetching monthly revenue chart data.
+[2026-05-31T20:42:51.401851600] [AUTH] Login attempt for Username: PharmaAdmin
+[2026-05-31T20:42:52.338311800] [AUTH] Login successful for: PharmaAdmin
+[2026-05-31T20:42:52.367295400] [DASHBOARD] Fetching medicine count.
+[2026-05-31T20:42:52.491224300] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-31T20:42:52.495222300] [DASHBOARD] Fetching Expired medicine count
+[2026-05-31T20:42:52.501220300] [DASHBOARD] Fetching total Inventory Value
+[2026-05-31T20:42:53.011924500] [INVENTORY] Fetching low stock medicines.
+[2026-05-31T20:42:53.110866700] [INVENTORY] Fetching expired medicines.
+[2026-05-31T20:42:53.248787400] [DASHBOARD] Fetching today's revenue.
+[2026-05-31T20:42:53.252785300] [DASHBOARD] Fetching monthly revenue.
+[2026-05-31T20:42:53.257781900] [DASHBOARD] Fetching last month revenue.
+[2026-05-31T20:42:53.264777700] [DASHBOARD] Fetching today's transaction count.
+[2026-05-31T20:42:53.451669800] [DASHBOARD] Fetching recent sales.
+[2026-05-31T20:42:53.473657500] [DASHBOARD] Fetching monthly revenue chart data.
+[2026-05-31T20:43:01.741574100] [INVENTORY] Fetching low stock medicines.
+[2026-05-31T20:43:02.871524600] [INVENTORY] Fetching expired medicines.
+[2026-05-31T20:43:05.332807400] [INVENTORY] Filtering medicine stock catalog by category type: Injection
+[2026-05-31T20:43:12.264399900] [DASHBOARD] Fetching medicine count.
+[2026-05-31T20:43:12.274409600] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-31T20:43:12.277393100] [DASHBOARD] Fetching Expired medicine count
+[2026-05-31T20:43:12.283392200] [DASHBOARD] Fetching total Inventory Value
+[2026-05-31T20:43:12.359345700] [INVENTORY] Fetching low stock medicines.
+[2026-05-31T20:43:12.404319700] [INVENTORY] Fetching expired medicines.
+[2026-05-31T20:43:12.452293500] [DASHBOARD] Fetching today's revenue.
+[2026-05-31T20:43:12.455290900] [DASHBOARD] Fetching monthly revenue.
+[2026-05-31T20:43:12.459288200] [DASHBOARD] Fetching last month revenue.
+[2026-05-31T20:43:12.462286] [DASHBOARD] Fetching today's transaction count.
+[2026-05-31T20:43:12.468282900] [DASHBOARD] Fetching recent sales.
+[2026-05-31T20:43:12.473279500] [DASHBOARD] Fetching monthly revenue chart data.
+[2026-05-31T20:43:39.752155100] [DASHBOARD] Fetching medicine count.
+[2026-05-31T20:43:39.759153900] [DASHBOARD] Fetching low stocks medicine count
+[2026-05-31T20:43:39.763148700] [DASHBOARD] Fetching Expired medicine count
+[2026-05-31T20:43:39.766148400] [DASHBOARD] Fetching total Inventory Value
+[2026-05-31T20:43:39.868088] [INVENTORY] Fetching low stock medicines.
+[2026-05-31T20:43:39.933051] [INVENTORY] Fetching expired medicines.
+[2026-05-31T20:43:40.023006400] [DASHBOARD] Fetching today's revenue.
+[2026-05-31T20:43:40.028995500] [DASHBOARD] Fetching monthly revenue.
+[2026-05-31T20:43:40.046986300] [DASHBOARD] Fetching last month revenue.
+[2026-05-31T20:43:40.050983] [DASHBOARD] Fetching today's transaction count.
+[2026-05-31T20:43:40.075973500] [DASHBOARD] Fetching recent sales.
+[2026-05-31T20:43:40.083964700] [DASHBOARD] Fetching monthly revenue chart data.
+[2026-05-31T20:43:44.889631] [INVENTORY] Fetching suggestions for prefix: para
+[2026-05-31T20:43:46.633277800] [INVENTORY] Fetching suggestions for prefix: pa
+[2026-05-31T20:43:47.835519800] [INVENTORY] Medicine search performed for keyword: Panadol Extra
