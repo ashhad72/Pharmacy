@@ -2,54 +2,47 @@ package com.sda.pharmacy.command;
 
 import com.sda.pharmacy.builder.Invoice;
 import com.sda.pharmacy.service.SaleService;
+import java.util.List;
 
 public class GenerateBillCommand implements Command {
 
     private final SaleService saleService;
-
     private final String customerName;
     private final String phoneNumber;
 
-    private final int medicineId;
-    private final int quantity;
+    // ── CHANGED FROM SINGLE PRIMITIVES TO LISTS ──
+    private final List<Integer> medicineIds;
+    private final List<Integer> quantities;
 
     private Invoice invoice;
 
+    // Updated Constructor to handle Lists safely
     public GenerateBillCommand(
-
             SaleService saleService,
-
             String customerName,
             String phoneNumber,
-
-            int medicineId,
-            int quantity
+            List<Integer> medicineIds,
+            List<Integer> quantities
     ) {
-
         this.saleService = saleService;
-
         this.customerName = customerName;
         this.phoneNumber = phoneNumber;
-
-        this.medicineId = medicineId;
-        this.quantity = quantity;
+        this.medicineIds = medicineIds;
+        this.quantities = quantities;
     }
 
     @Override
     public void execute() {
-
+        // Delegates the lists down to your service layer method
         invoice = saleService.createSale(
-
                 customerName,
                 phoneNumber,
-
-                medicineId,
-                quantity
+                medicineIds,
+                quantities
         );
     }
 
     public Invoice getInvoice() {
-
         return invoice;
     }
 }

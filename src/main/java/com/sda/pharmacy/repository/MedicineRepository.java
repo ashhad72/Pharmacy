@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -27,7 +28,8 @@ public interface MedicineRepository
             @Param("p_supplier_id") int supplierId,
             @Param("p_price") BigDecimal price,
             @Param("p_quantity") int quantity,
-            @Param("p_expiry_date") Date expiryDate
+            @Param("p_expiry_date") Date expiryDate,
+            @Param("p_batch_number") String batchNumber // <-- Added this line
     );
 
     // -----------------------------
@@ -99,4 +101,65 @@ public interface MedicineRepository
             nativeQuery = true
     )
     double getTotalStockValue();
+    // -----------------------------
+// AUTOCOMPLETE / SUGGESTIONS
+// -----------------------------
+
+    @Query(
+            value = "SELECT medicine_name FROM medicines WHERE medicine_name LIKE CONCAT(:prefix, '%') LIMIT 10",
+            nativeQuery = true
+    )
+    List<String> getSuggestions(@Param("prefix") String prefix);
+    @Query(value = "SELECT * FROM medicines m JOIN categories c ON m.category_id = c.category_id WHERE LOWER(c.category_name) = LOWER(:type)", nativeQuery = true)
+    List<Medicine> findByCategory(@Param("type") String type);
+
+    // -----------------------------
+// FILTER BY CATEGORY NAME
+// -----------------------------
+    @Query(
+            value = "SELECT m.* FROM medicines m " +
+                    "JOIN categories c ON m.category_id = c.category_id " +
+                    "WHERE c.category_name = :type",
+            nativeQuery = true
+    )
+    List<Medicine> findMedicinesByCategoryName(@Param("type") String type);
+    // -----------------------------
+// LOW STOCK BY CATEGORY
+// -----------------------------
+
+    @Query(
+            value = """
+        SELECT m.* FROM medicines m
+        JOIN categories c ON m.category_id = c.category_id
+        WHERE m.quantity_in_stock <= 20
+          AND LOWER(c.category_name) = LOWER(:type)
+        """,
+            nativeQuery = true
+    )
+    List<Medicine> getLowStockByCategory(@Param("type") String type);
+
+// -----------------------------
+// EXPIRED BY CATEGORY
+// -----------------------------
+
+    @Query(
+            value = """
+        SELECT m.* FROM medicines m
+        JOIN categories c ON m.category_id = c.category_id
+        WHERE m.expiry_date < CURDATE()
+          AND LOWER(c.category_name) = LOWER(:type)
+        """,
+            nativeQuery = true
+    )
+    List<Medicine> getExpiredByCategory(@Param("type") String type);
+
+    @Query(
+            value = """
+    SELECT * FROM medicines 
+    WHERE LOWER(medicine_name) = LOWER(:medicineName)
+    LIMIT 1
+    """,
+            nativeQuery = true
+    )
+    Medicine findByMedicineNameIgnoreCase(@Param("medicineName") String medicineName);
 }

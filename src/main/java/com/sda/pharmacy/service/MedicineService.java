@@ -13,6 +13,8 @@ import com.sda.pharmacy.observer.LowStockObserver;
 import com.sda.pharmacy.repository.MedicineRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -116,7 +118,8 @@ public class MedicineService {
 
                 Date.valueOf(
                         newMedicine.getExpiryDate()
-                )
+                ),
+                newMedicine.getBatchNumber()
         );
 
         SystemLogger.getInstance()
@@ -179,7 +182,37 @@ public class MedicineService {
     // -----------------------------------
     // Search Medicine Procedure
     // -----------------------------------
+// -----------------------------------
+// Low Stock by Category
+// -----------------------------------
 
+    public List<Medicine> getLowStockByCategory(String type) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching low stock medicines for category: " + type
+                );
+
+        return medicineRepository
+                .getLowStockByCategory(type);
+    }
+
+// -----------------------------------
+// Expired by Category
+// -----------------------------------
+
+    public List<Medicine> getExpiredByCategory(String type) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching expired medicines for category: " + type
+                );
+
+        return medicineRepository
+                .getExpiredByCategory(type);
+    }
     public List<Medicine> searchMedicine(String keyword) {
 
         SystemLogger.getInstance()
@@ -286,4 +319,41 @@ public class MedicineService {
         return medicineRepository
                 .getMedicineStockView();
     }
+    // -----------------------------------
+// Autocomplete Suggestions
+// -----------------------------------
+
+    public List<String> getSuggestions(String prefix) {
+
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Fetching suggestions for prefix: " + prefix
+                );
+
+        if (prefix == null || prefix.trim().isEmpty()) {
+            return List.of();
+        }
+
+        return medicineRepository.getSuggestions(prefix.trim());
+    }
+    public Medicine findByName(String medicineName) {
+        if (medicineName == null || medicineName.trim().isEmpty()) {
+            return null;
+        }
+
+        // Calls your repository layer method
+        return medicineRepository.findByMedicineNameIgnoreCase(medicineName.trim());
+    }
+
+    public List<Medicine> getMedicinesByCategory(String type) {
+        SystemLogger.getInstance()
+                .log(
+                        "INVENTORY",
+                        "Filtering medicine stock catalog by category type: " + type
+                );
+
+        return medicineRepository.findMedicinesByCategoryName(type);
+    }
+
 }

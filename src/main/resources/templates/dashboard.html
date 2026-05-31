@@ -1,53 +1,1133 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Dashboard</title>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrack — Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+          --navy: rgba(255,255,255,0.15);
+          --sidebar-bg: rgba(255,255,300,0.30);
+          --sidebar-solid: #1a3a2e;
+          --teal: #0ea5e9;
+          --teal-bright: #38bdf8;
+          --teal-dim: #0c4a6e;
+          --emerald: #10b981;
+          --emerald-accent: #34d399;
+          --amber: #f59e0b;
+          --rose: #f43f5e;
+          --violet: #8b5cf6;
+          --surface: #ffffff;
+          --surface-2: #f8fafc;
+          --surface-3: #f1f5f9;
+          --border: #e2e8f0;
+          --border-dark: rgba(255,255,255,0.1);
+          --text: #0f172a;
+          --text-2: #475569;
+          --text-3: #94a3b8;
+          --text-inv: #ffffff;
+          --text-inv-2: rgba(255,255,255,0.6);
+          --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+          --shadow: 0 4px 16px rgba(0,0,0,.07);
+          --shadow-lg: 0 20px 60px rgba(0,0,0,.12);
+          --shadow-teal: 0 8px 32px rgba(52,211,153,.3);
+          --r-sm: 8px;
+          --r-md: 14px;
+          --r-lg: 20px;
+          --sidebar-w: 260px;
+          --header-h: 68px;
+          --ease: cubic-bezier(.4,0,.2,1);
+        }
 
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{font-family:'DM Sans',sans-serif;background:var(--surface-2);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden}
+
+        ::-webkit-scrollbar{width:5px;height:5px}
+        ::-webkit-scrollbar-track{background:transparent}
+        ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px}
+
+        /* ══ SIDEBAR ══ */
+.sidebar {
+  width: var(--sidebar-w); flex-shrink: 0;
+  background: linear-gradient(160deg, #064e3b 0%, #022c22 100%);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; height: 100vh;
+  z-index: 100;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ── STACKED BRAND IDENTITY UI HOUSING ── */
+.sidebar-brand-wrapper {
+  padding: 1.5rem 1.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-logo-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* Space between the logo graphic and subtitle */
+  width: 100%;
+}
+
+.sidebar-logo-solo {
+  display: flex;
+  align-items: center;
+  height: 40px; /* Slightly adjusted down from 44px to make structural room for the subtext */
+  width: auto;
+}
+
+.sidebar-logo-solo img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+/* High-end minimalist branding text typography */
+.sidebar-logo-subtitle {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding-left: 2px; /* Micro-alignment to square up with the logo boundaries cleanly */
+}
+
+/* Fallback default display context */
+.sidebar-logo-text-fallback {
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.5px;
+}
+
+/* ── CORE SIDEBAR UI MECHANICS ── */
+.sidebar-section-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35); padding: .9rem 1.5rem .35rem;
+}
+.nav-item {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .6rem 1.25rem .6rem 1.5rem;
+  margin: 0 .6rem .05rem;
+  border-radius: var(--r-sm);
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: .875rem; font-weight: 500;
+  transition: all .18s var(--ease);
+  cursor: pointer; position: relative;
+}
+.nav-item i { width: 18px; text-align: center; font-size: .88rem; flex-shrink: 0; }
+.nav-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
+.nav-item.active {
+  background: rgba(52,211,153,0.15);
+  color: #34d399;
+}
+.nav-item.active::before {
+  content: ''; position: absolute; left: 0; top: 22%; bottom: 22%;
+  width: 3px; background: #34d399; border-radius: 0 3px 3px 0;
+  margin-left: -.6rem;
+}
+.nav-badge {
+  margin-left: auto; font-size: .62rem; font-weight: 700;
+  padding: .12rem .45rem; border-radius: 99px; line-height: 1.5;
+}
+.nav-badge.red { background: var(--rose); color: #fff; }
+.nav-badge.amber { background: var(--amber); color: #431407; }
+
+.sidebar-footer {
+  margin-top: auto; padding: .85rem .85rem 1.1rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.user-pill {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .6rem .7rem; border-radius: var(--r-sm);
+  background: rgba(255,255,255,0.07); cursor: pointer;
+  transition: background .15s;
+}
+.user-pill:hover { background: rgba(255,255,255,0.12); }
+.user-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg,#34d399,#0ea5e9);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; color: #fff; font-weight: 700; flex-shrink: 0;
+}
+.user-name { font-size: .82rem; font-weight: 600; color: #fff; }
+.user-role { font-size: .7rem; color: rgba(255,255,255,0.45); }
+.status-dot { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--emerald-accent); box-shadow: 0 0 6px var(--emerald-accent); animation: pulse-dot 2s infinite; }
+        /* ══ MAIN ══ */
+        .main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+
+        /* ══ TOPBAR ══ */
+        .topbar{
+          height:var(--header-h);background:var(--surface);
+          border-bottom:1px solid var(--border);
+          display:flex;align-items:center;padding:0 2rem;
+          gap:1.25rem;position:sticky;top:0;z-index:50;
+        }
+        .topbar-left{flex:1}
+        .page-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:var(--text);letter-spacing:-.3px}
+        .breadcrumb{font-size:.73rem;color:var(--text-3);margin-top:.1rem}
+        .breadcrumb span{color:var(--teal)}
+        .topbar-right{display:flex;align-items:center;gap:.6rem}
+        .tb-clock{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--text-2);background:var(--surface-2);padding:.38rem .75rem;border-radius:var(--r-sm);border:1px solid var(--border)}
+        .tb-btn{
+          width:38px;height:38px;border-radius:var(--r-sm);
+          border:1px solid var(--border);background:var(--surface);
+          display:flex;align-items:center;justify-content:center;
+          cursor:pointer;color:var(--text-2);font-size:.88rem;
+          position:relative;transition:all .15s;text-decoration:none;
+        }
+        .tb-btn:hover{background:var(--surface-2);border-color:var(--teal);color:var(--teal)}
+        .notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--rose);border:1.5px solid var(--surface)}
+        .pharmacy-badge{
+          display:flex;align-items:center;gap:.45rem;
+          background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+          border:1px solid #a7f3d0;border-radius:var(--r-sm);
+          padding:.32rem .8rem;font-size:.76rem;font-weight:600;color:#065f46;
+        }
+        .live-dot{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 6px var(--emerald);animation:pulse-dot 2s infinite}
+
+        /* ══ CONTENT ══ */
+        .content{padding:1.75rem 2rem;flex:1}
+
+        /* ══ KPI GRID ══ */
+        .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.9rem;margin-bottom:1.6rem}
+        .kpi-card{
+          background:var(--surface);border:1px solid var(--border);
+          border-radius:var(--r-md);padding:1.05rem 1.1rem;
+          box-shadow:var(--shadow-sm);
+          transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+          animation:fade-up .4s var(--ease) both;
+        }
+        .kpi-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+        .kpi-card:nth-child(1){animation-delay:.05s}
+        .kpi-card:nth-child(2){animation-delay:.1s}
+        .kpi-card:nth-child(3){animation-delay:.15s}
+        .kpi-card:nth-child(4){animation-delay:.2s}
+        .kpi-card:nth-child(5){animation-delay:.25s}
+        .kpi-card:nth-child(6){animation-delay:.3s}
+        .kpi-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem}
+        .kpi-icon{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+        .kpi-trend{font-size:.68rem;font-weight:700;padding:.15rem .45rem;border-radius:99px;display:flex;align-items:center;gap:.2rem}
+        .kpi-trend.up{background:#ecfdf5;color:#065f46}
+        .kpi-trend.down{background:#fef2f2;color:#991b1b}
+        .kpi-trend.warn{background:#fffbeb;color:#92400e}
+        .kpi-value{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text);line-height:1;margin-bottom:.28rem}
+        .kpi-label{font-size:.74rem;color:var(--text-2);font-weight:500}
+        .kpi-sub{font-size:.68rem;color:var(--text-3);margin-top:.18rem}
+        .ic-teal{background:linear-gradient(135deg,#e0f2fe,#bae6fd);color:#0284c7}
+        .ic-emerald{background:linear-gradient(135deg,#ecfdf5,#a7f3d0);color:#059669}
+        .ic-violet{background:linear-gradient(135deg,#ede9fe,#ddd6fe);color:#7c3aed}
+        .ic-amber{background:linear-gradient(135deg,#fffbeb,#fde68a);color:#d97706}
+        .ic-rose{background:linear-gradient(135deg,#fff1f2,#fecdd3);color:#e11d48}
+        .ic-indigo{background:linear-gradient(135deg,#eef2ff,#c7d2fe);color:#4338ca}
+
+        /* ══ CHARTS ROW ══ */
+        .charts-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.9rem;margin-bottom:1.6rem}
+        .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-sm)}
+        .panel-header{
+          padding:1rem 1.25rem .75rem;
+          display:flex;justify-content:space-between;align-items:center;
+          border-bottom:1px solid var(--border);
+        }
+        .panel-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:var(--text)}
+        .panel-subtitle{font-size:.7rem;color:var(--text-3);margin-top:.08rem}
+        .panel-body{padding:1rem 1.25rem}
+        .panel-link{font-size:.72rem;color:var(--teal);font-weight:700;text-decoration:none}
+        .panel-link:hover{text-decoration:underline}
+
+        /* ══ TABLE ══ */
+        .data-table{width:100%;border-collapse:collapse;font-size:.79rem}
+        .data-table th{
+          padding:.6rem 1rem;text-align:left;
+          font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+          color:var(--text-3);background:var(--surface-2);border-bottom:1px solid var(--border);
+        }
+        .data-table td{padding:.68rem 1rem;border-bottom:1px solid var(--surface-3);color:var(--text);vertical-align:middle}
+        .data-table tr:last-child td{border-bottom:none}
+        .data-table tr:hover td{background:var(--surface-2)}
+        .med-name{font-weight:600;color:var(--text)}
+        .med-cat{font-size:.68rem;color:var(--text-3)}
+        .stock-bar-wrap{display:flex;align-items:center;gap:.45rem}
+        .stock-bar{height:4px;border-radius:99px;background:var(--surface-3);flex:1;overflow:hidden}
+        .stock-fill{height:100%;border-radius:99px;transition:width .6s var(--ease)}
+        .stock-num{font-size:.7rem;font-weight:600;font-family:'JetBrains Mono',monospace;min-width:26px;text-align:right}
+
+        /* ══ BADGES ══ */
+        .badge{display:inline-flex;align-items:center;gap:.25rem;font-size:.65rem;font-weight:700;padding:.2rem .55rem;border-radius:99px;letter-spacing:.04em;white-space:nowrap}
+        .badge-green{background:#dcfce7;color:#166534}
+        .badge-yellow{background:#fef9c3;color:#854d0e}
+        .badge-red{background:#fee2e2;color:#991b1b}
+        .badge-blue{background:#dbeafe;color:#1e40af}
+        .badge-purple{background:#f3e8ff;color:#6b21a8}
+        .badge-gray{background:#f1f5f9;color:#475569}
+        .badge-pink{background:#fce7f3;color:#9d174d}
+
+        /* ══ BOTTOM GRID ══ */
+        .bottom-grid{display:grid;grid-template-columns:2fr 1fr;gap:.9rem;margin-bottom:1.6rem}
+
+        /* ══ ALERT ITEMS ══ */
+        .alert-list{display:flex;flex-direction:column;gap:.5rem}
+        .alert-item{
+          display:flex;align-items:center;gap:.75rem;
+          padding:.65rem .85rem;border-radius:var(--r-sm);
+          border:1px solid var(--border);background:var(--surface);
+          transition:all .15s;
+        }
+        .alert-item:hover{border-color:var(--rose);background:#fff8f8}
+        .alert-item.warn:hover{border-color:var(--amber);background:#fffbeb}
+        .alert-icon{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0}
+        .alert-icon.red{background:#fee2e2;color:var(--rose)}
+        .alert-icon.amber{background:#fef3c7;color:var(--amber)}
+        .alert-name{font-size:.8rem;font-weight:600;color:var(--text)}
+        .alert-meta{font-size:.68rem;color:var(--text-3);margin-top:.06rem}
+        .alert-qty{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:700}
+        .alert-qty.red{color:var(--rose)}
+        .alert-qty.amber{color:var(--amber)}
+
+        /* ══ TRANSACTIONS ══ */
+        .tx-list{display:flex;flex-direction:column}
+        .tx-item{display:flex;align-items:center;gap:.8rem;padding:.68rem 0;border-bottom:1px solid var(--surface-3)}
+        .tx-item:last-child{border-bottom:none}
+        .tx-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0}
+        .tx-desc{flex:1}
+        .tx-name{font-size:.8rem;font-weight:600;color:var(--text)}
+        .tx-time{font-size:.68rem;color:var(--text-3);margin-top:.06rem}
+        .tx-amount{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:var(--emerald)}
+        .tx-invoice{font-size:.68rem;color:var(--text-3);text-align:right;margin-top:.06rem}
+
+        /* ══ THIRD ROW ══ */
+        .third-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.9rem;margin-bottom:1.6rem}
+
+        /* ══ EXPIRY ══ */
+        .expiry-rows{display:flex;flex-direction:column;gap:.5rem}
+        .expiry-row{display:flex;align-items:center;gap:.65rem}
+        .expiry-name{font-size:.76rem;color:var(--text);font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .expiry-bar-wrap{width:70px;height:4px;border-radius:99px;background:var(--surface-3);overflow:hidden;flex-shrink:0}
+        .expiry-fill{height:100%;border-radius:99px}
+        .expiry-days{font-size:.68rem;font-family:'JetBrains Mono',monospace;font-weight:600;min-width:40px;text-align:right;flex-shrink:0}
+
+        /* ══ MINI STATS ══ */
+        .mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:.85rem}
+        .mini-stat{text-align:center;padding:.6rem .4rem;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--border)}
+        .mini-stat-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+        .mini-stat-lbl{font-size:.65rem;color:var(--text-3);margin-top:.12rem}
+
+        /* ══ TIMELINE ══ */
+        .timeline{display:flex;flex-direction:column}
+        .tl-item{display:flex;gap:.75rem;padding:.48rem 0;position:relative}
+        .tl-dot-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:20px}
+        .tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:.22rem}
+        .tl-line{flex:1;width:1px;background:var(--border);margin:.18rem 0}
+        .tl-item:last-child .tl-line{display:none}
+        .tl-text{font-size:.78rem;color:var(--text);line-height:1.4}
+        .tl-text strong{font-weight:600}
+        .tl-time{font-size:.66rem;color:var(--text-3);margin-top:.14rem}
+
+        /* ══ QUICK ACTIONS ══ */
+        .qa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem}
+        .qa-card{
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          gap:.55rem;padding:1.1rem .5rem;
+          border:1px solid var(--border);border-radius:var(--r-sm);
+          background:var(--surface);cursor:pointer;text-decoration:none;
+          transition:all .18s var(--ease);text-align:center;
+        }
+        .qa-card:hover{background:#064e3b;border-color:#064e3b;transform:translateY(-2px);box-shadow:var(--shadow)}
+        .qa-card:hover .qa-icon{background:rgba(52,211,153,0.2);color:#34d399}
+        .qa-card:hover .qa-label{color:#fff}
+        .qa-icon{width:38px;height:38px;border-radius:var(--r-sm);background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:.95rem;color:var(--text-2);transition:all .18s}
+        .qa-label{font-size:.75rem;font-weight:600;color:var(--text-2);transition:color .18s;line-height:1.3}
+
+        /* ══ SUPPLIER ══ */
+        .supplier-list{display:flex;flex-direction:column;gap:.5rem}
+        .sup-item{display:flex;align-items:center;gap:.75rem;padding:.65rem .8rem;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--surface)}
+        .sup-logo{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:#fff;flex-shrink:0}
+        .sup-name{font-size:.8rem;font-weight:600;color:var(--text)}
+        .sup-meta{font-size:.68rem;color:var(--text-3);margin-top:.05rem}
+        .sup-status{margin-left:auto}
+
+        /* ══ EMPTY ══ */
+        .empty-row td{text-align:center;padding:1.5rem;color:var(--text-3);font-size:.8rem}
+
+        /* ══ ANIMATIONS ══ */
+        @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.3)}}
+        @keyframes fade-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+        @media(max-width:1400px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.charts-row{grid-template-columns:1fr 1fr}}
+        @media(max-width:1100px){.third-row{grid-template-columns:1fr 1fr}.bottom-grid{grid-template-columns:1fr}}
+    </style>
+</head>
 <body>
 
-<h1>Pharmacy Management Dashboard</h1>
+<!-- ══════════ SIDEBAR ══════════ -->
+<aside class="sidebar">
+    <div class="sidebar-brand-wrapper">
+        <div class="sidebar-logo-group">
+            <div class="sidebar-logo-solo">
+                <img th:src="@{/images/logo.png}" alt="MediTrack"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <span class="sidebar-logo-text-fallback">MediTrack</span>
+            </div>
+            <span class="sidebar-logo-subtitle">Pharmacy Management System</span>
+        </div>
+    </div>
 
-<hr>
+    <div style="overflow-y:auto;flex:1;padding-top:.4rem">
+        <div class="sidebar-section-label">Core</div>
+        <a href="/dashboard" class="nav-item active"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="/medicines" class="nav-item"><i class="fas fa-boxes-stacked"></i> Inventory</a>
+        <a href="/billing" class="nav-item"><i class="fas fa-file-invoice-dollar"></i> POS Counter</a>
+        <a href="/sales/reports" class="nav-item"><i class="fas fa-chart-bar"></i> Sales Reports</a>
 
-<h2>Inventory Management</h2>
+        <div class="sidebar-section-label">Monitoring</div>
+        <a href="/medicines/low-stock" class="nav-item">
+            <i class="fas fa-arrow-trend-down"></i> Low Stock
+            <span class="nav-badge amber" th:text="${lowStockCount}">0</span>
+        </a>
+        <a href="/medicines/expired" class="nav-item">
+            <i class="fas fa-hourglass-end"></i> Expired
+            <span class="nav-badge red" th:text="${expiredCount}">0</span>
+        </a>
 
-<a href="/medicines">
-    Open Medicine Inventory System
-</a>
-<br>
-<a href="/billing">
-    Billing
-</a>
+    </div>
 
-<a href="/sales/reports">
-    Sales Report
-</a>
+    <div class="sidebar-footer">
+        <div class="user-pill">
+            <div class="user-avatar">A</div>
+            <div>
+                <div class="user-name">Admin User</div>
+                <div class="user-role">System Administrator</div>
+            </div>
+            <div class="status-dot"></div>
+        </div>
+    </div>
+</aside>
 
-<h2>System Alerts</h2>
+<!-- ══════════ MAIN ══════════ -->
+<div class="main">
 
-<p>
-    Low Stock Medicines:
-    <span th:text="${lowStockCount}"></span>
-</p>
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="page-title">Command Center</div>
+            <div class="breadcrumb">MediTrack / <span>Dashboard</span></div>
+        </div>
+        <div class="topbar-right">
+            <div class="pharmacy-badge"><div class="live-dot"></div> System Online</div>
+            <div class="tb-clock" id="clock">--:-- --</div>
+            <div class="tb-btn"><i class="fas fa-bell"></i><div class="notif-dot"></div></div>
+            <div class="tb-btn"><i class="fas fa-user-circle"></i></div>
+            <a href="/logout" class="tb-btn" style="color:var(--rose)"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </header>
 
-<p>
-    Expired Medicines:
-    <span th:text="${expiredCount}"></span>
-</p>
+    <!-- CONTENT -->
+    <div class="content">
 
-<br>
+        <!-- ══ KPI CARDS ══ -->
+        <div class="kpi-grid">
 
-<a href="/medicines/low-stock">
-    View Low Stock Medicines
-</a>
+            <!-- Total Medicines — dynamic -->
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon ic-teal"><i class="fas fa-capsules"></i></div>
+                    <div class="kpi-trend up"><i class="fas fa-arrow-up"></i> Live</div>
+                </div>
+                <div class="kpi-value" th:text="${medicineCount}">0</div>
+                <div class="kpi-label">Total Medicines</div>
+                <div class="kpi-sub">Active compounds in DB</div>
+            </div>
 
-<br><br>
+            <!-- Total Stock Value — dynamic -->
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon ic-emerald"><i class="fas fa-cubes"></i></div>
+                    <div class="kpi-trend up"><i class="fas fa-arrow-up"></i> Live</div>
+                </div>
+                <div class="kpi-value">
+                    Rs.<span th:text="${#numbers.formatDecimal(totalStockValue, 0, 'COMMA', 0, 'POINT')}">0</span>
+                </div>
+                <div class="kpi-label">Total Stock Value</div>
+                <div class="kpi-sub">Across all categories</div>
+            </div>
 
-<a href="/medicines/expired">
-    View Expired Medicines
-</a>
+            <!-- Today's Sales — static placeholder (no billing model yet) -->
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon ic-violet"><i class="fas fa-cash-register"></i></div>
+                    <div class="kpi-trend up"><i class="fas fa-arrow-up"></i> Live</div>
+                </div>
+                <div class="kpi-value">
+                    Rs.<span th:text="${#numbers.formatDecimal(todayRevenue, 0, 'COMMA', 0, 'POINT')}">0</span>
+                </div>
+                <div class="kpi-label">Today's Sales</div>
+                <div class="kpi-sub" th:text="${todayTxCount} + ' transactions today'">0 transactions</div>
+            </div>
 
+            <!-- Monthly Revenue — static placeholder -->
+            <div class="kpi-card">
+            <div class="kpi-header">
+                <div class="kpi-icon ic-indigo"><i class="fas fa-chart-line"></i></div>
+                <div class="kpi-trend"
+                     th:classappend="${revenueTrendUp} ? 'up' : 'down'">
+                    <i class="fas"
+                       th:classappend="${revenueTrendUp} ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+                    <span th:text="${revenueTrend} + '%'">0%</span>
+                </div>
+            </div>
+            <div class="kpi-value">
+                Rs.<span th:text="${#numbers.formatDecimal(monthlyRevenue, 0, 'COMMA', 0, 'POINT')}">0</span>
+            </div>
+            <div class="kpi-label">Monthly Revenue</div>
+            <div class="kpi-sub">
+                vs Rs.<span th:text="${#numbers.formatDecimal(lastMonthRevenue, 0, 'COMMA', 0, 'POINT')}">0</span> last month
+            </div>
+        </div>
+
+            <!-- Low Stock — dynamic -->
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon ic-amber"><i class="fas fa-triangle-exclamation"></i></div>
+                    <div class="kpi-trend warn"><i class="fas fa-minus"></i> Alert</div>
+                </div>
+                <div class="kpi-value" th:text="${lowStockCount}">0</div>
+                <div class="kpi-label">Low Stock Items</div>
+                <div class="kpi-sub">Need restocking now</div>
+            </div>
+
+            <!-- Expired — dynamic -->
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon ic-rose"><i class="fas fa-hourglass-end"></i></div>
+                    <div class="kpi-trend down"><i class="fas fa-arrow-up"></i> Alert</div>
+                </div>
+                <div class="kpi-value" th:text="${expiredCount}">0</div>
+                <div class="kpi-label">Expired Items</div>
+                <div class="kpi-sub">Requires disposal</div>
+            </div>
+
+        </div>
+
+        <!-- ══ CHARTS ROW ══ -->
+        <div class="charts-row">
+
+            <!-- Sales Line Chart (static — no billing data) -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Revenue & Sales Trend</div>
+                        <div class="panel-subtitle">Monthly performance overview</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div style="position:relative;height:195px"><canvas id="salesChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Category Doughnut — DYNAMIC via Thymeleaf -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Stock by Category</div>
+                        <div class="panel-subtitle">Units per category</div>
+                    </div>
+                </div>
+                <div class="panel-body" style="display:flex;flex-direction:column;align-items:center">
+                    <div style="height:145px;width:145px"><canvas id="catChart"></canvas></div>
+                    <div id="cat-legend" style="margin-top:.75rem;width:100%;display:flex;flex-direction:column;gap:.3rem;font-size:.71rem"></div>
+                </div>
+                <!-- Hidden data from Thymeleaf -->
+                <div id="cat-data" style="display:none"
+                     th:data-labels="${categoryLabels}"
+                     th:data-values="${categoryValues}">
+                </div>
+            </div>
+
+            <!-- Daily Bar Chart (static) -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Daily Sales</div>
+                        <div class="panel-subtitle">This week</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div style="position:relative;height:175px"><canvas id="barChart"></canvas></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══ BOTTOM GRID: Inventory Table + Right Column ══ -->
+        <div class="bottom-grid">
+
+            <!-- Inventory Table — DYNAMIC -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Inventory Overview</div>
+                        <div class="panel-subtitle">Live stock snapshot from database</div>
+                    </div>
+                    <a href="/medicines" class="panel-link">View All →</a>
+                </div>
+                <div style="padding:0">
+                    <table class="data-table">
+                        <thead>
+                        <tr>
+                            <th style="padding-left:1.25rem">Medicine</th>
+                            <th>Category</th>
+                            <th>Stock</th>
+                            <th>Expiry</th>
+                            <th style="padding-right:1.25rem">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Show first 8 medicines -->
+                        <tr th:each="med, iterStat : ${medicines}" th:if="${iterStat.index < 8}">
+                            <td style="padding-left:1.25rem">
+                                <div class="med-name" th:text="${med.medicineName}">—</div>
+                                <div class="med-cat" th:text="${med.category.categoryName}">—</div>
+                            </td>
+                            <td>
+                  <span class="badge"
+                        th:classappend="${med.category.categoryName == 'Tablet'} ? 'badge-blue' :
+                                    (${med.category.categoryName == 'Syrup'} ? 'badge-green' :
+                                    (${med.category.categoryName == 'Injection'} ? 'badge-pink' :
+                                    (${med.category.categoryName == 'Capsule'} ? 'badge-purple' : 'badge-gray')))"
+                        th:text="${med.category.categoryName}">—</span>
+                            </td>
+                            <td>
+                                <div class="stock-bar-wrap">
+                                    <div class="stock-bar">
+                                        <div class="stock-fill"
+                                             th:style="${med.quantityInStock <= 0}   ? 'width:2%;background:#f43f5e' :
+                                  (${med.quantityInStock <= 10}  ? 'width:10%;background:#f59e0b' :
+                                  (${med.quantityInStock <= 50}  ? 'width:35%;background:#f59e0b' :
+                                  (${med.quantityInStock <= 200} ? 'width:60%;background:#10b981' : 'width:90%;background:#10b981')))">
+                                        </div>
+                                    </div>
+                                    <div class="stock-num"
+                                         th:style="${med.quantityInStock <= 10} ? 'color:#f59e0b' : 'color:#059669'"
+                                         th:text="${med.quantityInStock}">0</div>
+                                </div>
+                            </td>
+                            <td>
+                  <span style="font-size:.73rem;font-family:'JetBrains Mono',monospace"
+                        th:text="${med.expiryDate}">—</span>
+                            </td>
+                            <td style="padding-right:1.25rem">
+                  <span class="badge"
+                        th:classappend="${med.quantityInStock <= 0}  ? 'badge-red' :
+                                    (${med.quantityInStock <= 10} ? 'badge-yellow' : 'badge-green')"
+                        th:text="${med.quantityInStock <= 0}  ? 'Out of Stock' :
+                              (${med.quantityInStock <= 10} ? 'Low Stock' : 'In Stock')">—</span>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(medicines)}" class="empty-row">
+                            <td colspan="5">No medicines found in database</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Column: Low Stock Alerts + Transactions -->
+            <div style="display:flex;flex-direction:column;gap:.9rem">
+
+                <!-- Low Stock Alerts — DYNAMIC -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <div class="panel-title">⚠️ Low Stock Alerts</div>
+                            <div class="panel-subtitle">Requires immediate restocking</div>
+                        </div>
+                        <a href="/medicines/low-stock" class="panel-link" style="color:#d97706">All →</a>
+                    </div>
+                    <div class="panel-body" style="padding:.85rem 1rem">
+                        <div class="alert-list">
+                            <div th:each="med, iterStat : ${lowStockMedicines}" th:if="${iterStat.index < 4}"
+                                 class="alert-item warn">
+                                <div class="alert-icon amber"><i class="fas fa-pills"></i></div>
+                                <div>
+                                    <div class="alert-name" th:text="${med.medicineName}">—</div>
+                                    <div class="alert-meta" th:text="${med.category.categoryName}">—</div>
+                                </div>
+                                <div class="alert-qty amber" th:text="${med.quantityInStock} + ' units'">0</div>
+                            </div>
+                            <div th:if="${#lists.isEmpty(lowStockMedicines)}"
+                                 style="text-align:center;padding:.85rem;font-size:.78rem;color:var(--text-3)">
+                                ✅ All stock levels are healthy
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions — static (no billing model) -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <div class="panel-title">🗓️ Expiry Warnings</div>
+                            <div class="panel-subtitle">Medicines expiring soon</div>
+                        </div>
+                        <a href="/medicines/expired" class="panel-link" style="color:var(--rose)">All →</a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="mini-stats">
+                            <div class="mini-stat">
+                                <div class="mini-stat-val" style="color:var(--rose)" th:text="${expiredCount}">0</div>
+                                <div class="mini-stat-lbl">Expired</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-val" style="color:#ea580c" id="exp30">—</div>
+                                <div class="mini-stat-lbl">In 30 days</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-val" style="color:var(--amber)" id="exp60">—</div>
+                                <div class="mini-stat-lbl">In 60 days</div>
+                            </div>
+                        </div>
+                        <div class="expiry-rows" id="expiryRows">
+                            <div th:each="med, iterStat : ${expiredMedicines}" th:if="${iterStat.index < 6}">
+                                <div class="expiry-row">
+                                    <div class="expiry-name" th:text="${med.medicineName}">—</div>
+                                    <div class="expiry-bar-wrap">
+                                        <div class="expiry-fill" style="width:3%;background:#f43f5e"></div>
+                                    </div>
+                                    <div class="expiry-days" style="color:#f43f5e">Expired</div>
+                                </div>
+                            </div>
+                            <div th:if="${#lists.isEmpty(expiredMedicines)}"
+                                 style="text-align:center;padding:.85rem;font-size:.78rem;color:var(--text-3)">
+                                ✅ No expired medicines
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ══ THIRD ROW ══ -->
+        <div class="third-row">
+
+            <!-- Expiry Warning — DYNAMIC -->
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Recent Transactions</div>
+                        <div class="panel-subtitle">Latest POS activity</div>
+                    </div>
+                    <a href="/sales/reports" class="panel-link">All →</a>
+                </div>
+                <div class="panel-body" style="padding:.7rem 1rem">
+                    <div class="tx-list">
+
+                        <div th:each="sale : ${recentSales}" class="tx-item">
+                            <!-- Avatar: first 2 letters of customer name -->
+                            <div class="tx-avatar"
+                                 th:style="'background:' + ${sale.saleId % 4 == 0} ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' :
+                               (${sale.saleId % 4 == 1} ? 'linear-gradient(135deg,#0ea5e9,#0284c7)' :
+                               (${sale.saleId % 4 == 2} ? 'linear-gradient(135deg,#10b981,#059669)' :
+                               'linear-gradient(135deg,#f59e0b,#d97706)'))"
+                                 th:text="${#strings.length(sale.customer.customerName) >= 2}
+                               ? ${#strings.toUpperCase(#strings.substring(sale.customer.customerName, 0, 2))}
+                               : ${#strings.toUpperCase(sale.customer.customerName)}">
+                                --
+                            </div>
+
+                            <div class="tx-desc">
+                                <div class="tx-name" th:text="${sale.customer.customerName}">—</div>
+                                <div class="tx-time"
+                                     th:text="${#temporals.format(sale.saleDate, 'MMM dd, hh:mm a')}">—</div>
+                            </div>
+
+                            <div>
+                                <div class="tx-amount"
+                                     th:text="'Rs.' + ${#numbers.formatDecimal(sale.totalAmount, 0, 'COMMA', 0, 'POINT')}">—</div>
+                                <div class="tx-invoice" th:text="'#INV-' + ${sale.saleId}">—</div>
+                            </div>
+                        </div>
+
+                        <!-- Empty state -->
+                        <div th:if="${#lists.isEmpty(recentSales)}"
+                             style="text-align:center;padding:1.25rem 0;font-size:.78rem;color:var(--text-3)">
+                            <i class="fas fa-receipt" style="font-size:1.5rem;opacity:.2;display:block;margin-bottom:.5rem"></i>
+                            No transactions recorded yet
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supplier Overview — STATIC as requested -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">Supplier Overview</div>
+                        <div class="panel-subtitle">Active vendor partners</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="mini-stats" style="margin-bottom:.75rem">
+                        <div class="mini-stat"><div class="mini-stat-val">7</div><div class="mini-stat-lbl">Suppliers</div></div>
+                        <div class="mini-stat"><div class="mini-stat-val" style="color:var(--emerald)">3</div><div class="mini-stat-lbl">Pending</div></div>
+                        <div class="mini-stat"><div class="mini-stat-val" style="color:var(--teal)">18</div><div class="mini-stat-lbl">This Month</div></div>
+                    </div>
+                    <div class="supplier-list">
+                        <div class="sup-item">
+                            <div class="sup-logo" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">GS</div>
+                            <div><div class="sup-name">GlaxoSmithKline</div><div class="sup-meta">Last order: 3 days ago</div></div>
+                            <div class="sup-status"><span class="badge badge-green">Active</span></div>
+                        </div>
+                        <div class="sup-item">
+                            <div class="sup-logo" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">PN</div>
+                            <div><div class="sup-name">PharmaNova Ltd.</div><div class="sup-meta">Last order: 1 week ago</div></div>
+                            <div class="sup-status"><span class="badge badge-yellow">Pending</span></div>
+                        </div>
+                        <div class="sup-item">
+                            <div class="sup-logo" style="background:linear-gradient(135deg,#10b981,#059669)">MG</div>
+                            <div><div class="sup-name">MedGen Pakistan</div><div class="sup-meta">Last order: 2 weeks ago</div></div>
+                            <div class="sup-status"><span class="badge badge-green">Active</span></div>
+                        </div>
+                        <div class="sup-item">
+                            <div class="sup-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">HC</div>
+                            <div><div class="sup-name">HealthCare Corp.</div><div class="sup-meta">Last order: 1 month ago</div></div>
+                            <div class="sup-status"><span class="badge badge-gray">Inactive</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions + Activity Log -->
+            <div style="display:flex;flex-direction:column;gap:.9rem">
+
+                <!-- Quick Actions — 4 buttons, no Invoice/Add Supplier -->
+                <div class="panel">
+                    <div class="panel-header"><div class="panel-title">Quick Actions</div></div>
+                    <div class="panel-body">
+                        <div class="qa-grid">
+                            <a href="/medicines?openModal=true" class="qa-card">
+                                <div class="qa-icon"><i class="fas fa-plus-circle"></i></div>
+                                <div class="qa-label">Add Medicine</div>
+                            </a>
+                            <a href="/billing" class="qa-card">
+                                <div class="qa-icon"><i class="fas fa-cash-register"></i></div>
+                                <div class="qa-label">New Sale</div>
+                            </a>
+                            <a href="#" class="qa-card">
+                                <div class="qa-icon"><i class="fas fa-cart-plus"></i></div>
+                                <div class="qa-label">Purchase</div>
+                            </a>
+                            <a href="/sales/reports" class="qa-card">
+                                <div class="qa-icon"><i class="fas fa-chart-bar"></i></div>
+                                <div class="qa-label">Reports</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Log — DYNAMIC from medicines list -->
+                <div class="panel" style="flex:1">
+                    <div class="panel-header"><div class="panel-title">Activity Log</div></div>
+                    <div class="panel-body">
+                        <div class="timeline" id="activityLog">
+
+                            <!-- Dynamic: recently added medicines (last 3) -->
+                            <div th:each="med, iterStat : ${medicines}"
+                                 th:if="${iterStat.index < 3}"
+                                 class="tl-item">
+                                <div class="tl-dot-wrap">
+                                    <div class="tl-dot" style="background:#0ea5e9"></div>
+                                    <div class="tl-line"></div>
+                                </div>
+                                <div>
+                                    <div class="tl-text">
+                                        <strong th:text="${med.medicineName}">—</strong> registered in inventory
+                                    </div>
+                                    <div class="tl-time">
+                                        <span th:text="${med.category.categoryName}">—</span> ·
+                                        <span th:text="'Batch: ' + ${med.batchNumber ?: 'N/A'}">—</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic: low stock warnings -->
+                            <div th:each="med, iterStat : ${lowStockMedicines}"
+                                 th:if="${iterStat.index < 2}"
+                                 class="tl-item">
+                                <div class="tl-dot-wrap">
+                                    <div class="tl-dot" style="background:#f59e0b"></div>
+                                    <div class="tl-line"></div>
+                                </div>
+                                <div>
+                                    <div class="tl-text">
+                                        <strong>Low stock alert</strong> —
+                                        <span th:text="${med.medicineName}">—</span>
+                                    </div>
+                                    <div class="tl-time" th:text="${med.quantityInStock} + ' units remaining'">—</div>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic: expired items -->
+                            <div th:each="med, iterStat : ${expiredMedicines}"
+                                 th:if="${iterStat.index < 2}"
+                                 class="tl-item">
+                                <div class="tl-dot-wrap">
+                                    <div class="tl-dot" style="background:#f43f5e"></div>
+                                    <div class="tl-line"></div>
+                                </div>
+                                <div>
+                                    <div class="tl-text">
+                                        <strong>Expiry flag</strong> —
+                                        <span th:text="${med.medicineName}">—</span>
+                                    </div>
+                                    <div class="tl-time" th:text="'Expired: ' + ${med.expiryDate}">—</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- /content -->
+</div><!-- /main -->
+<div id="chart-data"
+     th:attr="data-monthly=${monthlyChartData}"
+     style="display:none">
+</div>
+<script>
+    // ── CLOCK ──
+    function tick(){
+        const n=new Date(),h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();
+        const ap=h>=12?'PM':'AM',hh=h%12||12;
+        document.getElementById('clock').textContent=
+            String(hh).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')+' '+ap;
+    }
+    tick();setInterval(tick,1000);
+
+    // ── CHART DEFAULTS ──
+    Chart.defaults.font.family="'DM Sans',sans-serif";
+    Chart.defaults.color='#94a3b8';
+    Chart.defaults.plugins.legend.display=false;
+
+    // ── READ DYNAMIC MONTHLY REVENUE FROM THYMELEAF ──
+    const rawMonthly = JSON.parse(
+        document.getElementById('chart-data').getAttribute('data-monthly') || '[0,0,0,0,0,0,0,0,0,0,0,0]'
+    );
+
+    // ── SALES LINE CHART — Revenue line DYNAMIC, Transactions line static ──
+    const salesCtx=document.getElementById('salesChart').getContext('2d');
+    const grad=salesCtx.createLinearGradient(0,0,0,195);
+    grad.addColorStop(0,'rgba(14,165,233,.22)');
+    grad.addColorStop(1,'rgba(14,165,233,0)');
+    const grad2=salesCtx.createLinearGradient(0,0,0,195);
+    grad2.addColorStop(0,'rgba(16,185,129,.15)');
+    grad2.addColorStop(1,'rgba(16,185,129,0)');
+
+    new Chart(salesCtx,{
+        type:'line',
+        data:{
+            labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            datasets:[
+                {
+                    label:'Revenue (Rs.)',
+                    data: rawMonthly,
+                    borderColor:'#0ea5e9',
+                    borderWidth:2.5,
+                    fill:true,
+                    backgroundColor:grad,
+                    tension:.4,
+                    pointRadius:0,
+                    pointHoverRadius:4,
+                    pointHoverBackgroundColor:'#0ea5e9'
+                },
+                {
+                    label:'Transactions',
+                    data:[420,510,480,620,590,710,680,780,840,760,920,940],
+                    borderColor:'#10b981',
+                    borderWidth:2,
+                    fill:true,
+                    backgroundColor:grad2,
+                    tension:.4,
+                    pointRadius:0,
+                    pointHoverRadius:4,
+                    borderDash:[5,3]
+                }
+            ]
+        },
+        options:{
+            responsive:true,maintainAspectRatio:false,
+            interaction:{mode:'index',intersect:false},
+            scales:{
+                x:{grid:{display:false},ticks:{font:{size:10}}},
+                y:{
+                    grid:{color:'#f1f5f9'},
+                    ticks:{
+                        font:{size:10},
+                        callback: v => {
+                            if(v >= 1000000) return 'Rs.'+(v/1000000).toFixed(1)+'M';
+                            if(v >= 1000)    return 'Rs.'+(v/1000).toFixed(0)+'k';
+                            return 'Rs.'+v;
+                        }
+                    }
+                }
+            },
+            plugins:{
+                legend:{
+                    display:true,position:'top',
+                    labels:{boxWidth:8,font:{size:10},usePointStyle:true,pointStyle:'circle',padding:12}
+                },
+                tooltip:{
+                    backgroundColor:'#0f172a',
+                    titleFont:{size:11},
+                    bodyFont:{size:10},
+                    padding:10,
+                    cornerRadius:8,
+                    callbacks:{
+                        label: ctx => {
+                            if(ctx.datasetIndex === 0){
+                                return ' Rs.'+ctx.parsed.y.toLocaleString();
+                            }
+                            return ' '+ctx.parsed.y+' transactions';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // ── CATEGORY DOUGHNUT — DYNAMIC ──
+    (function(){
+        const el = document.getElementById('cat-data');
+        let labels = [], values = [];
+
+        if(el){
+            try{
+                const rawLabels = el.getAttribute('data-labels') || '';
+                const rawValues = el.getAttribute('data-values') || '';
+                labels = rawLabels.replace(/[\[\]]/g,'').split(',').map(s=>s.trim()).filter(Boolean);
+                values = rawValues.replace(/[\[\]]/g,'').split(',').map(s=>parseInt(s.trim())||0).filter((_,i)=>labels[i]);
+            }catch(e){}
+        }
+
+        if(!labels.length){
+            labels=['No Data'];
+            values=[1];
+        }
+
+        const palette=['#0ea5e9','#10b981','#8b5cf6','#f59e0b','#f43f5e','#06b6d4','#84cc16','#ec4899'];
+        const colors=labels.map((_,i)=>palette[i%palette.length]);
+
+        const catCtx=document.getElementById('catChart').getContext('2d');
+        new Chart(catCtx,{
+            type:'doughnut',
+            data:{labels,datasets:[{data:values,backgroundColor:colors,borderWidth:0,hoverOffset:5}]},
+            options:{
+                responsive:true,maintainAspectRatio:false,cutout:'70%',
+                plugins:{
+                    tooltip:{
+                        backgroundColor:'#0f172a',padding:8,cornerRadius:6,
+                        callbacks:{label:ctx=>ctx.label+': '+ctx.parsed.toLocaleString()+' units'}
+                    }
+                }
+            }
+        });
+
+        const leg=document.getElementById('cat-legend');
+        const total=values.reduce((a,b)=>a+b,0)||1;
+        labels.forEach((l,i)=>{
+            const pct=Math.round(values[i]/total*100);
+            const row=document.createElement('div');
+            row.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:.4rem';
+            row.innerHTML=`
+                <div style="display:flex;align-items:center;gap:.35rem">
+                    <div style="width:7px;height:7px;border-radius:50%;background:${colors[i]};flex-shrink:0"></div>
+                    <span style="color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px">${l}</span>
+                </div>
+                <span style="font-weight:700;color:#0f172a;font-family:'JetBrains Mono',monospace;font-size:.68rem">
+                    ${values[i].toLocaleString()} (${pct}%)
+                </span>`;
+            leg.appendChild(row);
+        });
+    })();
+
+    // ── DAILY BAR CHART (static) ──
+    const barCtx=document.getElementById('barChart').getContext('2d');
+    const gBar=barCtx.createLinearGradient(0,0,0,155);
+    gBar.addColorStop(0,'#0ea5e9');
+    gBar.addColorStop(1,'rgba(14,165,233,.3)');
+
+    new Chart(barCtx,{
+        type:'bar',
+        data:{
+            labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+            datasets:[{
+                data:[32800,41500,38200,51000,47600,62400,42600],
+                backgroundColor:gBar,
+                borderRadius:5,
+                borderSkipped:false
+            }]
+        },
+        options:{
+            responsive:true,maintainAspectRatio:false,
+            scales:{
+                x:{grid:{display:false},ticks:{font:{size:10}}},
+                y:{
+                    grid:{color:'#f1f5f9'},
+                    ticks:{
+                        font:{size:10},
+                        callback: v => {
+                            if(v >= 1000) return '₨'+(v/1000).toFixed(0)+'k';
+                            return '₨'+v;
+                        }
+                    }
+                }
+            },
+            plugins:{
+                tooltip:{
+                    backgroundColor:'#0f172a',padding:8,cornerRadius:6,
+                    callbacks:{label:ctx=>' Rs.'+ctx.parsed.y.toLocaleString()}
+                }
+            }
+        }
+    });
+
+    // ── EXPIRY 30/60 DAY COUNTERS ──
+    (function(){
+        const today=new Date();
+        today.setHours(0,0,0,0);
+        const d30=new Date(today); d30.setDate(d30.getDate()+30);
+        const d60=new Date(today); d60.setDate(d60.getDate()+60);
+
+        let c30=0, c60=0;
+        document.querySelectorAll('.data-table tbody tr').forEach(row=>{
+            const cells=row.querySelectorAll('td');
+            if(cells.length<4) return;
+            const dateStr=cells[3].textContent.trim();
+            if(!dateStr || dateStr==='—') return;
+            const d=new Date(dateStr);
+            if(isNaN(d)) return;
+            if(d>=today && d<=d30)       c30++;
+            else if(d>d30 && d<=d60)     c60++;
+        });
+
+        const el30=document.getElementById('exp30');
+        const el60=document.getElementById('exp60');
+        if(el30) el30.textContent=c30;
+        if(el60) el60.textContent=c60;
+    })();
+</script>
 </body>
 </html>

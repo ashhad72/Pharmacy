@@ -1,14 +1,213 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Pharmacy Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrack - Pharmacy Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .page-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+            width: 100%;
+            max-width: 460px;
+            overflow: hidden;
+        }
+
+        /* ── GREEN TOP STRIPE ── */
+        .card-stripe {
+            height: 5px;
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+
+        /* ── CARD BODY ── */
+        .card-body { padding: 2.5rem 2.25rem; }
+
+        /* ── HERO ── */
+        .hero-top {
+            display: flex; align-items: center; gap: 1rem;
+            margin-bottom: 1.75rem;
+        }
+        .hero-icon {
+            width: 56px; height: 56px; border-radius: 12px;
+            background: #f0fdf4; border: 1.5px solid #bbf7d0;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .hero-icon img {
+            width: 100%; height: 100%; object-fit: contain;
+        }
+        .hero-icon-fallback {
+            font-size: 1.4rem; color: #10b981;
+        }
+        .hero-brand { font-size: 1.35rem; font-weight: 700; color: #1f2937; letter-spacing: -.3px; }
+        .hero-system { font-size: .78rem; color: #6b7280; margin-top: .15rem; }
+
+        .hero-divider {
+            border: none; border-top: 1px solid #f3f4f6;
+            margin: 0 0 1.75rem;
+        }
+
+        .hero-title {
+            font-size: 1.4rem; font-weight: 700;
+            color: #1f2937; letter-spacing: -.3px;
+            margin-bottom: .5rem;
+        }
+        .hero-title span { color: #10b981; }
+        .hero-desc {
+            font-size: .875rem; color: #6b7280;
+            line-height: 1.65; margin-bottom: 1.75rem;
+        }
+
+        /* ── FEATURE LIST ── */
+        .feature-list {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: .6rem; margin-bottom: 2rem;
+        }
+        .feature-item {
+            display: flex; align-items: center; gap: .55rem;
+            font-size: .8rem; color: #374151; font-weight: 500;
+        }
+        .feature-dot {
+            width: 22px; height: 22px; border-radius: 6px;
+            background: #f0fdf4; border: 1px solid #bbf7d0;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .feature-dot i { font-size: .65rem; color: #10b981; }
+
+        /* ── CTA BUTTON ── */
+        .btn-enter {
+            display: flex; align-items: center; justify-content: center; gap: .65rem;
+            width: 100%; padding: .85rem;
+            background: #10b981; border: none; border-radius: 8px;
+            color: #fff; font-family: 'Inter', sans-serif;
+            font-size: .93rem; font-weight: 600;
+            text-decoration: none; cursor: pointer;
+            transition: background .18s, transform .15s, box-shadow .18s;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.3);
+        }
+        .btn-enter:hover {
+            background: #059669;
+            box-shadow: 0 4px 14px rgba(16,185,129,0.35);
+            transform: translateY(-1px);
+            color: #fff;
+        }
+        .btn-enter:active { transform: translateY(0); }
+
+        /* ── FOOTER ── */
+        .card-footer {
+            background: #f9fafb;
+            border-top: 1px solid #f3f4f6;
+            padding: .9rem 2.25rem;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .footer-copy {
+            font-size: .72rem; color: #9ca3af;
+        }
+        .footer-badge {
+            display: flex; align-items: center; gap: .35rem;
+            font-size: .7rem; color: #6b7280; font-weight: 500;
+        }
+        .footer-badge i { color: #10b981; font-size: .65rem; }
+    </style>
 </head>
 <body>
 
-<h1>Welcome to MediTrack Pharmacy</h1>
+<div class="page-card">
 
-<a href="/login">Login</a>
-<br><br>
+    <div class="card-stripe"></div>
+
+    <div class="card-body">
+
+        <!-- Brand row -->
+        <div class="hero-top">
+            <div class="hero-icon">
+                <img th:src="@{/images/logo.png}" alt="MediTrack"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <div class="hero-icon-fallback"
+                     style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">
+                    <i class="fas fa-prescription-bottle-medical"></i>
+                </div>
+            </div>
+            <div>
+                <div class="hero-brand">MediTrack</div>
+                <div class="hero-system">Pharmacy Management System</div>
+            </div>
+        </div>
+
+        <hr class="hero-divider">
+
+        <div class="hero-title">Manage your pharmacy <span>smarter.</span></div>
+        <p class="hero-desc">
+            A complete pharmacy management solution for inventory control,
+            POS billing, sales reporting, and stock monitoring — built for
+            local pharmacies.
+        </p>
+
+        <!-- Features -->
+        <div class="feature-list">
+            <div class="feature-item">
+                <div class="feature-dot"><i class="fas fa-boxes-stacked"></i></div>
+                Inventory Control
+            </div>
+            <div class="feature-item">
+                <div class="feature-dot"><i class="fas fa-cash-register"></i></div>
+                POS Billing
+            </div>
+            <div class="feature-item">
+                <div class="feature-dot"><i class="fas fa-chart-bar"></i></div>
+                Sales Reports
+            </div>
+            <div class="feature-item">
+                <div class="feature-dot"><i class="fas fa-triangle-exclamation"></i></div>
+                Low Stock Alerts
+            </div>
+            <div class="feature-item">
+                <div class="feature-dot"><i class="fas fa-hourglass-end"></i></div>
+                Expiry Tracking
+            </div>
+            <div class="feature-item">
+                <div class="feature-dot"><i class="fas fa-truck-fast"></i></div>
+                Supplier Management
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <a href="/login" class="btn-enter">
+            <i class="fas fa-right-to-bracket"></i>
+            Sign In to Continue
+            <i class="fas fa-arrow-right" style="margin-left:auto;font-size:.8rem"></i>
+        </a>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="card-footer">
+        <div class="footer-copy">&copy; 2026 MediTrack</div>
+        <div class="footer-badge">
+            <i class="fas fa-shield-halved"></i> Secure System
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -1,65 +1,760 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Billing System</title>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Billing Counter - MediTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 
+    <style>
+        body { background-color: var(--bg-primary); }
+
+        /* ── WORKSPACE ── */
+        .billing-workspace {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            align-items: start;
+        }
+        @media (max-width: 992px) {
+            .billing-workspace { grid-template-columns: 1fr; }
+        }
+
+        /* ── CARDS ── */
+        .billing-card {
+            background: var(--bg-surface, #fff);
+            border: 1px solid var(--border-color, #e2e8f0);
+            border-radius: 14px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.05);
+            overflow: hidden;
+        }
+        .card-section {
+            padding: 1.5rem;
+        }
+        .card-section + .card-section {
+            border-top: 1px solid var(--border-color, #e2e8f0);
+        }
+        .section-heading {
+            display: flex; align-items: center; gap: .6rem;
+            font-size: .82rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .07em;
+            color: var(--text-muted, #64748b);
+            margin-bottom: 1.1rem;
+        }
+        .section-heading .step-badge {
+            width: 22px; height: 22px; border-radius: 50%;
+            background: #10b981; color: #fff;
+            font-size: .7rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* ── FORM CONTROLS ── */
+        .form-label {
+            font-size: .75rem; font-weight: 600;
+            color: var(--text-muted, #64748b);
+            text-transform: uppercase; letter-spacing: .05em;
+            margin-bottom: .35rem;
+        }
+        .form-control, .input-group .form-control {
+            border: 1.5px solid var(--border-color, #e2e8f0);
+            border-radius: 8px;
+            font-size: .88rem;
+            padding: .6rem .85rem;
+            transition: border-color .18s, box-shadow .18s;
+        }
+        .form-control:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16,185,129,.1);
+        }
+        .input-group-text {
+            background: var(--bg-surface, #fff);
+            border: 1.5px solid var(--border-color, #e2e8f0);
+            border-right: none;
+            color: #94a3b8;
+            font-size: .85rem;
+        }
+        .input-group .form-control {
+            border-left: none;
+        }
+        .input-group .form-control:focus {
+            border-left: none;
+            box-shadow: none;
+        }
+        .input-group:focus-within {
+            border-radius: 8px;
+            box-shadow: 0 0 0 3px rgba(16,185,129,.1);
+        }
+        .input-group:focus-within .input-group-text,
+        .input-group:focus-within .form-control {
+            border-color: #10b981;
+        }
+
+        /* ── AUTOCOMPLETE SEARCH ── */
+        .search-wrapper { position: relative; }
+        .search-input-group {
+            display: flex; align-items: center;
+            background: var(--bg-surface, #fff);
+            border: 1.5px solid var(--border-color, #e2e8f0);
+            border-radius: 8px;
+            transition: border-color .18s, box-shadow .18s;
+            height: 40px;
+        }
+        .search-input-group:focus-within {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16,185,129,.1);
+        }
+        .search-input-group .search-icon {
+            padding: 0 .75rem;
+            color: #94a3b8; font-size: .85rem; flex-shrink: 0;
+        }
+        .search-input-group input {
+            border: none !important; background: transparent !important;
+            outline: none !important; box-shadow: none !important;
+            padding: 0 .75rem 0 0; font-size: .88rem;
+            width: 100%; height: 100%;
+            color: var(--text-dark, #0f172a);
+        }
+        .search-input-group input::placeholder { color: #c0ccda; }
+
+        .suggestions-dropdown {
+            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background: white;
+            border: 1.5px solid var(--border-color, #e2e8f0);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.1);
+            list-style: none; margin: 0; padding: .35rem 0;
+            z-index: 1050; display: none;
+            max-height: 220px; overflow-y: auto;
+        }
+        .suggestions-dropdown li {
+            padding: .6rem 1rem; cursor: pointer; font-size: .87rem;
+            color: var(--text-dark, #0f172a);
+            display: flex; align-items: center; justify-content: space-between;
+            transition: background .1s;
+        }
+        .suggestions-dropdown li.active,
+        .suggestions-dropdown li:hover {
+            background: #f0fdf4; color: #047857;
+        }
+        .suggestions-dropdown li .suggestion-highlight { font-weight: 700; }
+        .suggestions-dropdown li .stock-badge {
+            font-size: .72rem; font-weight: 600;
+            background: #f1f5f9; padding: .15rem .45rem;
+            border-radius: 4px; color: #64748b;
+        }
+
+        /* ── ADD ROW ── */
+        .add-row {
+            display: grid;
+            grid-template-columns: 1fr 90px 44px;
+            gap: .6rem;
+            align-items: end;
+        }
+        .btn-add {
+            width: 44px; height: 40px;
+            background: #10b981; border: none; border-radius: 8px;
+            color: #fff; font-size: .95rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; flex-shrink: 0;
+            transition: background .18s, transform .15s;
+        }
+        .btn-add:hover { background: #059669; transform: scale(1.05); }
+
+        /* ── CART TABLE ── */
+        .cart-wrap {
+            background: #0f172a;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #1e293b;
+        }
+        .cart-header {
+            display: grid;
+            grid-template-columns: 1fr 80px 44px;
+            padding: .6rem 1rem;
+            background: #1e293b;
+            font-size: .68rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .08em;
+            color: #475569;
+        }
+        .cart-empty {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #334155; font-size: .85rem;
+        }
+        .cart-empty i { font-size: 1.5rem; display: block; margin-bottom: .5rem; opacity: .4; }
+        .cart-item-row {
+            display: grid;
+            grid-template-columns: 1fr 80px 44px;
+            align-items: center;
+            padding: .65rem 1rem;
+            border-top: 1px solid #1e293b;
+            animation: slide-in .18s ease;
+        }
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(-4px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .cart-item-name {
+            font-size: .85rem; font-weight: 600; color: #e2e8f0;
+        }
+        .cart-item-qty {
+            font-size: .82rem; color: #64748b;
+            font-variant-numeric: tabular-nums;
+        }
+        .btn-remove {
+            background: none; border: none; cursor: pointer;
+            color: #334155; font-size: .82rem;
+            width: 28px; height: 28px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background .15s, color .15s;
+        }
+        .btn-remove:hover { background: rgba(244,63,94,.15); color: #f43f5e; }
+
+        /* ── SUBMIT BUTTON ── */
+        .btn-commit {
+            width: 100%; padding: .85rem;
+            background: #10b981; border: none; border-radius: 8px;
+            color: #fff; font-weight: 700; font-size: .93rem;
+            display: flex; align-items: center; justify-content: center; gap: .6rem;
+            cursor: pointer;
+            transition: background .18s, transform .15s, box-shadow .18s;
+            box-shadow: 0 2px 10px rgba(16,185,129,.3);
+        }
+        .btn-commit:hover {
+            background: #059669;
+            box-shadow: 0 4px 16px rgba(16,185,129,.4);
+            transform: translateY(-1px);
+        }
+        .btn-commit:active { transform: translateY(0); }
+        .btn-commit:disabled {
+            background: #94a3b8; box-shadow: none;
+            transform: none; cursor: not-allowed;
+        }
+
+        /* ── SUMMARY CARD ── */
+        .summary-card {
+            background: var(--bg-surface, #fff);
+            border: 1px solid var(--border-color, #e2e8f0);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,.05);
+        }
+        .summary-header {
+            background: #0f172a;
+            padding: 1rem 1.25rem;
+            display: flex; align-items: center; gap: .6rem;
+        }
+        .summary-header-title {
+            font-size: .82rem; font-weight: 700;
+            color: #94a3b8; text-transform: uppercase; letter-spacing: .07em;
+        }
+        .summary-body { padding: 1.25rem; }
+
+        .summary-stat {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: .6rem 0;
+            border-bottom: 1px solid var(--border-color, #e2e8f0);
+        }
+        .summary-stat:last-child { border-bottom: none; }
+        .summary-stat-label {
+            font-size: .8rem; color: #64748b; font-weight: 500;
+        }
+        .summary-stat-value {
+            font-size: .88rem; font-weight: 700; color: #0f172a;
+        }
+        .summary-stat-value.green { color: #10b981; }
+
+        .cart-count-badge {
+            background: #10b981; color: #fff;
+            font-size: .65rem; font-weight: 800;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── TIPS BOX ── */
+        .tips-box {
+            background: var(--bg-surface, #fff);
+            border: 1px solid var(--border-color, #e2e8f0);
+            border-radius: 14px;
+            padding: 1.1rem 1.25rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,.05);
+        }
+        .tip-item {
+            display: flex; align-items: flex-start; gap: .6rem;
+            font-size: .78rem; color: #64748b; line-height: 1.5;
+            padding: .35rem 0;
+        }
+        .tip-item i { color: #10b981; font-size: .7rem; margin-top: .2rem; flex-shrink: 0; }
+    </style>
+</head>
 <body>
 
-<h1>Pharmacy Billing System</h1>
+<!-- ── NAVBAR (untouched) ── -->
+<header class="top-navbar">
+    <div class="d-flex align-items-center">
+        <div class="header-logo-container">
+            <img th:src="@{/images/logo.png}" alt="MediTrack Logo"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="header-logo-fallback" style="display:none;">
+                <i class="fas fa-capsules"></i>
+            </div>
+        </div>
+        <span class="ms-2 fw-bold text-white fs-5" style="letter-spacing: -0.5px;">MediTrack</span>
+    </div>
+    <nav class="nav-links">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="/medicines" class="nav-link"><i class="fas fa-boxes-stacked"></i> Inventory</a>
+        <a href="/billing" class="nav-link active"><i class="fas fa-file-invoice-dollar"></i> POS Counter</a>
+        <a href="/sales/reports" class="nav-link"><i class="fas fa-chart-bar"></i> Sales Reports</a>
+        <a href="/logout" class="nav-link text-danger-light"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+</header>
 
-<hr>
+<main class="app-container">
 
-<form action="/billing/create"
-      method="post">
+    <!-- Page Title -->
+    <div class="mb-4">
+        <h1 class="fw-bold text-dark mb-1" style="font-size:1.75rem;">Point of Sale Terminal</h1>
+        <p class="text-muted mb-0" style="font-size:.9rem;">Create a new sale, add medicines to the cart, and generate an invoice instantly.</p>
+    </div>
 
-    <h2>Customer Details</h2>
+    <div class="billing-workspace">
 
-    <label>Customer Name:</label>
+        <!-- ══ LEFT: FORM ══ -->
+        <div>
+            <form th:action="@{/billing/create}" method="post" id="billingForm">
 
-    <input type="text"
-           name="customerName"
-           required>
+                <div class="billing-card">
 
-    <br><br>
+                    <!-- Step 1: Customer -->
+                    <div class="card-section">
+                        <div class="section-heading">
+                            <div class="step-badge">1</div>
+                            Customer Details
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" name="customerName" class="form-control"
+                                           placeholder="e.g. Ahmed Raza" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    <input type="text" name="phoneNumber" class="form-control"
+                                           placeholder="e.g. 03001234567" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <label>Phone Number:</label>
+                    <!-- Step 2: Medicine -->
+                    <div class="card-section">
+                        <div class="section-heading">
+                            <div class="step-badge">2</div>
+                            Add Medicines
+                        </div>
 
-    <input type="text"
-           name="phoneNumber">
+                        <div class="add-row mb-3">
+                            <!-- Search -->
+                            <div>
+                                <label class="form-label">Medicine</label>
+                                <div class="search-wrapper">
+                                    <div class="search-input-group">
+                                        <span class="search-icon"><i class="fas fa-search"></i></span>
+                                        <input type="text" id="medicineSearchInput"
+                                               placeholder="Search medicine name..."
+                                               autocomplete="off"/>
+                                    </div>
+                                    <ul class="suggestions-dropdown" id="suggestionsDropdown"></ul>
+                                </div>
+                            </div>
+                            <!-- Qty -->
+                            <div>
+                                <label class="form-label">Qty</label>
+                                <input type="number" id="posQuantityInput"
+                                       class="form-control text-center"
+                                       value="1" min="1" style="height:40px">
+                            </div>
+                            <!-- Add button -->
+                            <div style="padding-top:1.3rem">
+                                <button type="button" id="addToCartBtn" class="btn-add" title="Add to cart">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
 
-    <br><br>
+                        <!-- Cart Table -->
+                        <div class="cart-wrap">
+                            <div class="cart-header">
+                                <span>Medicine</span>
+                                <span>Quantity</span>
+                                <span></span>
+                            </div>
+                            <div id="cartBody">
+                                <div class="cart-empty" id="emptyCartMsg">
+                                    <i class="fas fa-cart-shopping"></i>
+                                    No medicines added yet
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hiddenMedicineId" name="selectedMedicineId" value="">
 
-    <h2>Medicine Details</h2>
+                    <!-- Submit -->
+                    <div class="card-section">
+                        <button type="submit" class="btn-commit" id="submitBtn" disabled>
+                            <i class="fas fa-cash-register"></i>
+                            Commit Sale & Generate Invoice
+                        </button>
+                    </div>
 
-    <label>Medicine ID:</label>
+                </div>
+            </form>
+        </div>
 
-    <input type="number"
-           name="medicineId"
-           required>
+        <!-- ══ RIGHT: SUMMARY + TIPS ══ -->
+        <div style="display:flex;flex-direction:column;gap:1rem;position:sticky;top:80px">
 
-    <br><br>
+            <!-- Order Summary -->
+            <div class="summary-card">
+                <div class="summary-header">
+                    <i class="fas fa-receipt" style="color:#34d399;font-size:.9rem"></i>
+                    <span class="summary-header-title">Order Summary</span>
+                    <div class="cart-count-badge ms-auto" id="cartCountBadge">0</div>
+                </div>
+                <div class="summary-body">
+                    <div class="summary-stat">
+                        <span class="summary-stat-label">Items in Cart</span>
+                        <span class="summary-stat-value" id="summaryCount">0</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span class="summary-stat-label">Total Units</span>
+                        <span class="summary-stat-value" id="summaryUnits">0</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span class="summary-stat-label">Status</span>
+                        <span class="summary-stat-value green" id="summaryStatus">Pending</span>
+                    </div>
+                </div>
+            </div>
 
-    <label>Quantity:</label>
+            <!-- Tips -->
+            <div class="tips-box">
+                <div style="font-size:.75rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.65rem">
+                    Quick Tips
+                </div>
+                <div class="tip-item"><i class="fas fa-circle-check"></i> Type 2+ characters to search medicines</div>
+                <div class="tip-item"><i class="fas fa-circle-check"></i> Use arrow keys to navigate suggestions</div>
+                <div class="tip-item"><i class="fas fa-circle-check"></i> Press Enter or click to select</div>
+                <div class="tip-item"><i class="fas fa-circle-check"></i> Stock updates automatically after sale</div>
+            </div>
 
-    <input type="number"
-           name="quantity"
-           required>
+        </div>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // ══════════════════════════════════════
+    // STATE
+    // ══════════════════════════════════════
+    let debounceTimer;
+    let activeSuggestion     = -1;
+    let medicineSelectedFromDB = false;
+    let cartItems            = [];
 
-    <br><br>
+    // ══════════════════════════════════════
+    // DOM REFS
+    // ══════════════════════════════════════
+    const searchInput  = document.getElementById('medicineSearchInput');
+    const suggestBox   = document.getElementById('suggestionsDropdown');
+    const qtyInput     = document.getElementById('posQuantityInput');
+    const addBtn       = document.getElementById('addToCartBtn');
+    const cartBody     = document.getElementById('cartBody');
+    const emptyCartMsg = document.getElementById('emptyCartMsg');
+    const submitBtn    = document.getElementById('submitBtn');
 
-    <button type="submit">
-        Generate Bill
-    </button>
+    // ══════════════════════════════════════
+    // AUTOCOMPLETE — INPUT
+    // ══════════════════════════════════════
+    searchInput.addEventListener('input', function () {
+        const q = this.value.trim();
+        clearTimeout(debounceTimer);
+        activeSuggestion     = -1;
+        medicineSelectedFromDB = false; // reset flag on every keystroke
 
-</form>
+        if (q.length < 2) { hideSuggestions(); return; }
 
-<br><br>
+        debounceTimer = setTimeout(() => {
+            fetch(`/suggestions?q=${encodeURIComponent(q)}`)
+                .then(r => r.json())
+                .then(items => renderSuggestions(items, q))
+                .catch(() => hideSuggestions());
+        }, 250);
+    });
 
-<a href="/dashboard">
-    Back to Dashboard
-</a>
+    // ══════════════════════════════════════
+    // AUTOCOMPLETE — RENDER DROPDOWN
+    // ══════════════════════════════════════
+    function renderSuggestions(items, query) {
+        suggestBox.innerHTML = '';
+        if (!items || items.length === 0) { hideSuggestions(); return; }
 
+        items.forEach(item => {
+            const li = document.createElement('li');
+            const isObject = typeof item === 'object' && item !== null;
+            const name = isObject ? item.medicineName : item;
+            const id   = isObject ? item.medicineId   : item;
+
+            const idx = name.toLowerCase().indexOf(query.toLowerCase());
+            if (idx !== -1) {
+                li.innerHTML =
+                    `<div><i class="fas fa-capsules me-2 text-success opacity-75"></i>`
+                    + name.substring(0, idx)
+                    + `<span class="suggestion-highlight">${name.substring(idx, idx + query.length)}</span>`
+                    + name.substring(idx + query.length)
+                    + `</div>`;
+            } else {
+                li.innerHTML =
+                    `<div><i class="fas fa-capsules me-2 text-success opacity-75"></i>${name}</div>`;
+            }
+
+            if (isObject && item.quantityInStock !== undefined) {
+                li.innerHTML +=
+                    `<span class="stock-badge">Qty: ${item.quantityInStock} | Rs.${item.price}</span>`;
+            }
+
+            li.addEventListener('mousedown', () => selectMedicine(id, name));
+            suggestBox.appendChild(li);
+        });
+
+        suggestBox.style.display = 'block';
+    }
+
+    // ══════════════════════════════════════
+    // AUTOCOMPLETE — SELECT
+    // ══════════════════════════════════════
+    function selectMedicine(id, name) {
+        searchInput.value      = name;
+        medicineSelectedFromDB = true; // confirmed from DB
+        clearSearchError();
+        hideSuggestions();
+        // Move focus to qty for fast keyboard workflow
+        qtyInput.focus();
+        qtyInput.select();
+    }
+
+    // ══════════════════════════════════════
+    // AUTOCOMPLETE — KEYBOARD NAV
+    // ══════════════════════════════════════
+    searchInput.addEventListener('keydown', function (e) {
+        const items = suggestBox.querySelectorAll('li');
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeSuggestion = Math.min(activeSuggestion + 1, items.length - 1);
+            highlightSuggestion(items);
+
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeSuggestion = Math.max(activeSuggestion - 1, -1);
+            highlightSuggestion(items);
+
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeSuggestion >= 0 && items[activeSuggestion]) {
+                // Select the highlighted suggestion
+                items[activeSuggestion].dispatchEvent(new Event('mousedown'));
+            } else if (items.length > 0) {
+                // No arrow-key highlight — select top result
+                items[0].dispatchEvent(new Event('mousedown'));
+            }
+
+        } else if (e.key === 'Tab') {
+            // Tab auto-selects top suggestion if dropdown is open
+            if (suggestBox.style.display !== 'none' && items.length > 0) {
+                e.preventDefault();
+                const target = activeSuggestion >= 0 ? items[activeSuggestion] : items[0];
+                target.dispatchEvent(new Event('mousedown'));
+            }
+
+        } else if (e.key === 'Escape') {
+            hideSuggestions();
+        }
+    });
+
+    function highlightSuggestion(items) {
+        items.forEach((li, i) => li.classList.toggle('active', i === activeSuggestion));
+        if (activeSuggestion >= 0) {
+            items[activeSuggestion].scrollIntoView({ block: 'nearest' });
+        }
+    }
+
+    function hideSuggestions() {
+        suggestBox.style.display = 'none';
+        suggestBox.innerHTML     = '';
+        activeSuggestion         = -1;
+    }
+
+    document.addEventListener('click', e => {
+        if (!searchInput.contains(e.target) && !suggestBox.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+
+    // ══════════════════════════════════════
+    // SEARCH ERROR HELPERS
+    // ══════════════════════════════════════
+    function showSearchError(msg) {
+        searchInput.style.borderColor = '#f43f5e';
+        let err = document.getElementById('searchErrMsg');
+        if (!err) {
+            err = document.createElement('div');
+            err.id = 'searchErrMsg';
+            err.style.cssText =
+                'font-size:.75rem;color:#f43f5e;margin-top:.3rem;' +
+                'display:flex;align-items:center;gap:.3rem;';
+            searchInput.closest('.search-wrapper').appendChild(err);
+        }
+        err.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${msg}`;
+    }
+
+    function clearSearchError() {
+        searchInput.style.borderColor = '';
+        const err = document.getElementById('searchErrMsg');
+        if (err) err.remove();
+    }
+
+    // ══════════════════════════════════════
+    // CART — ADD
+    // ══════════════════════════════════════
+    addBtn.addEventListener('click', function () {
+        const name = searchInput.value.trim();
+        const qty  = parseInt(qtyInput.value);
+
+        // Must be picked from dropdown
+        if (!name || !medicineSelectedFromDB) {
+            showSearchError('Please select a medicine from the suggestions.');
+            searchInput.focus();
+            setTimeout(clearSearchError, 2500);
+            return;
+        }
+
+        if (isNaN(qty) || qty < 1) {
+            qtyInput.focus();
+            qtyInput.style.borderColor = '#f43f5e';
+            setTimeout(() => qtyInput.style.borderColor = '', 1500);
+            return;
+        }
+
+        clearSearchError();
+
+        // Duplicate → bump qty instead of adding new row
+        const existing = cartItems.find(
+            i => i.name.toLowerCase() === name.toLowerCase()
+        );
+        if (existing) {
+            existing.qty += qty;
+        } else {
+            cartItems.push({ name, qty });
+        }
+
+        renderCart();
+
+        // Reset for next item
+        searchInput.value      = '';
+        medicineSelectedFromDB = false;
+        qtyInput.value         = '1';
+        searchInput.focus();
+    });
+
+    // Enter in qty field triggers add
+    qtyInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addBtn.click();
+        }
+    });
+
+    // ══════════════════════════════════════
+    // CART — RENDER
+    // ══════════════════════════════════════
+    function renderCart() {
+        // Remove all existing item rows
+        cartBody.querySelectorAll('.cart-item-row').forEach(r => r.remove());
+
+        if (cartItems.length === 0) {
+            emptyCartMsg.style.display = '';
+        } else {
+            emptyCartMsg.style.display = 'none';
+
+            cartItems.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.className = 'cart-item-row';
+                row.innerHTML = `
+                    <div>
+                        <div class="cart-item-name">${item.name}</div>
+                        <input type="hidden" name="medicineName" value="${item.name}">
+                    </div>
+                    <div>
+                        <span class="cart-item-qty">
+                            ${item.qty} unit${item.qty > 1 ? 's' : ''}
+                        </span>
+                        <input type="hidden" name="quantity" value="${item.qty}">
+                    </div>
+                    <div>
+                        <button type="button" class="btn-remove"
+                                data-idx="${idx}" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                cartBody.appendChild(row);
+            });
+
+            // Attach remove handlers
+            cartBody.querySelectorAll('.btn-remove').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    cartItems.splice(parseInt(this.dataset.idx), 1);
+                    renderCart();
+                });
+            });
+        }
+
+        updateSummary();
+    }
+
+    // ══════════════════════════════════════
+    // SUMMARY PANEL
+    // ══════════════════════════════════════
+    function updateSummary() {
+        const count  = cartItems.length;
+        const units  = cartItems.reduce((s, i) => s + i.qty, 0);
+        const status = count > 0 ? 'Ready' : 'Pending';
+
+        document.getElementById('summaryCount').textContent      = count;
+        document.getElementById('summaryUnits').textContent      = units;
+        document.getElementById('cartCountBadge').textContent    = count;
+        document.getElementById('summaryStatus').textContent     = status;
+        document.getElementById('summaryStatus').style.color     =
+            count > 0 ? '#10b981' : '#94a3b8';
+
+        submitBtn.disabled = count === 0;
+    }
+
+    // ══════════════════════════════════════
+    // INIT
+    // ══════════════════════════════════════
+    renderCart();
+</script>
 </body>
 </html>
