@@ -337,7 +337,14 @@ public class MedicineService {
 
         return medicineRepository.getSuggestions(prefix.trim());
     }
+    public Medicine findByName(String medicineName) {
+        if (medicineName == null || medicineName.trim().isEmpty()) {
+            return null;
+        }
 
+        // Calls your repository layer method
+        return medicineRepository.findByMedicineNameIgnoreCase(medicineName.trim());
+    }
 
     public List<Medicine> getMedicinesByCategory(String type) {
         SystemLogger.getInstance()

@@ -5,9 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - MediTrack</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        /* Integrated clean form input mechanics from your uploaded design */
+        .form-group {
+            margin-bottom: 1.1rem;
+        }
+        .form-label {
+            display: block;
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--text-dark, #1f2937);
+            margin-bottom: 0.5rem;
+        }
+        .input-wrap {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute;
+            left: .85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: .82rem;
+            pointer-events: none;
+        }
+        .form-input {
+            width: 100%;
+            border: 1.5px solid #e5e7eb;
+            border-radius: var(--radius-sm, 8px);
+            padding: .68rem .9rem .68rem 2.4rem;
+            font-family: 'Inter', sans-serif;
+            font-size: .88rem;
+            color: #1f2937;
+            outline: none;
+            transition: border-color .18s, box-shadow .18s;
+            background: #fff;
+        }
+        .form-input::placeholder {
+            color: #d1d5db;
+        }
+        .form-input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
+        }
+        .pw-toggle {
+            position: absolute;
+            right: .85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: .82rem;
+            transition: color .15s;
+            z-index: 10;
+        }
+        .pw-toggle:hover {
+            color: #6b7280;
+        }
+    </style>
 </head>
 <body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg-primary);">
 
@@ -24,7 +82,7 @@
     <div th:if="${error}" class="animate__animated animate__shakeX"
          style="margin-bottom: 1.25rem; padding: 0.85rem 1.25rem; background: var(--danger-light); color: var(--danger); border-radius: var(--radius-sm); border: 1px solid #fee2e2; font-size: 0.9rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 500;">
         <i class="fas fa-exclamation-circle"></i>
-        <span th:text="${error}">Error message goes here</span>
+        <span th:text="${error}">Invalid username or password.</span>
     </div>
 
     <div th:if="${logout}"
@@ -33,33 +91,42 @@
         <span>You have been successfully logged out.</span>
     </div>
 
-    <div class="card" style="box-shadow: var(--shadow-lg); border-radius: var(--radius-md); padding: 2.25rem;">
-        <form th:action="@{/login}" method="post" style="display: flex; flex-direction: column; gap: 1.25rem;">
+    <div class="card" style="box-shadow: var(--shadow-lg); border-radius: var(--radius-md); padding: 2.25rem; background: #ffffff;">
+        <form th:action="@{/login}" method="post" style="display: flex; flex-direction: column; gap: 0.4rem;">
 
-            <div class="form-group" style="margin-bottom: 0;">
-                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <i class="fas fa-user" style="color: var(--text-muted); font-size: 0.85rem;"></i> Username
-                </label>
-                <input type="text"
-                       name="fullName"
-                       class="form-control"
-                       placeholder="Enter your system username"
-                       required>
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <div class="input-wrap">
+                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                    <input type="text"
+                           name="fullName"
+                           class="form-input"
+                           placeholder="Enter your system username"
+                           autocomplete="username"
+                           required>
+                </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 0;">
-                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <i class="fas fa-lock" style="color: var(--text-muted); font-size: 0.85rem;"></i> Password
-                </label>
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="••••••••"
-                       required>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <div class="input-wrap">
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    <input type="password"
+                           name="password"
+                           id="pwInput"
+                           class="form-input"
+                           placeholder="••••••••"
+                           style="padding-right: 2.5rem;"
+                           autocomplete="current-password"
+                           required>
+                    <span class="pw-toggle" onclick="togglePw()" id="pwIcon">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary"
-                    style="width: 100%; padding: 0.85rem; font-weight: 600; font-size: 1rem; border-radius: var(--radius-sm); margin-top: 0.5rem; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);">
+                    style="width: 100%; padding: 0.85rem; font-weight: 600; font-size: 1rem; border-radius: var(--radius-sm); margin-top: 0.75rem; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2); cursor: pointer;">
                 Login <i class="fas fa-arrow-right" style="margin-left: 0.5rem; font-size: 0.9rem;"></i>
             </button>
         </form>
@@ -70,5 +137,18 @@
     </p>
 </div>
 
+<script>
+    function togglePw() {
+        const inp = document.getElementById('pwInput');
+        const icon = document.querySelector('#pwIcon i');
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            icon.className = 'fas fa-eye-slash';
+        } else {
+            inp.type = 'password';
+            icon.className = 'fas fa-eye';
+        }
+    }
+</script>
 </body>
 </html>

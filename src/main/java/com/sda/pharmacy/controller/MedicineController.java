@@ -25,12 +25,16 @@ public class MedicineController {
 
     // Show Medicines Page
     @GetMapping("/medicines")
-    public String showMedicines(Model model) {
+    public String showMedicines(
+            Model model,
+            @RequestParam(value = "openModal", required = false) String openModal) {
 
         model.addAttribute(
                 "medicines",
                 medicineService.getAllMedicines()
         );
+
+        model.addAttribute("openModal", openModal != null);
 
         return "medicine-inventory";
     }

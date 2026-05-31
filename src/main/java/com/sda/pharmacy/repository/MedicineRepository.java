@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -130,7 +131,7 @@ public interface MedicineRepository
             value = """
         SELECT m.* FROM medicines m
         JOIN categories c ON m.category_id = c.category_id
-        WHERE m.quantity_in_stock <= 10
+        WHERE m.quantity_in_stock <= 20
           AND LOWER(c.category_name) = LOWER(:type)
         """,
             nativeQuery = true
@@ -152,4 +153,13 @@ public interface MedicineRepository
     )
     List<Medicine> getExpiredByCategory(@Param("type") String type);
 
+    @Query(
+            value = """
+    SELECT * FROM medicines 
+    WHERE LOWER(medicine_name) = LOWER(:medicineName)
+    LIMIT 1
+    """,
+            nativeQuery = true
+    )
+    Medicine findByMedicineNameIgnoreCase(@Param("medicineName") String medicineName);
 }
