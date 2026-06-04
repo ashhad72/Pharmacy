@@ -734,10 +734,10 @@
                         <div th:each="sale : ${recentSales}" class="tx-item">
                             <!-- Avatar: first 2 letters of customer name -->
                             <div class="tx-avatar"
-                                 th:style="'background:' + ${sale.saleId % 4 == 0} ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' :
-                               (${sale.saleId % 4 == 1} ? 'linear-gradient(135deg,#0ea5e9,#0284c7)' :
-                               (${sale.saleId % 4 == 2} ? 'linear-gradient(135deg,#10b981,#059669)' :
-                               'linear-gradient(135deg,#f59e0b,#d97706)'))"
+                                 th:style="'background: ' + (${sale.saleId % 4 == 0} ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' :
+                                   (${sale.saleId % 4 == 1} ? 'linear-gradient(135deg,#0ea5e9,#0284c7)' :
+                                   (${sale.saleId % 4 == 2} ? 'linear-gradient(135deg,#10b981,#059669)' :
+                                   'linear-gradient(135deg,#f59e0b,#d97706)'))) + '; color: white;'"
                                  th:text="${#strings.length(sale.customer.customerName) >= 2}
                                ? ${#strings.toUpperCase(#strings.substring(sale.customer.customerName, 0, 2))}
                                : ${#strings.toUpperCase(sale.customer.customerName)}">
