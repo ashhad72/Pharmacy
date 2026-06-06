@@ -2876,3 +2876,17 @@
 [2026-06-06T17:13:44.108328600] [INVENTORY] Fetching suggestions for prefix: test
 [2026-06-06T17:13:45.368345200] [INVENTORY] Medicine search performed for keyword: TestMedicine
 [2026-06-06T17:13:50.196125900] [MEDICINE] Deleting medicine with ID: 932
+[2026-06-06T17:43:24.315068700] [AUTH] Login attempt for Username: PharmaAdmin
+[2026-06-06T17:43:26.172155700] [AUTH] Login successful for: PharmaAdmin
+[2026-06-06T17:43:26.229021400] [DASHBOARD] Fetching medicine count.
+[2026-06-06T17:43:26.555133500] [DASHBOARD] Fetching low stocks medicine count
+[2026-06-06T17:43:26.561117200] [DASHBOARD] Fetching Expired medicine count
+[2026-06-06T17:43:26.567101500] [DASHBOARD] Fetching total Inventory Value
+[2026-06-06T17:43:27.263239700] [INVENTORY] Fetching low stock medicines.
+[2026-06-06T17:43:27.370953200] [INVENTORY] Fetching expired medicines.
+[2026-06-06T17:43:27.535511100] [DASHBOARD] Fetching today's revenue.
+[2026-06-06T17:43:27.574253200] [DASHBOARD] Fetching monthly revenue.
+[2026-06-06T17:43:27.582386800] [DASHBOARD] Fetching last month revenue.
+[2026-06-06T17:43:27.594438800] [DASHBOARD] Fetching today's transaction count.
+[2026-06-06T17:43:27.619287800] [DASHBOARD] Fetching recent sales.
+[2026-06-06T17:43:27.702066700] [DASHBOARD] Fetching monthly revenue chart data.
