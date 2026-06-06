@@ -3,6 +3,7 @@ package com.sda.pharmacy.controller;
 import com.sda.pharmacy.builder.Invoice;
 import com.sda.pharmacy.command.CommandInvoker;
 import com.sda.pharmacy.entity.Medicine;
+import com.sda.pharmacy.exception.InsufficientStockException;
 import com.sda.pharmacy.service.SaleService;
 import com.sda.pharmacy.service.MedicineService; // 1. IMPORT YOUR MEDICINE SERVICE
 import com.sda.pharmacy.command.GenerateBillCommand;
@@ -79,15 +80,28 @@ public class SaleController {
         );
 
         // Execute Command using your Invoker configuration pattern
-        commandInvoker.executeCommand(command);
+        try {
 
-        // Get Generated Invoice
-        Invoice invoice = command.getInvoice();
+            commandInvoker.executeCommand(command);
 
-        // Send Invoice to Frontend Thymeleaf Model Engine
-        model.addAttribute("invoice", invoice);
+            Invoice invoice = command.getInvoice();
 
-        return "invoice";
+            model.addAttribute("invoice", invoice);
+
+            return "invoice";
+
+        }
+        catch (InsufficientStockException ex) {
+
+            model.addAttribute("errorMessage", ex.getMessage());
+
+            model.addAttribute(
+                    "medicines",
+                    medicineService.getAllMedicines()
+            );
+
+            return "billing";
+        }
     }
 
     @GetMapping("/sales/reports")

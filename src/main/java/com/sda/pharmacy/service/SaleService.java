@@ -4,6 +4,7 @@ import com.sda.pharmacy.builder.Invoice;
 import com.sda.pharmacy.builder.InvoiceBuilder;
 import com.sda.pharmacy.singleton.SystemLogger;
 
+import com.sda.pharmacy.exception.InsufficientStockException;
 import com.sda.pharmacy.entity.Customer;
 import com.sda.pharmacy.entity.Medicine;
 import com.sda.pharmacy.entity.Sale;
@@ -135,8 +136,11 @@ public class SaleService {
             // 2. IMMEDIATE MANUAL STOCK DEDUCTION (Bypasses session overwrites)
             int currentStock = medicine.getQuantityInStock();
             if (currentStock < quantity) {
-                throw new RuntimeException("Transaction Halted: Insufficient stock available for "
-                        + medicine.getMedicineName() + "! Left: " + currentStock);
+                throw new InsufficientStockException(
+                        "Insufficient stock available for "
+                                + medicine.getMedicineName()
+                                + "! Left: " + currentStock
+                );
             }
 
             // Decrement and explicitly flush it to the database table immediately

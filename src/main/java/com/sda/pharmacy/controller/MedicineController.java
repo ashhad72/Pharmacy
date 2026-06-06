@@ -1,6 +1,7 @@
 package com.sda.pharmacy.controller;
 
 import com.sda.pharmacy.entity.Medicine;
+import com.sda.pharmacy.exception.MedicineDeletionException;
 import com.sda.pharmacy.service.MedicineService;
 import com.sda.pharmacy.command.CommandInvoker;
 import com.sda.pharmacy.command.AddMedicineCommand;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -72,16 +74,32 @@ public class MedicineController {
 
     // Delete Medicine
     @GetMapping("/medicines/delete/{id}")
-    public String deleteMedicine(@PathVariable int id) {
+    public String deleteMedicine(
+            @PathVariable int id,
+            RedirectAttributes redirectAttributes) {
 
-        DeleteMedicineCommand command =
+        try {
 
-                new DeleteMedicineCommand(
-                        medicineService,
-                        id
-                );
+            DeleteMedicineCommand command =
+                    new DeleteMedicineCommand(
+                            medicineService,
+                            id
+                    );
 
-        commandInvoker.executeCommand(command);
+            commandInvoker.executeCommand(command);
+
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Medicine deleted successfully."
+            );
+
+        } catch (MedicineDeletionException ex) {
+
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    ex.getMessage()
+            );
+        }
 
         return "redirect:/medicines";
     }

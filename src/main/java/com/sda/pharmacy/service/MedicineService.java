@@ -1,6 +1,7 @@
 package com.sda.pharmacy.service;
 
 import com.sda.pharmacy.entity.Medicine;
+import com.sda.pharmacy.exception.MedicineDeletionException;
 import com.sda.pharmacy.factory.MedicineFactory;
 import com.sda.pharmacy.singleton.SystemLogger;
 
@@ -13,6 +14,7 @@ import com.sda.pharmacy.observer.LowStockObserver;
 import com.sda.pharmacy.repository.MedicineRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -154,13 +156,23 @@ public class MedicineService {
     // -----------------------------------
 
     public String deleteMedicine(int id) {
+
         SystemLogger.getInstance()
                 .log(
                         "MEDICINE",
                         "Deleting medicine with ID: " + id
                 );
 
-        medicineRepository.deleteById(id);
+        try {
+
+            medicineRepository.deleteById(id);
+
+        } catch (DataIntegrityViolationException ex) {
+
+            throw new MedicineDeletionException(
+                    "Cannot delete medicine because it exists in sales records."
+            );
+        }
 
         SystemLogger.getInstance()
                 .log(
