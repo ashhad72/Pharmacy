@@ -1,6 +1,0 @@
-package com.sda.pharmacy.observer;
-
-public interface Observer {
-
-    void update();
-}
