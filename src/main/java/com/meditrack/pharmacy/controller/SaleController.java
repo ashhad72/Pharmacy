@@ -81,25 +81,27 @@ public class SaleController {
 
         // Execute Command using your Invoker configuration pattern
         try {
-
             commandInvoker.executeCommand(command);
 
-            Invoice invoice = command.getInvoice();
+            SaleService.SaleResult result = command.getResult();
 
-            model.addAttribute("invoice", invoice);
+            model.addAttribute("invoice", result.invoice());
+
+            if (result.hasWarnings()) {
+                model.addAttribute("stockWarnings", result.warnings());
+            }
 
             return "invoice";
 
-        }
-        catch (InsufficientStockException ex) {
-
+        } catch (InsufficientStockException ex) {
             model.addAttribute("errorMessage", ex.getMessage());
+            model.addAttribute("medicines", medicineService.getAllMedicines());
+            return "billing";
 
-            model.addAttribute(
-                    "medicines",
-                    medicineService.getAllMedicines()
-            );
-
+        } catch (RuntimeException ex) {
+            // Catches expired medicine block
+            model.addAttribute("errorMessage", ex.getMessage());
+            model.addAttribute("medicines", medicineService.getAllMedicines());
             return "billing";
         }
     }
