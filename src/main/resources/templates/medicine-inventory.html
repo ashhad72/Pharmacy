@@ -543,13 +543,18 @@
     <div class="medicine-grid" id="medicineGrid">
         <div th:each="medicine : ${medicines}" th:if="${medicine != null}"
              class="med-card"
-             th:classappend="${medicine.quantityInStock <= 0} ? 'expired-border' : (${medicine.quantityInStock <= 20} ? 'low-stock-border' : '')">
+             th:classappend="${medicine.expiryDate != null and #temporals.createToday().isAfter(medicine.expiryDate)} ? 'expired-border' :
+                     (${medicine.quantityInStock <= 0} ? 'expired-border' :
+                     (${medicine.quantityInStock <= 20} ? 'low-stock-border' : ''))">
 
             <div class="d-flex justify-content-between align-items-center">
                 <span class="status-badge"
-                      th:classappend="${medicine.quantityInStock <= 0} ? 'status-expired' : (${medicine.quantityInStock <= 20} ? 'status-lowstock' : 'status-instock')"
-                      th:text="${medicine.quantityInStock <= 0} ? 'OUT OF STOCK' : (${medicine.quantityInStock <= 20} ? 'LOW STOCK' : 'IN STOCK')">
-                    STATUS
+                      th:classappend="${medicine.expiryDate != null and #temporals.createToday().isAfter(medicine.expiryDate)} ? 'status-expired' :
+                                      (${medicine.quantityInStock <= 0} ? 'status-expired' :
+                                      (${medicine.quantityInStock <= 20} ? 'status-lowstock' : 'status-instock'))"
+                      th:text="${medicine.expiryDate != null and #temporals.createToday().isAfter(medicine.expiryDate)} ? 'EXPIRED' :
+                               (${medicine.quantityInStock <= 0} ? 'OUT OF STOCK' :
+                               (${medicine.quantityInStock <= 20} ? 'LOW STOCK' : 'IN STOCK'))">
                 </span>
                 <span class="card-category-pill" th:text="${medicine.category.categoryName}">Category</span>
             </div>

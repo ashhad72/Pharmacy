@@ -22,9 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,15 +31,10 @@ import java.util.List;
 public class SaleService {
 
     private final SaleRepository saleRepository;
-
     private final SaleItemRepository saleItemRepository;
-
     private final MedicineRepository medicineRepository;
-
     private final CustomerRepository customerRepository;
-
     private final SaleReportRepository salesReportRepository;
-
     private final InventoryManager inventoryManager;
 
     // -----------------------------------
@@ -49,33 +43,32 @@ public class SaleService {
 
     @Autowired
     public SaleService(
-
             SaleRepository saleRepository,
-
             SaleItemRepository saleItemRepository,
-
             MedicineRepository medicineRepository,
-
             CustomerRepository customerRepository,
-
             SaleReportRepository salesReportRepository,
-
             InventoryManager inventoryManager
     ) {
-
-        this.saleRepository = saleRepository;
-
-        this.saleItemRepository = saleItemRepository;
-
-        this.medicineRepository = medicineRepository;
-
-        this.customerRepository = customerRepository;
-
+        this.saleRepository       = saleRepository;
+        this.saleItemRepository   = saleItemRepository;
+        this.medicineRepository   = medicineRepository;
+        this.customerRepository   = customerRepository;
         this.salesReportRepository = salesReportRepository;
-
-        this.inventoryManager = inventoryManager;
+        this.inventoryManager     = inventoryManager;
     }
 
+    // -----------------------------------
+    // Sale Result Wrapper
+    // Carries invoice + optional low stock warnings
+    // Does not block the sale — purely informational
+    // -----------------------------------
+
+    public record SaleResult(Invoice invoice, List<String> warnings) {
+        public boolean hasWarnings() {
+            return warnings != null && !warnings.isEmpty();
+        }
+    }
 
     // -----------------------------------
     // Create Sale + Generate Invoice
@@ -83,144 +76,207 @@ public class SaleService {
     // Trigger automatically reduces stock
     // Observer notified after stock change
     // -----------------------------------
-    @org.springframework.transaction.annotation.Transactional // Ensures all database operations commit safely together
-    public Invoice createSale(
+
+    @org.springframework.transaction.annotation.Transactional
+    public SaleResult createSale(
             String customerName,
             String phoneNumber,
-            List<Integer> medicineIds, // ◄ Changed from int to List<Integer>
-            List<Integer> quantities   // ◄ Changed from int to List<Integer>
+            List<Integer> medicineIds,
+            List<Integer> quantities
     ) {
         SystemLogger.getInstance()
                 .log("SALES", "Starting new multi-item sale process.");
 
-        // Defensive check to avoid index bugs
-        if (medicineIds == null || quantities == null || medicineIds.size() != quantities.size() || medicineIds.isEmpty()) {
-            throw new IllegalArgumentException("Transaction Halted: Medicine entries and quantities mismatch.");
+        // -----------------------------------
+        // Defensive input validation
+        // -----------------------------------
+
+        if (medicineIds == null
+                || quantities == null
+                || medicineIds.size() != quantities.size()
+                || medicineIds.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Transaction Halted: Medicine entries and quantities mismatch."
+            );
         }
 
         // -----------------------------------
         // Save Customer
         // -----------------------------------
+
         Customer customer = new Customer(customerName, phoneNumber);
         customerRepository.save(customer);
 
         // -----------------------------------
-        // Initialize Transaction Trackers
+        // Initialize Sale + Trackers
         // -----------------------------------
+
         Sale sale = new Sale();
         sale.setCustomer(customer);
         sale.setSaleDate(LocalDateTime.now());
 
         BigDecimal totalInvoiceAmount = BigDecimal.ZERO;
 
-        // Lists required to feed your custom InvoiceBuilder later
-        List<String> builderMedicineNames = new ArrayList<>();
-        List<Integer> builderQuantities = new ArrayList<>();
-        List<BigDecimal> builderPrices = new ArrayList<>();
+        List<String>     builderMedicineNames = new ArrayList<>();
+        List<Integer>    builderQuantities    = new ArrayList<>();
+        List<BigDecimal> builderPrices        = new ArrayList<>();
+
+        // Collects low stock warnings — does NOT stop the sale
+        List<String> lowStockWarnings = new ArrayList<>();
 
         // -----------------------------------
-        // Loop Through All Items in the Request
+        // Loop Through All Cart Items
         // -----------------------------------
+
         for (int i = 0; i < medicineIds.size(); i++) {
-            int medicineId = medicineIds.get(i);
-            int quantity = quantities.get(i);
 
-            // 1. FETCH MEDICINE FIRST
+            int medicineId = medicineIds.get(i);
+            int quantity   = quantities.get(i);
+
+            // 1. Fetch medicine
             Medicine medicine = medicineRepository.findById(medicineId)
-                    .orElseThrow(() -> new RuntimeException("Medicine not found with ID: " + medicineId));
+                    .orElseThrow(() -> new RuntimeException(
+                            "Medicine not found with ID: " + medicineId
+                    ));
 
             SystemLogger.getInstance()
                     .log("SALES", "Medicine fetched: " + medicine.getMedicineName());
 
-            // 2. IMMEDIATE MANUAL STOCK DEDUCTION (Bypasses session overwrites)
-            int currentStock = medicine.getQuantityInStock();
-            if (currentStock < quantity) {
-                throw new InsufficientStockException(
-                        "Insufficient stock available for "
-                                + medicine.getMedicineName()
-                                + "! Left: " + currentStock
+            // 2. EXPIRY CHECK — hard block, do not dispense expired medicine
+            if (medicine.getExpiryDate() != null
+                    && LocalDate.now().isAfter(medicine.getExpiryDate())) {
+
+                SystemLogger.getInstance()
+                        .log("SALES", "Blocked: Expired medicine — " + medicine.getMedicineName());
+
+                throw new RuntimeException(
+                        "Cannot dispense '" + medicine.getMedicineName()
+                                + "' — this medicine expired on " + medicine.getExpiryDate() + "."
                 );
             }
 
-            // Decrement and explicitly flush it to the database table immediately
-            medicine.setQuantityInStock(currentStock - quantity);
+            // 3. STOCK CHECK — hard block if not enough units
+            int currentStock = medicine.getQuantityInStock();
+
+            if (currentStock < quantity) {
+
+                SystemLogger.getInstance()
+                        .log("SALES", "Blocked: Insufficient stock — " + medicine.getMedicineName());
+
+                throw new InsufficientStockException(
+                        "Insufficient stock for '"
+                                + medicine.getMedicineName()
+                                + "'. Requested: " + quantity
+                                + ", Available: " + currentStock + "."
+                );
+            }
+
+            // 4. LOW STOCK WARNING — soft alert, sale continues
+            int stockAfterSale = currentStock - quantity;
+
+            if (stockAfterSale <= 20) {
+
+                SystemLogger.getInstance()
+                        .log("SALES", "Low stock warning: " + medicine.getMedicineName()
+                                + " → " + stockAfterSale + " units remaining.");
+
+                lowStockWarnings.add(
+                        medicine.getMedicineName()
+                                + " — only " + stockAfterSale + " unit"
+                                + (stockAfterSale == 1 ? "" : "s") + " remaining after this sale."
+                );
+            }
+
+            // 5. Deduct stock and flush immediately
+            medicine.setQuantityInStock(stockAfterSale);
             medicineRepository.saveAndFlush(medicine);
 
-            // 3. Calculate Item Total
-            BigDecimal itemSubtotal = medicine.getPrice().multiply(BigDecimal.valueOf(quantity));
+            // 6. Calculate item subtotal
+            BigDecimal itemSubtotal = medicine.getPrice()
+                    .multiply(BigDecimal.valueOf(quantity));
+
             totalInvoiceAmount = totalInvoiceAmount.add(itemSubtotal);
 
-            // 4. Create Sale Item Record (Points to already modified medicine state)
+            // 7. Build sale item record
             SaleItem saleItem = new SaleItem();
             saleItem.setSale(sale);
             saleItem.setMedicine(medicine);
             saleItem.setQuantity(quantity);
             saleItem.setUnitPrice(medicine.getPrice());
             saleItem.setSubtotal(itemSubtotal);
-
-            // Link child to master sale and persist individual transactional lines
             sale.addSaleItem(saleItem);
 
-            // 5. Populate metadata buffers for the Invoice Builder lists
+            // 8. Feed invoice builder buffers
             builderMedicineNames.add(medicine.getMedicineName());
             builderQuantities.add(quantity);
             builderPrices.add(medicine.getPrice());
         }
 
-        // Assign final calculated combined running total back to the master sale
+        // -----------------------------------
+        // Persist Final Sale
+        // -----------------------------------
+
         sale.setTotalAmount(totalInvoiceAmount);
         saleRepository.save(sale);
 
-        SystemLogger.getInstance().log("SALES", "Sale saved successfully with ID: " + sale.getSaleId());
+        SystemLogger.getInstance()
+                .log("SALES", "Sale saved successfully. ID: " + sale.getSaleId());
 
         // -----------------------------------
         // Notify Observers
         // -----------------------------------
+
         inventoryManager.notifyObservers();
-        SystemLogger.getInstance().log("SALES", "Inventory observers notified.");
+
+        SystemLogger.getInstance()
+                .log("SALES", "Inventory observers notified.");
 
         // -----------------------------------
         // Build Invoice (Builder Pattern)
         // -----------------------------------
-        java.time.format.DateTimeFormatter dateFormatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        java.time.format.DateTimeFormatter timeFormatter = java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss");
 
         Invoice invoice = new InvoiceBuilder()
                 .setCustomerName(customerName)
                 .setCustomerPhone(phoneNumber)
-                .setMedicineNames(builderMedicineNames) // Passes complete built arrays
+                .setMedicineNames(builderMedicineNames)
                 .setQuantities(builderQuantities)
                 .setPrices(builderPrices)
                 .setTotalAmount(totalInvoiceAmount)
                 .setInvoiceDate(LocalDateTime.now())
                 .build();
 
-        SystemLogger.getInstance().log("SALES", "Invoice generated successfully.");
-        SystemLogger.getInstance().log("SALES", "Sale process completed successfully.");
+        SystemLogger.getInstance()
+                .log("SALES", "Invoice generated successfully.");
 
-        return invoice;
+        SystemLogger.getInstance()
+                .log("SALES", "Sale process completed successfully.");
+
+        // -----------------------------------
+        // Return Invoice + Warnings
+        // -----------------------------------
+
+        return new SaleResult(invoice, lowStockWarnings);
     }
+
     // -----------------------------------
     // Sales Reports
     // -----------------------------------
 
     public List<SalesReport> getSalesReports() {
-
         return salesReportRepository.findAll();
     }
 
     // -----------------------------------
-    // Total Revenue Function
+    // Total Revenue
     // -----------------------------------
 
     public BigDecimal getTotalRevenue() {
-
-        return salesReportRepository
-                .getTotalRevenue();
+        return salesReportRepository.getTotalRevenue();
     }
+
     // -----------------------------------
-// Today's Revenue
-// -----------------------------------
+    // Today's Revenue
+    // -----------------------------------
 
     public BigDecimal getTodayRevenue() {
         SystemLogger.getInstance()
@@ -228,9 +284,9 @@ public class SaleService {
         return saleRepository.getTodayRevenue();
     }
 
-// -----------------------------------
-// Today's Transaction Count
-// -----------------------------------
+    // -----------------------------------
+    // Today's Transaction Count
+    // -----------------------------------
 
     public int getTodayTransactionCount() {
         SystemLogger.getInstance()
@@ -238,9 +294,9 @@ public class SaleService {
         return saleRepository.getTodayTransactionCount();
     }
 
-// -----------------------------------
-// Monthly Revenue
-// -----------------------------------
+    // -----------------------------------
+    // Monthly Revenue
+    // -----------------------------------
 
     public BigDecimal getMonthlyRevenue() {
         SystemLogger.getInstance()
@@ -248,9 +304,9 @@ public class SaleService {
         return saleRepository.getMonthlyRevenue();
     }
 
-// -----------------------------------
-// Last Month Revenue
-// -----------------------------------
+    // -----------------------------------
+    // Last Month Revenue
+    // -----------------------------------
 
     public BigDecimal getLastMonthRevenue() {
         SystemLogger.getInstance()
@@ -258,9 +314,9 @@ public class SaleService {
         return saleRepository.getLastMonthRevenue();
     }
 
-// -----------------------------------
-// Recent Sales (Transactions Panel)
-// -----------------------------------
+    // -----------------------------------
+    // Recent Sales
+    // -----------------------------------
 
     public List<Sale> getRecentSales() {
         SystemLogger.getInstance()
@@ -268,9 +324,9 @@ public class SaleService {
         return saleRepository.getRecentSales();
     }
 
-// -----------------------------------
-// Monthly Revenue Chart Data
-// -----------------------------------
+    // -----------------------------------
+    // Monthly Revenue Chart Data
+    // -----------------------------------
 
     public List<Object[]> getMonthlyRevenueChart() {
         SystemLogger.getInstance()
